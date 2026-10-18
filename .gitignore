@@ -2,3 +2,6 @@
 __pycache__/
 .ipynb_checkpoints/
 *.trees.xz
+
+tools/
+outputs/embeddings_kmer.npy
