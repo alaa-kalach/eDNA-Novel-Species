@@ -16,6 +16,8 @@ Usage (from the repo root):
 Output: outputs/results/results_<variant>.csv           (proposal's scaled novelty score)
         outputs/results/results_<variant>_unscaled.csv  (plain distance to nearest species)
         seed N > 0 adds _s<N> before the tag, e.g. results_ft_labels_s1_extra.csv
+        outputs/embeddings/embeddings_ft_<target>[_s<N>]_split<k>.npz  (seq_id, emb; reference + test,
+                                                                         used by clustering/cluster.py)
 """
 import sys
 import time
@@ -32,6 +34,7 @@ from models.kmers import kmer_profile  # noqa: E402
 
 DATA = ROOT / "data"
 OUT = ROOT / "outputs" / "results"
+EMB = ROOT / "outputs" / "embeddings"
 FT = dict(steps=800, batch=512, lr=3e-4)
 
 
@@ -60,6 +63,7 @@ def main():
     targets = [a for a in args if not a.isdigit()] or ["tree", "labels"]
     split_ids = [int(a) for a in args if a.isdigit()] or None
     OUT.mkdir(parents=True, exist_ok=True)
+    EMB.mkdir(parents=True, exist_ok=True)
 
     tz = np.load(DATA / "global_tree_distances.npz")
     row = {s: i for i, s in enumerate(tz["species"])}
@@ -93,6 +97,10 @@ def main():
                     rf = np.array([row[x] for x in sp_r])
                     enc = finetune(enc, Xg, rg, Xr, rf, T, seed=sid + 1000 * seed)
                 Zr, Zt = enc.embed(Xr), enc.embed(Xt)
+                if variant.startswith("ft_"):          # keep fine-tuned embeddings for clustering
+                    np.savez(EMB / f"embeddings_{variant}{sfx}_split{sid}.npz",
+                             seq_id=np.concatenate([ref.seq_id.values, test.seq_id.values]),
+                             emb=np.vstack([Zr, Zt]).astype(np.float32))
                 for scaled, score_tag in [(True, ""), (False, "_unscaled")]:
                     score, pred = novelty_scores(Zr, sp_r, Zt, scaled=scaled)
                     res.setdefault(variant + score_tag, []).append(pd.DataFrame(
