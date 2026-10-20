@@ -5,3 +5,10 @@ __pycache__/
 
 tools/
 outputs/embeddings_kmer.npy
+data/global_tree_distances.npz
+data/kmer_features_k3to6.npz
+data/kmer_features_full12S.npz
+data/mitofish.12S.Oct2023.tsv
+data/global_taxonomy.csv
+models/pretrained_*.npz
+outputs/embeddings/
