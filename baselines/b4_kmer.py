@@ -14,14 +14,18 @@ Novelty score (same definition as the main method, proposal section 5.2):
     novelty_score = d_q / r_s*
 The cut-off is tuned per split on pseudo-novel splits inside the reference
 (r_s recomputed inside each pseudo-reference). Novel if score >= cut-off,
-otherwise the query takes the label of s*.
+otherwise the query takes the label of s*. nearest_species = s* is always written,
+also for sequences called novel (needed to score genus/family placement).
 
 Outputs: outputs/embeddings_kmer.npy      float32, one row per sequence (1200 x 5440)
          outputs/embeddings_kmer_ids.csv  seq_id of each row, same order
-         outputs/results_kmer.csv
-         outputs/thresholds_kmer.csv      (split_id, score_cutoff, pseudo_f1)
+         outputs/results_kmer[<tag>].csv
+         outputs/thresholds_kmer[<tag>].csv      (split_id, score_cutoff, pseudo_f1)
+The embedding does not depend on the split, so the .npy files are the same for
+every splits file (rewritten on each run, identical content).
 HDBSCAN clustering of embeddings_kmer.npy is done by Person A (clustering/).
-Usage  : python baselines/b4_kmer.py
+Usage  : python baselines/b4_kmer.py                                          # splits 1-10
+         python baselines/b4_kmer.py --splits=splits_extra.csv --tag=_extra   # splits 11-30
 """
 from itertools import product
 
@@ -29,7 +33,7 @@ import numpy as np
 import pandas as pd
 from scipy.spatial.distance import cdist
 
-from common import (NOVEL_LABEL, OUT, PSEUDO_REPEATS, load_data, pseudo_rng,
+from common import (OUT, PSEUDO_REPEATS, load_data, parse_opts, pseudo_rng,
                     pseudo_split, quick_summary, results_frame, split_frames,
                     tune_threshold)
 
@@ -72,7 +76,8 @@ class KmerNovelty:
 
 
 def main():
-    seqs, splits = load_data()
+    splits_file, tag = parse_opts()
+    seqs, splits = load_data(splits_file)
     X = kmer_profiles(seqs["teleo"].tolist())
     row = pd.Series(np.arange(len(seqs)), index=seqs.index)
 
@@ -97,17 +102,16 @@ def main():
 
         m = KmerNovelty(X[row[ref.index]], ref["species_name"])
         score, nearest = m.score(X[row[test.index]])
-        pred = np.where(score >= t, NOVEL_LABEL, nearest)
-        res = results_frame(test, k, score, pred)
+        res = results_frame(test, k, score, nearest, score >= t)
         print(f"split {k:2d} | cut-off {t:.3f} (pseudo F1 {f1:.3f}) | {quick_summary(res, test)}")
         res_all.append(res)
         thr_all.append({"split_id": k, "score_cutoff": round(t, 6), "pseudo_f1": round(f1, 4)})
 
     kw = dict(index=False, lineterminator="\n")
-    pd.concat(res_all, ignore_index=True).to_csv(OUT / "results_kmer.csv", **kw)
-    pd.DataFrame(thr_all).to_csv(OUT / "thresholds_kmer.csv", **kw)
-    print(f"wrote embeddings_kmer.npy, embeddings_kmer_ids.csv, results_kmer.csv, "
-          f"thresholds_kmer.csv in {OUT}")
+    pd.concat(res_all, ignore_index=True).to_csv(OUT / f"results_kmer{tag}.csv", **kw)
+    pd.DataFrame(thr_all).to_csv(OUT / f"thresholds_kmer{tag}.csv", **kw)
+    print(f"wrote embeddings_kmer.npy, embeddings_kmer_ids.csv, results_kmer{tag}.csv, "
+          f"thresholds_kmer{tag}.csv in {OUT}")
 
 
 if __name__ == "__main__":

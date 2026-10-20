@@ -1,16 +1,25 @@
 """
 Shared helpers for the baselines (B1 forced assignment, B2 VSEARCH, B4 raw k-mers).
 
-Conventions (match the team's file formats):
-  results_<method>.csv : seq_id, split_id, novelty_score, predicted_species
-                         - one row per TEST sequence (test_known + test_novel)
-                         - higher novelty_score = more likely novel
-                         - predicted_species == NOVEL_LABEL when called novel
-  clusters_<method>.csv: seq_id, split_id, cluster_id  (predicted-novel rows only)
+Conventions (shared team format, agreed with Person A):
+  results_<method>[<tag>].csv : seq_id, split_id, novelty_score,
+                                nearest_species, predicted_species
+      - one row per TEST sequence (test_known + test_novel)
+      - higher novelty_score = more likely novel
+      - nearest_species  : ALWAYS filled - closest known (reference) species, used to
+                           score genus/family placement of novel sequences
+      - predicted_species: NOVEL_LABEL when called novel, otherwise the species name
+                           (= nearest_species)
+  clusters_<method>[<tag>].csv: seq_id, split_id, cluster_id  (predicted-novel rows only)
+
+Splits (30 in total, same rule and seeds, data/make_splits.py):
+  data/splits.csv        split 1-10   -> default, no tag
+  data/splits_extra.csv  split 11-30  -> run with  --splits=splits_extra.csv --tag=_extra
 """
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -26,15 +35,23 @@ PSEUDO_REPEATS = 5     # pseudo-novel splits per real split, pooled for threshol
 
 
 # ----------------------------------------------------------------------------- data
-def load_data():
+def parse_opts(argv=None):
+    """--splits=<file in data/> (default splits.csv) and --tag=<suffix> (default '').
+    Same options as Person A's scripts, e.g. --splits=splits_extra.csv --tag=_extra"""
+    argv = sys.argv[1:] if argv is None else argv
+    opts = dict(a[2:].split("=", 1) for a in argv if a.startswith("--") and "=" in a)
+    return opts.get("splits", "splits.csv"), opts.get("tag", "")
+
+
+def load_data(splits_file="splits.csv"):
     """Return (seqs, splits).
     seqs  : DataFrame indexed by seq_id with species_name, Genus, teleo (upper case)
-    splits: data/splits.csv with seq_id read as string
+    splits: data/<splits_file> with seq_id read as string
     """
     d = pd.read_csv(DATA / "guiana_teleo_clean.csv", dtype={"Specimen identification code": str})
     d = d[d["in_tree"]].rename(columns={"Specimen identification code": "seq_id"})
     d["teleo"] = d["teleo"].str.strip().str.upper()
-    splits = pd.read_csv(DATA / "splits.csv", dtype={"seq_id": str, "difficulty": str})
+    splits = pd.read_csv(DATA / splits_file, dtype={"seq_id": str, "difficulty": str})
     seqs = d.set_index("seq_id").loc[sorted(splits["seq_id"].unique()),
                                      ["species_name", "Genus", "teleo"]]
     return seqs, splits
@@ -158,10 +175,18 @@ def vsearch_cluster(seqs_df, identity, vsearch, threads=0):
 
 
 # ------------------------------------------------------------------------- reporting
-def results_frame(test, split_id, novelty, predicted):
+def results_frame(test, split_id, novelty, nearest, is_novel):
+    """Shared results format. nearest = closest known species (always filled);
+    is_novel = boolean call -> predicted_species is NOVEL_LABEL or the nearest species."""
+    nearest = np.asarray(nearest, dtype=object)
+    if pd.isna(nearest).any():
+        raise ValueError("nearest_species must be filled for every test sequence")
+    is_novel = np.broadcast_to(np.asarray(is_novel, bool), nearest.shape)
     return pd.DataFrame({"seq_id": test.index, "split_id": split_id,
-                         "novelty_score": np.round(np.asarray(novelty, float), 6),
-                         "predicted_species": predicted})
+                         "novelty_score": np.round(np.broadcast_to(
+                             np.asarray(novelty, float), nearest.shape), 6),
+                         "nearest_species": nearest,
+                         "predicted_species": np.where(is_novel, NOVEL_LABEL, nearest)})
 
 
 def quick_summary(res, test):

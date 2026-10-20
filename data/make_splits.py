@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """
-Build data/splits.csv: 10 reproducible novel-species detection experiments.
+Build 30 reproducible novel-species detection experiments (splits).
 
 Input : data/guiana_teleo_clean.csv  (rows with in_tree == True)
-Output: data/splits.csv              seq_id, split_id, role, difficulty
+Output: data/splits.csv              splits 1-10   seq_id, split_id, role, difficulty
+        data/splits_extra.csv        splits 11-30  (same columns, same rules)
         data/excluded_shared_teleo.csv  rows dropped because their Teleo
                                         sequence is shared by 2+ species
+The 30 splits are kept in two files so the existing results for splits 1-10 stay
+valid; scripts run on the extra file with --splits=splits_extra.csv --tag=_extra.
+Split k always uses seed BASE_SEED + k, so splits 1-10 are unchanged.
 
 Rules
 -----
@@ -27,13 +31,15 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-N_SPLITS = 10
+N_SPLITS = 30          # total number of splits
+N_MAIN = 10            # splits 1..N_MAIN -> splits.csv, the rest -> splits_extra.csv
 NOVEL_FRAC = 0.20
 BASE_SEED = 2026  # split k uses seed BASE_SEED + k
 
 HERE = Path(__file__).resolve().parent
 IN_CSV = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "guiana_teleo_clean.csv"
 OUT_CSV = Path(sys.argv[2]) if len(sys.argv) > 2 else HERE / "splits.csv"
+EXTRA_CSV = OUT_CSV.with_name(OUT_CSV.stem + "_extra" + OUT_CSV.suffix)
 EXCL_CSV = OUT_CSV.parent / "excluded_shared_teleo.csv"
 
 
@@ -116,8 +122,13 @@ def main():
         check(d, s)
         out.append(s)
     out = pd.concat(out, ignore_index=True)
-    out.to_csv(OUT_CSV, index=False)
-    print(f"\nwrote {OUT_CSV} ({len(out)} rows) and {EXCL_CSV}")
+    main_part = out[out["split_id"] <= N_MAIN]
+    extra_part = out[out["split_id"] > N_MAIN]
+    main_part.to_csv(OUT_CSV, index=False)
+    extra_part.to_csv(EXTRA_CSV, index=False)
+    print(f"\nwrote {OUT_CSV} (splits 1-{N_MAIN}, {len(main_part)} rows), "
+          f"{EXTRA_CSV} (splits {N_MAIN + 1}-{N_SPLITS}, {len(extra_part)} rows) "
+          f"and {EXCL_CSV}")
 
 
 if __name__ == "__main__":

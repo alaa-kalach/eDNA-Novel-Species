@@ -8,24 +8,28 @@ B2 - VSEARCH identity threshold (standard eDNA pipeline).
 2. Test sequence -> best VSEARCH identity to the reference.
    identity < cut-off  -> "novel";  otherwise -> species of the best hit.
    novelty_score = 1 - best identity.
+   nearest_species = species of the best hit, kept even when the call is "novel"
+   (needed to score genus/family placement).
 3. Sequences called novel are clustered with vsearch --cluster_fast at the same cut-off.
 
-Outputs: outputs/results_vsearch.csv
-         outputs/clusters_vsearch.csv   (seq_id, split_id, cluster_id)
-         outputs/thresholds_vsearch.csv (split_id, identity_cutoff, pseudo_f1)
-Usage  : python baselines/b2_vsearch.py
+Outputs: outputs/results_vsearch[<tag>].csv
+         outputs/clusters_vsearch[<tag>].csv   (seq_id, split_id, cluster_id)
+         outputs/thresholds_vsearch[<tag>].csv (split_id, identity_cutoff, pseudo_f1)
+Usage  : python baselines/b2_vsearch.py                                          # splits 1-10
+         python baselines/b2_vsearch.py --splits=splits_extra.csv --tag=_extra   # splits 11-30
 """
 import numpy as np
 import pandas as pd
 
 from common import (NOVEL_LABEL, OUT, PSEUDO_REPEATS, find_vsearch, load_data,
-                    pseudo_rng, pseudo_split, quick_summary, results_frame,
+                    parse_opts, pseudo_rng, pseudo_split, quick_summary, results_frame,
                     split_frames, tune_threshold, vsearch_best_hits, vsearch_cluster)
 
 
 def main():
+    splits_file, tag = parse_opts()
     vs = find_vsearch()
-    seqs, splits = load_data()
+    seqs, splits = load_data(splits_file)
     res_all, clu_all, thr_all = [], [], []
     for k in sorted(splits["split_id"].unique()):
         ref, test = split_frames(seqs, splits, k)
@@ -43,8 +47,7 @@ def main():
         # 2. classify the real test set
         h = vsearch_best_hits(test, ref, vs)
         score = 1 - h["best_id"].values
-        pred = np.where(score >= t, NOVEL_LABEL, h["best_species"].values)
-        res = results_frame(test, k, score, pred)
+        res = results_frame(test, k, score, h["best_species"].values, score >= t)
 
         # 3. cluster the predicted-novel sequences at the same cut-off
         novel = test.loc[res.loc[res["predicted_species"] == NOVEL_LABEL, "seq_id"]]
@@ -61,10 +64,11 @@ def main():
 
     OUT.mkdir(exist_ok=True)
     kw = dict(index=False, lineterminator="\n")
-    pd.concat(res_all, ignore_index=True).to_csv(OUT / "results_vsearch.csv", **kw)
-    pd.concat(clu_all, ignore_index=True).to_csv(OUT / "clusters_vsearch.csv", **kw)
-    pd.DataFrame(thr_all).to_csv(OUT / "thresholds_vsearch.csv", **kw)
-    print(f"wrote results_vsearch.csv, clusters_vsearch.csv, thresholds_vsearch.csv in {OUT}")
+    pd.concat(res_all, ignore_index=True).to_csv(OUT / f"results_vsearch{tag}.csv", **kw)
+    pd.concat(clu_all, ignore_index=True).to_csv(OUT / f"clusters_vsearch{tag}.csv", **kw)
+    pd.DataFrame(thr_all).to_csv(OUT / f"thresholds_vsearch{tag}.csv", **kw)
+    print(f"wrote results_vsearch{tag}.csv, clusters_vsearch{tag}.csv, "
+          f"thresholds_vsearch{tag}.csv in {OUT}")
 
 
 if __name__ == "__main__":
