@@ -11,4 +11,4 @@ data/kmer_features_full12S.npz
 data/mitofish.12S.Oct2023.tsv
 data/global_taxonomy.csv
 models/pretrained_*.npz
-outputs/embeddings/
+
