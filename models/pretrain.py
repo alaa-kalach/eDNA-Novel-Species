@@ -8,6 +8,9 @@ Targets
     labels    -> 0 same species / 1 different species (baseline B5)
     taxonomy  -> 0 same species / .25 genus / .5 family / .75 order / 1 (baseline B6,
                  needs data/global_taxonomy.csv from data/add_global_taxonomy.py)
+    taxtree<a> -> (1 - a) * taxonomy + a * tree, e.g. taxtree0.25 (main method candidate:
+                 clean taxonomic steps, the tree orders species inside each step;
+                 a is chosen on global data only by models/select_taxtree.py)
 
 10% of global species are held out to check that the encoder generalises to
 species it never saw (Spearman between embedding and tree distance).
@@ -16,6 +19,7 @@ Usage (from the repo root):
     python models/pretrain.py            # both targets
     python models/pretrain.py tree
     python models/pretrain.py labels --seed=1   # another random seed
+    python models/pretrain.py taxonomy --marker=full   # long 12S region (data/make_full12s.py)
 Output: models/pretrained_<target>.npz      (seed 0)
         models/pretrained_<target>_s<N>.npz (seed N)
 """
@@ -36,13 +40,31 @@ HP = dict(hidden=256, out_dim=64, lr=1e-3, weight_decay=1e-4)
 TRAIN = dict(steps=4000, batch=512)
 
 
-def load_global():
-    g = pd.read_csv(DATA / "global_teleo.csv")
-    fg = pd.read_csv(DATA / "guiana_teleo_clean.csv")
-    fg_seqs = set(fg["teleo"].str.strip().str.lower())
+def load_global(marker="teleo"):
+    """Global training sequences in column 'teleo' (for marker='full' that column holds
+    the long 12S region from data/make_full12s.py). No French Guiana species and no
+    sequence identical to a French Guiana sequence -> no test leakage."""
+    if marker == "full":
+        g = pd.read_csv(DATA / "global_full12s.csv").rename(columns={"seq": "teleo"})
+        fg_seqs = set(pd.read_csv(DATA / "guiana_full12s.csv")["seq"])
+    else:
+        g = pd.read_csv(DATA / "global_teleo.csv")
+        fg_seqs = set(pd.read_csv(DATA / "guiana_teleo_clean.csv")["teleo"].str.strip().str.lower())
     g = g[g.in_tree & ~g.in_guiana & ~g.teleo.isin(fg_seqs)].reset_index(drop=True)
-    print(f"global training data: {len(g)} sequences, {g.species_name.nunique()} species")
+    print(f"global training data ({marker}): {len(g)} sequences, {g.species_name.nunique()} species")
     return g
+
+
+def two_goal_settings(target):
+    """'tree2g_w10m0.4' -> (10.0, 0.4); any other target -> (0, 0) (no two-goal term)."""
+    import re
+    m = re.fullmatch(r"tree2g_w([\d.]+)m([\d.]+)", target)
+    return (float(m.group(1)), float(m.group(2))) if m else (0.0, 0.0)
+
+
+def marker_suffix(marker):
+    """Teleo keeps the original file names; the long 12S region adds _full."""
+    return "_full" if marker == "full" else ""
 
 
 def parse_args(argv):
@@ -69,12 +91,20 @@ def taxonomy_matrix(species):
     return D
 
 
+def taxtree_alpha(target):
+    """'taxtree0.25' -> 0.25"""
+    return float(target[len("taxtree"):])
+
+
 def global_target(target, tz):
     """Target distance matrix over all species in global_tree_distances.npz."""
     if target.startswith("labels"):
         return 1.0 - np.eye(len(tz["species"]))
     if target.startswith("taxonomy"):
         return taxonomy_matrix(tz["species"])
+    if target.startswith("taxtree"):
+        a = taxtree_alpha(target)
+        return (1 - a) * taxonomy_matrix(tz["species"]) + a * tz["D"].astype(np.float64)
     return tz["D"].astype(np.float64)                   # tree (main method, incl. tree2g_*)
 
 
@@ -99,7 +129,8 @@ def main():
     args, opts = parse_args(sys.argv[1:])
     seed = int(opts.get("seed", 0))
     targets = args or ["tree", "labels"]
-    g = load_global()
+    marker = opts.get("marker", "teleo")
+    g = load_global(marker)
     t0 = time.time()
     X = np.array([kmer_profile(s) for s in g.teleo])
     print(f"k-mer features {X.shape} in {time.time()-t0:.0f}s")
@@ -116,14 +147,15 @@ def main():
     val_rows = g[is_val].drop_duplicates("species_name").index.values
 
     for target in targets:
-        if target not in ("tree", "labels", "taxonomy"):
-            raise ValueError(f"unknown target {target!r} (use tree, labels or taxonomy)")
+        if target not in ("tree", "labels", "taxonomy") and not target.startswith(("taxtree", "tree2g_")):
+            raise ValueError(f"unknown target {target!r} (use tree, tree2g_w<W>m<M>, labels, taxonomy or taxtree<a>)")
+        w, m = two_goal_settings(target)
         T = global_target(target, tz)
         print(f"\n=== pretraining target: {target} (seed {seed}) ===")
-        enc = DistanceEncoder(X.shape[1], seed=seed, **HP)
+        enc = DistanceEncoder(X.shape[1], seed=seed, sep_weight=w, margin=m, **HP)
         enc.fit_minibatch(X[~is_val], rows[~is_val], T, seed=seed,
                           X_val=X[val_rows], val_idx=rows[val_rows], **TRAIN)
-        out = ROOT / "models" / f"pretrained_{target}{seed_suffix(seed)}.npz"
+        out = ROOT / "models" / f"pretrained_{target}{marker_suffix(marker)}{seed_suffix(seed)}.npz"
         save(enc, out)
         print(f"saved {out}  ({time.time()-t0:.0f}s)")
 

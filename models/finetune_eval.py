@@ -13,6 +13,7 @@ Usage (from the repo root):
     python models/finetune_eval.py tree2g_w10m0.4       # two-goal model from select_twogoal.py
     python models/finetune_eval.py tree2g_w10m0.4 labels --splits=splits_extra.csv --tag=_extra
     python models/finetune_eval.py tree2g_w10m0.4 labels --seed=1   # uses pretrained_*_s1.npz
+    python models/finetune_eval.py taxonomy --marker=full           # long 12S -> results_ft_taxonomy_full*.csv
 Output: outputs/results/results_<variant>.csv           (proposal's scaled novelty score)
         outputs/results/results_<variant>_unscaled.csv  (plain distance to nearest species)
         seed N > 0 adds _s<N> before the tag, e.g. results_ft_labels_s1_extra.csv
@@ -29,7 +30,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from models.encoder import novelty_scores  # noqa: E402
-from models.pretrain import global_target, load_encoder, load_global, parse_args, seed_suffix  # noqa: E402
+from models.pretrain import (global_target, load_encoder, load_global, marker_suffix,  # noqa: E402
+                             parse_args, seed_suffix)  # noqa: E402
 from models.kmers import kmer_profile  # noqa: E402
 
 DATA = ROOT / "data"
@@ -60,6 +62,8 @@ def main():
     sfx = seed_suffix(seed)
     splits_file = opts.get("splits", "splits.csv")     # e.g. --splits=splits_extra.csv
     tag = opts.get("tag", "")                          # e.g. --tag=_extra (keeps old results)
+    marker = opts.get("marker", "teleo")               # --marker=full -> long 12S region
+    mk = marker_suffix(marker)
     targets = [a for a in args if not a.isdigit()] or ["tree", "labels"]
     split_ids = [int(a) for a in args if a.isdigit()] or None
     OUT.mkdir(parents=True, exist_ok=True)
@@ -67,14 +71,15 @@ def main():
 
     tz = np.load(DATA / "global_tree_distances.npz")
     row = {s: i for i, s in enumerate(tz["species"])}
-    g = load_global()
+    g = load_global(marker)
     Xg = np.array([kmer_profile(s) for s in g.teleo])
     rg = g.species_name.map(row).values
 
     clean = pd.read_csv(DATA / "guiana_teleo_clean.csv")
     clean["seq_id"] = clean["Specimen identification code"].astype(str)
     clean = clean[clean.in_tree].set_index("seq_id")
-    k = np.load(DATA / "kmer_features_k3to6.npz", allow_pickle=True)
+    k = np.load(DATA / ("kmer_features_full12S.npz" if marker == "full" else "kmer_features_k3to6.npz"),
+                allow_pickle=True)
     X_all = pd.DataFrame(k["X"], index=k["seq_id"].astype(str))
     splits = pd.read_csv(DATA / splits_file)
     splits["seq_id"] = splits["seq_id"].astype(str)
@@ -84,15 +89,15 @@ def main():
     for target in targets:
         # labels* -> same/different species, taxonomy* -> taxonomy, anything else -> tree
         T = global_target(target, tz)
-        res = {f"pre_{target}": [], f"ft_{target}": []}
+        res = {f"pre_{target}{mk}": [], f"ft_{target}{mk}": []}
         for sid in split_ids:
             t0 = time.time()
             s = splits[splits.split_id == sid]
             ref, test = s[s.role == "reference"], s[s.role != "reference"]
             Xr, Xt = X_all.loc[ref.seq_id].values, X_all.loc[test.seq_id].values
             sp_r = clean.loc[ref.seq_id, "species_name"].values
-            for variant in [f"pre_{target}", f"ft_{target}"]:
-                enc = load_encoder(ROOT / "models" / f"pretrained_{target}{sfx}.npz")
+            for variant in [f"pre_{target}{mk}", f"ft_{target}{mk}"]:
+                enc = load_encoder(ROOT / "models" / f"pretrained_{target}{mk}{sfx}.npz")
                 if variant.startswith("ft_"):
                     rf = np.array([row[x] for x in sp_r])
                     enc = finetune(enc, Xg, rg, Xr, rf, T, seed=sid + 1000 * seed)
@@ -105,7 +110,10 @@ def main():
                     score, pred = novelty_scores(Zr, sp_r, Zt, scaled=scaled)
                     res.setdefault(variant + score_tag, []).append(pd.DataFrame(
                         {"seq_id": test.seq_id.values, "split_id": sid,
-                         "novelty_score": score, "predicted_species": pred}))
+                         "novelty_score": score, "nearest_species": pred,
+                         # no "novel" call here: detection uses B4 (raw k-mers) in the final
+                         # pipeline; AUROC uses novelty_score
+                         "predicted_species": pred}))
             print(f"{target:6s} seed {seed} split {sid:2d} done ({time.time()-t0:.0f}s)", flush=True)
         for variant, parts in res.items():
             pd.concat(parts).to_csv(OUT / f"results_{variant}{sfx}{tag}.csv", index=False)

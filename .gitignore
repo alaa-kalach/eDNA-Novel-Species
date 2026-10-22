@@ -12,3 +12,4 @@ data/mitofish.12S.Oct2023.tsv
 data/global_taxonomy.csv
 models/pretrained_*.npz
 
+.DS_Store
