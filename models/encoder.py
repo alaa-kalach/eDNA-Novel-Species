@@ -34,8 +34,14 @@ def pairwise(Z):
 
 class DistanceEncoder:
     def __init__(self, in_dim, hidden=128, out_dim=32, lr=1e-3, epochs=400,
-                 weight_decay=1e-4, seed=0, sep_weight=0.0, margin=0.0):
+                 weight_decay=1e-4, seed=0, sep_weight=0.0, margin=0.0,
+                 pair_tau=0.0, loss_type="distance", triplet_margin=0.1, triplets_per_anchor=8):
         rng = np.random.default_rng(seed)
+        # pair_tau > 0: weight each pair by exp(-target / pair_tau) (close pairs count more)
+        # loss_type="triplet": the target only decides which of two species is closer
+        self.pair_tau, self.loss_type = pair_tau, loss_type
+        self.triplet_margin, self.triplets_per_anchor = triplet_margin, triplets_per_anchor
+        self._trip_rng = np.random.default_rng(seed + 12345)
         # two-goal training: sep_weight > 0 adds a species-separation term that
         # pushes sequences of DIFFERENT species at least `margin` apart
         self.sep_weight, self.margin = sep_weight, margin
@@ -72,15 +78,45 @@ class DistanceEncoder:
         return self._forward(self._scale(X))[2]
 
     # ---------- loss + gradients ----------
+    def _triplet_coef(self, d, T):
+        """Triplet loss: for anchor i, pick j, k with T[i,j] < T[i,k];
+        loss = mean relu(d_ij - d_ik + margin). Returns (loss, dLoss/dd as a symmetric
+        matrix: entry [i,j] = [j,i] = derivative w.r.t. the shared distance d_ij)."""
+        n = len(d)
+        K = self.triplets_per_anchor
+        i = np.repeat(np.arange(n), K)
+        j = self._trip_rng.integers(n, size=n * K)
+        k = self._trip_rng.integers(n, size=n * K)
+        swap = T[i, j] > T[i, k]
+        j, k = np.where(swap, k, j), np.where(swap, j, k)
+        ok = (T[i, j] < T[i, k]) & (j != i) & (k != i)
+        i, j, k = i[ok], j[ok], k[ok]
+        M = max(len(i), 1)
+        h = d[i, j] - d[i, k] + self.triplet_margin
+        act = h > 0
+        loss = (h * act).sum() / M
+        C = np.zeros_like(d)
+        np.add.at(C, (i[act], j[act]), 1.0 / M)
+        np.add.at(C, (i[act], k[act]), -1.0 / M)
+        return loss, C + C.T
+
     def _loss_and_grads(self, Xs, T):
         n = len(Xs)
         A, H, Z = self._forward(Xs)
         d = pairwise(Z)
         off = ~np.eye(n, dtype=bool)
         N = n * (n - 1)
+        if self.loss_type == "triplet":
+            loss, C = self._triplet_coef(d, T)
+            W = C * off / d                            # each unordered pair once per side
+            G = W.sum(1)[:, None] * Z - W @ Z
+            return self._backprop(loss, Xs, A, H, G)
+        w = np.exp(-T / self.pair_tau) if self.pair_tau > 0 else np.ones_like(T)
+        w = w * off
+        w = w / w.sum() * N                            # mean weight 1 over pairs
         diff = (d - T) * off
-        loss = (diff ** 2).sum() / N
-        coef = 4 * diff
+        loss = (w * diff ** 2).sum() / N
+        coef = 4 * w * diff
         if self.sep_weight > 0:
             # goal 2: different species (target > 0) must be >= margin apart
             short = np.maximum(self.margin - d, 0) * (T > 0) * off
@@ -88,6 +124,9 @@ class DistanceEncoder:
             coef = coef - 4 * self.sep_weight * short
         W = coef / (N * d)
         G = W.sum(1)[:, None] * Z - W @ Z          # d loss / d Z
+        return self._backprop(loss, Xs, A, H, G)
+
+    def _backprop(self, loss, Xs, A, H, G):
         if self.linear:
             return loss, {"W1": Xs.T @ G, "b1": G.sum(0)}
         grads = {"W2": H.T @ G, "b2": G.sum(0)}

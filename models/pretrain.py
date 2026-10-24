@@ -62,6 +62,80 @@ def two_goal_settings(target):
     return (float(m.group(1)), float(m.group(2))) if m else (0.0, 0.0)
 
 
+def my_to_d(my, tz):
+    """split age in million years -> scaled tree distance (tree distance = 2 x age / scale)"""
+    return 2 * my / float(tz["scale"])
+
+
+def encoder_settings(target, tz):
+    """Extra DistanceEncoder settings implied by the target name.
+    tree2g_w<W>m<M> : two-goal term          treew<My> : weight pairs by exp(-tree / tau), tau = <My>
+    treetrip        : triplet loss on the tree (only 'who is closer' is used)"""
+    w, m = two_goal_settings(target)
+    out = dict(sep_weight=w, margin=m)
+    if target.startswith("treew"):
+        out["pair_tau"] = my_to_d(float(target[len("treew"):]), tz)
+    if target == "treetrip":
+        out["loss_type"] = "triplet"
+    return out
+
+
+def clade_ages():
+    """Cut ages for tree-made clades, fixed in advance: the median split age of
+    same-genus, same-family and same-order species pairs among GLOBAL training species
+    (data/global_taxonomy.csv; French Guiana species are not used)."""
+    tz = np.load(DATA / "global_tree_distances.npz")
+    age = tz["D"] * float(tz["scale"]) / 2
+    tax = pd.read_csv(DATA / "global_taxonomy.csv").set_index("species_name").loc[list(tz["species"])]
+    fg = set(pd.read_csv(DATA / "guiana_teleo_clean.csv")["species_name"])
+    keep = ~tax.index.isin(fg)
+    rng = np.random.default_rng(0)
+    idx = np.where(keep)[0]
+    i, j = rng.choice(idx, 400_000), rng.choice(idx, 400_000)
+    ok = i != j
+    i, j = i[ok], j[ok]
+    ages = {}
+    for level in ["Genus", "Family", "Order"]:
+        v = tax[level].astype(object).values
+        same = (v[i] == v[j]) & pd.notna(v[i])
+        if level == "Family":
+            same &= tax["Genus"].values[i] != tax["Genus"].values[j]
+        if level == "Order":
+            same &= tax["Family"].astype(object).values[i] != tax["Family"].astype(object).values[j]
+        ages[level] = float(np.median(age[i[same], j[same]]))
+    return ages
+
+
+def global_target(target, tz):
+    """Target distance matrix over all species in global_tree_distances.npz."""
+    D = tz["D"].astype(np.float64)
+    if target.startswith("labels"):
+        return 1.0 - np.eye(len(tz["species"]))
+    if target.startswith("taxonomy"):
+        return taxonomy_matrix(tz["species"])
+    if target.startswith("taxtree"):
+        a = taxtree_alpha(target)
+        return (1 - a) * taxonomy_matrix(tz["species"]) + a * D
+    if target.startswith("treecap"):                  # deep pairs all count as "far"
+        c = my_to_d(float(target[len("treecap"):]), tz)
+        return np.minimum(D, c) / c
+    if target == "treelog":                           # stretch close distances, squeeze deep ones
+        e = my_to_d(10, tz)
+        return np.log1p(D / e) / np.log1p(1 / e)
+    if target == "treerank":                          # rank (quantile) of each tree distance
+        sample = np.sort(D[np.triu_indices(len(D), 1)][::97])
+        T = np.searchsorted(sample, D) / len(sample)
+        np.fill_diagonal(T, 0)
+        return T
+    if target == "treeclade":                         # taxonomy-like steps made from the tree
+        ages = clade_ages()
+        age = D * float(tz["scale"]) / 2
+        T = 1.0 - 0.25 * sum((age <= ages[lv]).astype(float) for lv in ["Genus", "Family", "Order"])
+        np.fill_diagonal(T, 0)
+        return T
+    return D                                          # tree (main method, incl. tree2g_*, treew*, treetrip)
+
+
 def marker_suffix(marker):
     """Teleo keeps the original file names; the long 12S region adds _full."""
     return "_full" if marker == "full" else ""
@@ -96,21 +170,10 @@ def taxtree_alpha(target):
     return float(target[len("taxtree"):])
 
 
-def global_target(target, tz):
-    """Target distance matrix over all species in global_tree_distances.npz."""
-    if target.startswith("labels"):
-        return 1.0 - np.eye(len(tz["species"]))
-    if target.startswith("taxonomy"):
-        return taxonomy_matrix(tz["species"])
-    if target.startswith("taxtree"):
-        a = taxtree_alpha(target)
-        return (1 - a) * taxonomy_matrix(tz["species"]) + a * tz["D"].astype(np.float64)
-    return tz["D"].astype(np.float64)                   # tree (main method, incl. tree2g_*)
-
-
 def save(enc, path):
     np.savez(path, **{p: getattr(enc, p) for p in enc.params}, mu=enc.mu, sd=enc.sd,
-             linear=enc.linear, sep_weight=enc.sep_weight, margin=enc.margin)
+             linear=enc.linear, sep_weight=enc.sep_weight, margin=enc.margin,
+             pair_tau=enc.pair_tau, loss_type=enc.loss_type, triplet_margin=enc.triplet_margin)
 
 
 def load_encoder(path):
@@ -122,6 +185,9 @@ def load_encoder(path):
     enc.mu, enc.sd = z["mu"], z["sd"]
     if "sep_weight" in z.files:                      # two-goal settings (if any)
         enc.sep_weight, enc.margin = float(z["sep_weight"]), float(z["margin"])
+    if "loss_type" in z.files:                       # loss variants (if any)
+        enc.pair_tau, enc.loss_type = float(z["pair_tau"]), str(z["loss_type"])
+        enc.triplet_margin = float(z["triplet_margin"])
     return enc
 
 
@@ -147,12 +213,12 @@ def main():
     val_rows = g[is_val].drop_duplicates("species_name").index.values
 
     for target in targets:
-        if target not in ("tree", "labels", "taxonomy") and not target.startswith(("taxtree", "tree2g_")):
-            raise ValueError(f"unknown target {target!r} (use tree, tree2g_w<W>m<M>, labels, taxonomy or taxtree<a>)")
-        w, m = two_goal_settings(target)
+        if target not in ("tree", "labels", "taxonomy", "treelog", "treerank", "treetrip", "treeclade") \
+                and not target.startswith(("taxtree", "tree2g_", "treecap", "treew")):
+            raise ValueError(f"unknown target {target!r}")
         T = global_target(target, tz)
         print(f"\n=== pretraining target: {target} (seed {seed}) ===")
-        enc = DistanceEncoder(X.shape[1], seed=seed, sep_weight=w, margin=m, **HP)
+        enc = DistanceEncoder(X.shape[1], seed=seed, **encoder_settings(target, tz), **HP)
         enc.fit_minibatch(X[~is_val], rows[~is_val], T, seed=seed,
                           X_val=X[val_rows], val_idx=rows[val_rows], **TRAIN)
         out = ROOT / "models" / f"pretrained_{target}{marker_suffix(marker)}{seed_suffix(seed)}.npz"

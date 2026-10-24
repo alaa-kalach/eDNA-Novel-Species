@@ -15,6 +15,7 @@ Needs outputs/embeddings/embeddings_ft_<model>[_s<N>]_split<k>.npz (from finetun
 and data/kmer_features_k3to6.npz (python models/kmers.py).
 Usage (repo root):  python rawplus_preview.py                  # Teleo
                     python rawplus_preview.py --marker=full    # long 12S region
+                    python rawplus_preview.py --add=treecap60  # also a new model
 """
 from pathlib import Path
 
@@ -32,6 +33,11 @@ MODELS = {"tree": f"ft_tree2g_w10m0.4{MK}", "taxonomy": f"ft_taxonomy{MK}", "lab
 SEEDS = [0, 1, 2, 3, 4]
 # model distances added to the raw distance (equal weights, same seed for both models)
 COMBOS = ["tree", "taxonomy", "labels", "taxonomy+tree"]
+# --add=<model> adds another fine-tuned model, e.g. --add=treecap60 (files embeddings_ft_treecap60...)
+ADDED = [a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--add=")]
+for a in ADDED:
+    MODELS[a] = f"ft_{a}{MK}"
+    COMBOS.append(a)
 
 clean = pd.read_csv(ROOT / "data/guiana_teleo_clean.csv")
 clean["seq_id"] = clean["Specimen identification code"].astype(str)
@@ -127,3 +133,8 @@ compare("raw+tree", "raw")
 print("\n--- extra check: all three together ---")
 compare("raw+taxonomy+tree", "raw+taxonomy")
 compare("raw+taxonomy+tree", "raw")
+for a in ADDED:
+    print(f"\n--- added model: {a} ---")
+    compare(f"raw+{a}", "raw+taxonomy")
+    compare(f"raw+{a}", "raw+tree")
+    compare(f"raw+{a}", "raw")
