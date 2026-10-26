@@ -20,7 +20,8 @@ Method (per split, per training seed)
 
 Methods compared (all with the same code and the same centres):
   raw                        w = 0 (raw k-mer centres alone)
-  raw+<target>               w = 1, target = tree2g_w10m0.4 (main), labels (B5), taxonomy (B6)
+  raw+<target>               w = 1, target = tree2g_w10m0.4 (original tree), labels (B5),
+                             taxonomy (B6), treecap120 (capped tree) and treeclade (tree clades)
   <target> alone             model distance only (as in models/placement_test.py)
   B4 nearest sequence        nearest_species from outputs/results_kmer[_extra].csv
                              (nearest reference SEQUENCE, not centre; reference row)
@@ -32,19 +33,26 @@ Outcomes, truly novel sequences only (role == test_novel):
   genus_hard   genus correct, a same-genus species is in reference
   known_sp     species correct for test_known sequences (side check: does the
                combination hurt the placement of known species?)
+  tree_error       split age (million years) between the guessed and the true species on
+                   the fish tree, all novel (lower = better; no taxonomic ranks involved)
+  tree_error_easy  same, novel species with no same-genus species in the reference
 Each split's score is averaged over the seeds first; then paired Wilcoxon
 signed-rank tests over the 30 splits + bootstrap 95% CI of the mean difference.
 
 Usage (from the repo root):
     python models/placement_kmer_tree.py                      # seeds 0-4, all 30 splits
     python models/placement_kmer_tree.py --seeds=0            # one seed (quick check)
+    python models/placement_kmer_tree.py --marker=full        # long 12S region (no B4 row)
 Needs : data/kmer_features_k3to6.npz   (python models/kmers.py)
+        data/global_tree_distances.npz (python models/tree_distances.py) for the tree error
+        for --marker=full: data/kmer_features_full12S.npz (data/make_full12s.py) and the
+        *_full embeddings
         outputs/embeddings/embeddings_ft_<target>[_s<N>]_split<k>.npz for every
         target, seed and split (written by models/finetune_eval.py)
         outputs/results_kmer.csv + results_kmer_extra.csv (B4)
-Output: outputs/placement_kmer_tree_per_split.csv  (split, method, w, outcomes; seed-averaged)
-        outputs/placement_kmer_tree_per_seed.csv   (same, before averaging over seeds)
-        outputs/placement_kmer_tree_tests.csv      (paired comparisons)
+Output: outputs/placement_kmer_tree[_full]_per_split.csv  (split, method, w, outcomes; seed-averaged)
+        outputs/placement_kmer_tree[_full]_per_seed.csv   (same, before averaging over seeds)
+        outputs/placement_kmer_tree[_full]_tests.csv      (paired comparisons)
 """
 import sys
 from pathlib import Path
@@ -55,10 +63,14 @@ from scipy.stats import wilcoxon
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA, OUT, EMB = ROOT / "data", ROOT / "outputs", ROOT / "outputs" / "embeddings"
-TARGETS = {"tree": "tree2g_w10m0.4", "labels": "labels", "taxonomy": "taxonomy"}
+TARGETS = {"tree": "tree2g_w10m0.4", "labels": "labels", "taxonomy": "taxonomy",
+           "treecap": "treecap120", "treeclade": "treeclade"}
 W_MAIN = 1.0
 W_SENS = (0.25, 0.5, 2.0, 4.0)
-OUTCOMES = ["family", "family_easy", "genus_hard", "known_sp"]
+OUTCOMES = ["family", "family_easy", "genus_hard", "known_sp", "tree_error", "tree_error_easy"]
+LOWER_BETTER = {"tree_error", "tree_error_easy"}
+MARKER = "full" if "--marker=full" in sys.argv[1:] else "teleo"
+MK = "_full" if MARKER == "full" else ""          # long 12S files carry _full in their names
 
 
 def seed_suffix(seed):
@@ -71,16 +83,34 @@ def load():
     clean = clean[clean.in_tree].drop_duplicates("seq_id").set_index("seq_id")
     splits = pd.concat([pd.read_csv(DATA / "splits.csv"), pd.read_csv(DATA / "splits_extra.csv")])
     splits["seq_id"] = splits["seq_id"].astype(str)
-    kf = DATA / "kmer_features_k3to6.npz"
+    kf = DATA / ("kmer_features_full12S.npz" if MARKER == "full" else "kmer_features_k3to6.npz")
     if not kf.exists():
-        sys.exit(f"missing {kf} - run: python models/kmers.py")
+        sys.exit(f"missing {kf} - run: python models/kmers.py (Teleo) or data/make_full12s.py (long 12S)")
     k = np.load(kf, allow_pickle=True)
     X = pd.DataFrame(k["X"], index=k["seq_id"].astype(str))
     return clean, splits, X[~X.index.duplicated()]
 
 
 def emb_path(target, seed, split_id):
-    return EMB / f"embeddings_ft_{target}{seed_suffix(seed)}_split{split_id}.npz"
+    return EMB / f"embeddings_ft_{target}{MK}{seed_suffix(seed)}_split{split_id}.npz"
+
+
+_TREE = {}
+
+
+def split_age(pred, true):
+    """Age (million years) of the split between each guessed and true species on the tree
+    = half the tree distance. data/global_tree_distances.npz stores D scaled to 0-1 and the
+    scale (largest distance) separately."""
+    if not _TREE:
+        tf = DATA / "global_tree_distances.npz"
+        if not tf.exists():
+            sys.exit(f"missing {tf} - run: python models/tree_distances.py")
+        z = np.load(tf)
+        _TREE.update(row={s: i for i, s in enumerate(z["species"])}, D=z["D"], scale=float(z["scale"]))
+    i = [_TREE["row"][s] for s in pred]
+    j = [_TREE["row"][s] for s in true]
+    return _TREE["D"][i, j] * _TREE["scale"] / 2
 
 
 def check_inputs(split_ids, seeds):
@@ -114,18 +144,22 @@ def outcomes(pred, test, clean, info):
     hard = nov & (test.difficulty == "hard").values
     fam = info.loc[pred, "Family"].values == info.loc[true, "Family"].values
     gen = info.loc[pred, "Genus"].values == info.loc[true, "Genus"].values
+    age = split_age(pred, true)
     mean = lambda m: m.mean() if len(m) else np.nan  # noqa: E731
     return dict(family=mean(fam[nov]), family_easy=mean(fam[easy]),
-                genus_hard=mean(gen[hard]), known_sp=mean((pred == true)[~nov]))
+                genus_hard=mean(gen[hard]), known_sp=mean((pred == true)[~nov]),
+                tree_error=mean(age[nov]), tree_error_easy=mean(age[easy]))
 
 
 def run(clean, splits, X, seeds):
     info = clean.drop_duplicates("species_name").set_index("species_name")
-    b4 = pd.concat([pd.read_csv(OUT / "results_kmer.csv", dtype={"seq_id": str}),
-                    pd.read_csv(OUT / "results_kmer_extra.csv", dtype={"seq_id": str})])
-    if "nearest_species" not in b4:
-        sys.exit("results_kmer*.csv has no nearest_species column - rerun baselines/b4_kmer.py")
-    b4 = b4.set_index(["split_id", "seq_id"])["nearest_species"]
+    b4 = None
+    if MARKER == "teleo":                          # B4 was run on Teleo only
+        b4 = pd.concat([pd.read_csv(OUT / "results_kmer.csv", dtype={"seq_id": str}),
+                        pd.read_csv(OUT / "results_kmer_extra.csv", dtype={"seq_id": str})])
+        if "nearest_species" not in b4:
+            sys.exit("results_kmer*.csv has no nearest_species column - rerun baselines/b4_kmer.py")
+        b4 = b4.set_index(["split_id", "seq_id"])["nearest_species"]
     rows = []
     for k in sorted(splits.split_id.unique()):
         s = splits[splits.split_id == k]
@@ -135,9 +169,10 @@ def run(clean, splits, X, seeds):
         Rn = D_raw / m_raw
         base = dict(split=k, seed=-1)
         rows.append({**base, "method": "raw", "w": 0.0, **outcomes(sp[Rn.argmin(1)], test, clean, info)})
-        pred_b4 = b4.loc[[(k, q) for q in test.seq_id]].values
-        rows.append({**base, "method": "B4 nearest sequence", "w": 0.0,
-                     **outcomes(pred_b4, test, clean, info)})
+        if b4 is not None:
+            pred_b4 = b4.loc[[(k, q) for q in test.seq_id]].values
+            rows.append({**base, "method": "B4 nearest sequence", "w": 0.0,
+                         **outcomes(pred_b4, test, clean, info)})
         for name, target in TARGETS.items():
             for seed in seeds:
                 z = np.load(emb_path(target, seed, k), allow_pickle=True)
@@ -167,9 +202,10 @@ def compare(per_split, a, b, w=W_MAIN, rng=None):
         boots = [rng.choice(d.values, len(d)).mean() for _ in range(5000)]
         lo, hi = np.percentile(boots, [2.5, 97.5])
         p = wilcoxon(d.values).pvalue if (d != 0).any() else 1.0
+        a_wins, b_wins = ((d < 0), (d > 0)) if c in LOWER_BETTER else ((d > 0), (d < 0))
         out.append(dict(a=a, b=b, w=w, outcome=c, mean_a=A[c].mean(), mean_b=B[c].mean(),
-                        diff=d.mean(), ci_lo=lo, ci_hi=hi, a_better=int((d > 0).sum()),
-                        b_better=int((d < 0).sum()), n=len(d), wilcoxon_p=p))
+                        diff=d.mean(), ci_lo=lo, ci_hi=hi, a_better=int(a_wins.sum()),
+                        b_better=int(b_wins.sum()), n=len(d), wilcoxon_p=p))
     return out
 
 
@@ -182,13 +218,15 @@ def main():
     per_split = per_seed.groupby(["split", "method", "w"], as_index=False)[OUTCOMES].mean()
     OUT.mkdir(exist_ok=True)
     kw = dict(index=False, lineterminator="\n")
-    per_seed.to_csv(OUT / "placement_kmer_tree_per_seed.csv", **kw)
-    per_split.to_csv(OUT / "placement_kmer_tree_per_split.csv", **kw)
+    per_seed.to_csv(OUT / f"placement_kmer_tree{MK}_per_seed.csv", **kw)
+    per_split.to_csv(OUT / f"placement_kmer_tree{MK}_per_split.csv", **kw)
 
     n = per_split.split.nunique()
-    print(f"\n{n} splits | seeds {seeds} | mean over splits (each split averaged over seeds)\n")
+    print(f"\nmarker: {MARKER} | {n} splits | seeds {seeds} | mean over splits (each split averaged over seeds)")
+    print("tree_error = split age in million years between guessed and true species (lower = better)\n")
     tab = per_split.groupby(["method", "w"])[OUTCOMES].mean()
-    order = ["raw", "B4 nearest sequence"] + [f"raw+{t}" for t in TARGETS] + [f"{t} alone" for t in TARGETS]
+    order = ["raw"] + (["B4 nearest sequence"] if MARKER == "teleo" else []) \
+        + [f"raw+{t}" for t in TARGETS] + [f"{t} alone" for t in TARGETS]
     main_tab = pd.concat([tab.loc[[(m, w) for (m, w) in tab.index if m == mm and w in (0.0, W_MAIN, np.inf)]]
                           for mm in order])
     print(main_tab.round(3).to_string())
@@ -196,13 +234,20 @@ def main():
     rng = np.random.default_rng(0)
     tests = []
     pairs = [("raw+tree", "raw"), ("raw+tree", "raw+labels"), ("raw+tree", "raw+taxonomy"),
-             ("raw+labels", "raw"), ("raw+taxonomy", "raw"), ("raw+tree", "B4 nearest sequence"),
-             ("raw+tree", "tree alone")]
+             ("raw+labels", "raw"), ("raw+taxonomy", "raw"), ("raw+tree", "tree alone"),
+             # fixed tree models (chosen on global data only, models/select_treeloss.py)
+             ("raw+treecap", "raw+taxonomy"), ("raw+treecap", "raw"), ("raw+treecap", "raw+tree"),
+             ("raw+treecap", "raw+labels"), ("raw+treeclade", "raw+taxonomy"), ("raw+treeclade", "raw"),
+             ("raw+treeclade", "raw+tree"), ("treecap alone", "taxonomy alone"),
+             ("treeclade alone", "taxonomy alone")]
+    if MARKER == "teleo":
+        pairs += [("raw+tree", "B4 nearest sequence"), ("raw+treecap", "B4 nearest sequence")]
     for a, b in pairs:
         tests += compare(per_split, a, b, rng=rng)
-    print(f"\nPaired comparisons at w = {W_MAIN:g} (Wilcoxon over {n} splits; family_easy = key outcome)")
+    print(f"\nPaired comparisons at w = {W_MAIN:g} (Wilcoxon over {n} splits; family_easy and "
+          "tree_error = key outcomes; for tree_error 'better' means lower)")
     for t in tests:
-        tag = "  <- key" if t["outcome"] == "family_easy" else ""
+        tag = "  <- key" if t["outcome"] in ("family_easy", "tree_error") else ""
         print(f"{t['a']:>12s} vs {t['b']:<20s} {t['outcome']:11s} {t['mean_a']:.3f} vs {t['mean_b']:.3f} "
               f"diff {t['diff']:+.3f} [{t['ci_lo']:+.3f}, {t['ci_hi']:+.3f}] "
               f"better/worse {t['a_better']:2d}/{t['b_better']:2d} p = {t['wilcoxon_p']:.3g}{tag}")
@@ -211,19 +256,22 @@ def main():
     sens = tab.loc[[(m, w) for (m, w) in tab.index if m.startswith("raw+")]]
     print(sens.round(3).to_string())
     for w in W_SENS:
-        for a, b in [("raw+tree", "raw"), ("raw+tree", "raw+labels")]:
-            tests += [t for t in compare(per_split, a, b, w=w, rng=rng) if t["outcome"] == "family_easy"]
-    pd.DataFrame(tests).to_csv(OUT / "placement_kmer_tree_tests.csv", **kw)
+        for a, b in [("raw+tree", "raw"), ("raw+tree", "raw+labels"),
+                     ("raw+treecap", "raw+taxonomy"), ("raw+treeclade", "raw+taxonomy")]:
+            tests += [t for t in compare(per_split, a, b, w=w, rng=rng)
+                      if t["outcome"] in ("family_easy", "tree_error")]
+    pd.DataFrame(tests).to_csv(OUT / f"placement_kmer_tree{MK}_tests.csv", **kw)
 
     if len(seeds) > 1:
-        print("\nPer seed, mean difference raw+tree minus raw+labels (w = 1):")
         ps = per_seed[(per_seed.w == W_MAIN)]
-        for c in OUTCOMES:
-            d = [(ps[(ps.method == "raw+tree") & (ps.seed == s)].set_index("split")[c] -
-                  ps[(ps.method == "raw+labels") & (ps.seed == s)].set_index("split")[c]).mean() for s in seeds]
-            print(f"{c:12s} " + "  ".join(f"s{s}: {x:+.3f}" for s, x in zip(seeds, d)))
-    print("\nwrote placement_kmer_tree_per_split.csv, placement_kmer_tree_per_seed.csv, "
-          f"placement_kmer_tree_tests.csv in {OUT}")
+        for a, b in [("raw+tree", "raw+labels"), ("raw+treecap", "raw+taxonomy")]:
+            print(f"\nPer seed, mean difference {a} minus {b} (w = 1):")
+            for c in OUTCOMES:
+                d = [(ps[(ps.method == a) & (ps.seed == s)].set_index("split")[c] -
+                      ps[(ps.method == b) & (ps.seed == s)].set_index("split")[c]).mean() for s in seeds]
+                print(f"{c:15s} " + "  ".join(f"s{s}: {x:+.3f}" for s, x in zip(seeds, d)))
+    print(f"\nwrote placement_kmer_tree{MK}_per_split.csv, placement_kmer_tree{MK}_per_seed.csv, "
+          f"placement_kmer_tree{MK}_tests.csv in {OUT}")
 
 
 if __name__ == "__main__":
