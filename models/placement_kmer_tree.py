@@ -21,7 +21,7 @@ Method (per split, per training seed)
 Methods compared (all with the same code and the same centres):
   raw                        w = 0 (raw k-mer centres alone)
   raw+<target>               w = 1, target = tree2g_w10m0.4 (original tree), labels (B5),
-                             taxonomy (B6), treecap120 (capped tree) and treeclade (tree clades)
+                             taxonomy (B6), treecap120 and treecap90 (capped tree) and treeclade (tree clades)
   <target> alone             model distance only (as in models/placement_test.py)
   B4 nearest sequence        nearest_species from outputs/results_kmer[_extra].csv
                              (nearest reference SEQUENCE, not centre; reference row)
@@ -64,7 +64,7 @@ from scipy.stats import wilcoxon
 ROOT = Path(__file__).resolve().parents[1]
 DATA, OUT, EMB = ROOT / "data", ROOT / "outputs", ROOT / "outputs" / "embeddings"
 TARGETS = {"tree": "tree2g_w10m0.4", "labels": "labels", "taxonomy": "taxonomy",
-           "treecap": "treecap120", "treeclade": "treeclade"}
+           "treecap": "treecap120", "treecap90": "treecap90", "treeclade": "treeclade"}
 W_MAIN = 1.0
 W_SENS = (0.25, 0.5, 2.0, 4.0)
 OUTCOMES = ["family", "family_easy", "genus_hard", "known_sp", "tree_error", "tree_error_easy"]
@@ -239,16 +239,20 @@ def main():
              ("raw+treecap", "raw+taxonomy"), ("raw+treecap", "raw"), ("raw+treecap", "raw+tree"),
              ("raw+treecap", "raw+labels"), ("raw+treeclade", "raw+taxonomy"), ("raw+treeclade", "raw"),
              ("raw+treeclade", "raw+tree"), ("treecap alone", "taxonomy alone"),
-             ("treeclade alone", "taxonomy alone")]
+             ("treeclade alone", "taxonomy alone"),
+             # cap 90 = main model, cap 120 = robustness check
+             ("raw+treecap90", "raw+taxonomy"), ("raw+treecap90", "raw"), ("raw+treecap90", "raw+tree"),
+             ("raw+treecap90", "raw+labels"), ("treecap90 alone", "taxonomy alone")]
     if MARKER == "teleo":
-        pairs += [("raw+tree", "B4 nearest sequence"), ("raw+treecap", "B4 nearest sequence")]
+        pairs += [("raw+tree", "B4 nearest sequence"), ("raw+treecap", "B4 nearest sequence"),
+                  ("raw+treecap90", "B4 nearest sequence")]
     for a, b in pairs:
         tests += compare(per_split, a, b, rng=rng)
     print(f"\nPaired comparisons at w = {W_MAIN:g} (Wilcoxon over {n} splits; family_easy and "
           "tree_error = key outcomes; for tree_error 'better' means lower)")
     for t in tests:
         tag = "  <- key" if t["outcome"] in ("family_easy", "tree_error") else ""
-        print(f"{t['a']:>12s} vs {t['b']:<20s} {t['outcome']:11s} {t['mean_a']:.3f} vs {t['mean_b']:.3f} "
+        print(f"{t['a']:>15s} vs {t['b']:<20s} {t['outcome']:11s} {t['mean_a']:.3f} vs {t['mean_b']:.3f} "
               f"diff {t['diff']:+.3f} [{t['ci_lo']:+.3f}, {t['ci_hi']:+.3f}] "
               f"better/worse {t['a_better']:2d}/{t['b_better']:2d} p = {t['wilcoxon_p']:.3g}{tag}")
 
@@ -257,14 +261,16 @@ def main():
     print(sens.round(3).to_string())
     for w in W_SENS:
         for a, b in [("raw+tree", "raw"), ("raw+tree", "raw+labels"),
-                     ("raw+treecap", "raw+taxonomy"), ("raw+treeclade", "raw+taxonomy")]:
+                     ("raw+treecap", "raw+taxonomy"), ("raw+treeclade", "raw+taxonomy"),
+                     ("raw+treecap90", "raw+taxonomy")]:
             tests += [t for t in compare(per_split, a, b, w=w, rng=rng)
                       if t["outcome"] in ("family_easy", "tree_error")]
     pd.DataFrame(tests).to_csv(OUT / f"placement_kmer_tree{MK}_tests.csv", **kw)
 
     if len(seeds) > 1:
         ps = per_seed[(per_seed.w == W_MAIN)]
-        for a, b in [("raw+tree", "raw+labels"), ("raw+treecap", "raw+taxonomy")]:
+        for a, b in [("raw+tree", "raw+labels"), ("raw+treecap", "raw+taxonomy"),
+                     ("raw+treecap90", "raw+taxonomy")]:
             print(f"\nPer seed, mean difference {a} minus {b} (w = 1):")
             for c in OUTCOMES:
                 d = [(ps[(ps.method == a) & (ps.seed == s)].set_index("split")[c] -
