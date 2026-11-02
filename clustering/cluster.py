@@ -18,12 +18,19 @@ Spaces (--emb):
     kmer                    raw k-mer profiles (data/kmer_features_k3to6.npz) -> B4
     ft_<target>[_s<N>]      fine-tuned encoder embeddings saved by models/finetune_eval.py
                             in outputs/embeddings/ (e.g. ft_tree2g_w10m0.4, ft_labels, ft_taxonomy)
+    --with-raw              use the SAME combined distance as the final placement method:
+                            D = D_raw / median_raw + D_model / median_model (w = 1), medians =
+                            median distance between reference species centres in each space.
+                            Grouping: HDBSCAN on this distance between the novel sequences.
+                            Naming: the group's mean combined distance to each reference species
+                            centre -> nearest species. Output gets "_withraw" in its name.
 
 Usage (from the repo root):
     python clustering/cluster.py --emb=ft_tree2g_w10m0.4 --novel-from=outputs/results_kmer.csv
     python clustering/cluster.py --emb=kmer --novel-from=outputs/results_kmer.csv
     python clustering/cluster.py --emb=ft_labels --novel-from=true --splits=splits_extra.csv --tag=_extra
-Output: outputs/results/clusters_<emb>[_truenovel][<tag>].csv
+    python clustering/cluster.py --emb=ft_treecap90 --with-raw --novel-from=outputs/results_kmer.csv
+Output: outputs/results/clusters_<emb>[_withraw][_truenovel][<tag>].csv
         seq_id, split_id, cluster_id (-1 = noise), guess_genus, guess_family
 """
 import sys
@@ -65,8 +72,27 @@ def species_centres(V, ref_ids, ref_species):
     return sps, np.array([V.loc[ref_ids[ref_species == s]].values.mean(0) for s in sps])
 
 
+def median_centre_dist(C):
+    return np.median(dist(C, C)[np.triu_indices(len(C), 1)])
+
+
+def combined(raw, V, ref, rsp, nov):
+    """raw + model distances (each / its median centre distance) for the novel sequences:
+    (species, novel x novel distance, novel x species-centre distance)."""
+    sps, Cr = species_centres(raw, ref, rsp)
+    _, Cm = species_centres(V, ref, rsp)
+    mr, mm = median_centre_dist(Cr), median_centre_dist(Cm)
+    Xr, Xm = raw.loc[nov].values, V.loc[nov].values
+    DD = dist(Xr, Xr) / mr + dist(Xm, Xm) / mm
+    DD = (DD + DD.T) / 2                       # remove tiny rounding differences
+    np.fill_diagonal(DD, 0)
+    DC = dist(Xr, Cr) / mr + dist(Xm, Cm) / mm
+    return sps, DD, DC
+
+
 def main():
     opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
+    with_raw = "--with-raw" in sys.argv[1:]
     emb = opts.get("emb", "kmer")
     novel_from = opts.get("novel-from", "true")
     splits_file, tag = opts.get("splits", "splits.csv"), opts.get("tag", "")
@@ -94,16 +120,24 @@ def main():
         V = load_space(emb, sid, raw)
         rsp = clean.loc[ref, "species_name"].values
 
-        # 1. cluster
-        lab = HDBSCAN(**HDBSCAN_ARGS).fit_predict(V.loc[nov].values) if len(nov) >= 2 else np.array([-1])
+        if with_raw:
+            sps, DD, DC = combined(raw, V, ref, rsp, nov)
+            # 1. cluster on the combined distance
+            lab = (HDBSCAN(metric="precomputed", **HDBSCAN_ARGS).fit_predict(DD.astype(np.float64))
+                   if len(nov) >= 2 else np.array([-1]))
+        else:
+            # 1. cluster
+            lab = HDBSCAN(**HDBSCAN_ARGS).fit_predict(V.loc[nov].values) if len(nov) >= 2 else np.array([-1])
+            sps, C = species_centres(V, ref, rsp)
 
         # 2. name each group (noise points one by one)
-        sps, C = species_centres(V, ref, rsp)
         guess = np.empty(len(nov), dtype=object)
         groups = [np.where(lab == c)[0] for c in np.unique(lab[lab >= 0])] + [[i] for i in np.where(lab < 0)[0]]
         for idx in groups:
-            ids = nov[idx]
-            d = dist(V.loc[ids].values.mean(0, keepdims=True), C)[0]
+            if with_raw:
+                d = DC[idx].mean(0)
+            else:
+                d = dist(V.loc[nov[idx]].values.mean(0, keepdims=True), C)[0]
             guess[idx] = sps[np.argmin(d)]
         rows.append(pd.DataFrame({"seq_id": nov, "split_id": sid, "cluster_id": lab,
                                   "guess_genus": info.loc[guess, "Genus"].values,
@@ -111,7 +145,7 @@ def main():
         print(f"split {sid:2d} | {len(nov)} novel seqs -> {lab.max() + 1} groups + {(lab < 0).sum()} noise", flush=True)
 
     OUT.mkdir(parents=True, exist_ok=True)
-    extra = "_truenovel" if novel_from == "true" else ""
+    extra = ("_withraw" if with_raw else "") + ("_truenovel" if novel_from == "true" else "")
     out = OUT / f"clusters_{emb}{extra}{tag}.csv"
     pd.concat(rows).to_csv(out, index=False)
     print(f"wrote {out}")
