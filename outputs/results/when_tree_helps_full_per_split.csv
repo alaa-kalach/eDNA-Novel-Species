@@ -1,0 +1,1051 @@
+isolation,split,bin,method,n,family,tree_error
+tree,1,< 30 My,alignment nearest,160,1.0,43.898117
+tree,1,< 30 My,phylo,160,1.0,41.24351
+tree,1,< 30 My,raw,160,0.975,38.7021
+tree,1,< 30 My,raw+taxonomy,160,1.0,39.32331
+tree,1,< 30 My,raw+treecap90,160,1.0,34.859795
+tree,1,30-60 My,alignment nearest,84,0.7380952380952381,63.791893
+tree,1,30-60 My,phylo,84,0.7380952380952381,70.510544
+tree,1,30-60 My,raw,84,0.5357142857142857,69.97791
+tree,1,30-60 My,raw+taxonomy,84,0.6142857142857143,66.68501
+tree,1,30-60 My,raw+treecap90,84,0.6785714285714286,63.732235
+tree,1,>= 60 My,alignment nearest,34,0.5294117647058824,93.86276
+tree,1,>= 60 My,phylo,34,0.5294117647058824,100.29718
+tree,1,>= 60 My,raw,34,0.23529411764705882,108.9682
+tree,1,>= 60 My,raw+taxonomy,34,0.23529411764705882,101.47111
+tree,1,>= 60 My,raw+treecap90,34,0.22352941176470587,106.69639
+tree,2,< 30 My,alignment nearest,199,1.0,36.582867
+tree,2,< 30 My,phylo,199,1.0,35.375908
+tree,2,< 30 My,raw,199,0.9949748743718593,33.850754
+tree,2,< 30 My,raw+taxonomy,199,0.9979899497487437,32.316753
+tree,2,< 30 My,raw+treecap90,199,1.0,34.18926
+tree,2,30-60 My,alignment nearest,70,0.9714285714285714,51.732807
+tree,2,30-60 My,phylo,70,0.9714285714285714,46.603313
+tree,2,30-60 My,raw,70,0.6571428571428571,62.26752
+tree,2,30-60 My,raw+taxonomy,70,0.8342857142857143,57.147106
+tree,2,30-60 My,raw+treecap90,70,0.9028571428571429,54.499825
+tree,2,>= 60 My,alignment nearest,2,0.0,73.485466
+tree,2,>= 60 My,phylo,2,0.0,73.485466
+tree,2,>= 60 My,raw,2,0.0,86.875565
+tree,2,>= 60 My,raw+taxonomy,2,0.0,84.19755
+tree,2,>= 60 My,raw+treecap90,2,0.0,76.16349
+tree,3,< 30 My,alignment nearest,135,0.9777777777777777,32.23769
+tree,3,< 30 My,phylo,135,1.0,33.153694
+tree,3,< 30 My,raw,135,0.9481481481481482,34.653164
+tree,3,< 30 My,raw+taxonomy,135,1.0,30.977135
+tree,3,< 30 My,raw+treecap90,135,0.9955555555555556,31.585373
+tree,3,30-60 My,alignment nearest,67,0.8955223880597015,55.589565
+tree,3,30-60 My,phylo,67,0.8955223880597015,51.188934
+tree,3,30-60 My,raw,67,0.8955223880597015,55.51354
+tree,3,30-60 My,raw+taxonomy,67,0.8955223880597015,55.489117
+tree,3,30-60 My,raw+treecap90,67,0.8955223880597015,52.97549
+tree,3,>= 60 My,alignment nearest,28,0.8214285714285714,82.06661
+tree,3,>= 60 My,phylo,28,0.8214285714285714,82.06661
+tree,3,>= 60 My,raw,28,0.5,95.553276
+tree,3,>= 60 My,raw+taxonomy,28,0.7285714285714286,84.41951
+tree,3,>= 60 My,raw+treecap90,28,0.692857142857143,83.62579
+tree,4,< 30 My,alignment nearest,125,1.0,27.63423
+tree,4,< 30 My,phylo,125,1.0,27.879745
+tree,4,< 30 My,raw,125,0.992,28.387283
+tree,4,< 30 My,raw+taxonomy,125,1.0,28.20432
+tree,4,< 30 My,raw+treecap90,125,0.9984,27.947535
+tree,4,30-60 My,alignment nearest,71,0.6901408450704225,65.68917
+tree,4,30-60 My,phylo,71,0.6901408450704225,68.89625
+tree,4,30-60 My,raw,71,0.6901408450704225,70.2195
+tree,4,30-60 My,raw+taxonomy,71,0.6901408450704225,65.93033
+tree,4,30-60 My,raw+treecap90,71,0.6901408450704225,67.913246
+tree,4,>= 60 My,alignment nearest,47,0.0425531914893617,89.59265
+tree,4,>= 60 My,phylo,47,0.3617021276595745,110.23173
+tree,4,>= 60 My,raw,47,0.0851063829787234,112.15564
+tree,4,>= 60 My,raw+taxonomy,47,0.28936170212765955,98.413086
+tree,4,>= 60 My,raw+treecap90,47,0.11063829787234043,96.21613
+tree,5,< 30 My,alignment nearest,165,1.0,40.98125
+tree,5,< 30 My,phylo,165,1.0,40.133266
+tree,5,< 30 My,raw,165,0.9939393939393939,39.61499
+tree,5,< 30 My,raw+taxonomy,165,0.9975757575757576,37.407352
+tree,5,< 30 My,raw+treecap90,165,1.0,41.407642
+tree,5,30-60 My,alignment nearest,42,0.5,79.49518
+tree,5,30-60 My,phylo,42,0.8333333333333334,60.538605
+tree,5,30-60 My,raw,42,0.5,75.3138
+tree,5,30-60 My,raw+taxonomy,42,0.5476190476190477,71.535706
+tree,5,30-60 My,raw+treecap90,42,0.5619047619047619,69.281265
+tree,5,>= 60 My,alignment nearest,54,0.7592592592592593,80.740654
+tree,5,>= 60 My,phylo,54,0.7592592592592593,80.100945
+tree,5,>= 60 My,raw,54,0.5925925925925926,87.428925
+tree,5,>= 60 My,raw+taxonomy,54,0.6703703703703703,82.18888
+tree,5,>= 60 My,raw+treecap90,54,0.6296296296296297,81.819305
+tree,6,< 30 My,alignment nearest,166,1.0,41.292564
+tree,6,< 30 My,phylo,166,1.0,41.67285
+tree,6,< 30 My,raw,166,0.9819277108433735,43.240192
+tree,6,< 30 My,raw+taxonomy,166,0.9939759036144579,42.1596
+tree,6,< 30 My,raw+treecap90,166,0.9903614457831326,42.311504
+tree,6,30-60 My,alignment nearest,56,0.8035714285714286,64.26521
+tree,6,30-60 My,phylo,56,0.8035714285714286,59.40237
+tree,6,30-60 My,raw,56,0.44642857142857145,82.168755
+tree,6,30-60 My,raw+taxonomy,56,0.7392857142857142,68.34313
+tree,6,30-60 My,raw+treecap90,56,0.7999999999999999,61.95181
+tree,6,>= 60 My,alignment nearest,16,0.375,82.12681
+tree,6,>= 60 My,phylo,16,0.375,80.39754
+tree,6,>= 60 My,raw,16,0.75,72.57497
+tree,6,>= 60 My,raw+taxonomy,16,0.5875,74.622406
+tree,6,>= 60 My,raw+treecap90,16,0.7125,70.55049
+tree,7,< 30 My,alignment nearest,160,1.0,37.56927
+tree,7,< 30 My,phylo,160,1.0,38.042645
+tree,7,< 30 My,raw,160,0.99375,38.264175
+tree,7,< 30 My,raw+taxonomy,160,0.99375,38.259583
+tree,7,< 30 My,raw+treecap90,160,0.9925,33.150238
+tree,7,30-60 My,alignment nearest,65,0.5538461538461539,59.988674
+tree,7,30-60 My,phylo,65,0.676923076923077,57.647156
+tree,7,30-60 My,raw,65,0.49230769230769234,68.01895
+tree,7,30-60 My,raw+taxonomy,65,0.5292307692307692,61.53572
+tree,7,30-60 My,raw+treecap90,65,0.5199999999999999,63.384842
+tree,7,>= 60 My,alignment nearest,32,0.5625,85.49459
+tree,7,>= 60 My,phylo,32,0.5625,86.27432
+tree,7,>= 60 My,raw,32,0.28125,91.41184
+tree,7,>= 60 My,raw+taxonomy,32,0.36875,86.855255
+tree,7,>= 60 My,raw+treecap90,32,0.42499999999999993,88.21591
+tree,8,< 30 My,alignment nearest,240,0.9916666666666667,35.394424
+tree,8,< 30 My,phylo,240,0.9916666666666667,32.955456
+tree,8,< 30 My,raw,240,0.9875,34.736835
+tree,8,< 30 My,raw+taxonomy,240,0.9758333333333333,33.196804
+tree,8,< 30 My,raw+treecap90,240,0.9541666666666667,34.097225
+tree,8,30-60 My,alignment nearest,62,0.6451612903225806,56.70203
+tree,8,30-60 My,phylo,62,0.6290322580645161,58.65635
+tree,8,30-60 My,raw,62,0.6290322580645161,61.37912
+tree,8,30-60 My,raw+taxonomy,62,0.6451612903225806,56.970867
+tree,8,30-60 My,raw+treecap90,62,0.6612903225806451,59.895382
+tree,8,>= 60 My,alignment nearest,3,0.0,92.320496
+tree,8,>= 60 My,phylo,3,0.0,87.1193
+tree,8,>= 60 My,raw,3,0.0,117.07612
+tree,8,>= 60 My,raw+taxonomy,3,0.0,102.67273
+tree,8,>= 60 My,raw+treecap90,3,0.0,101.11343
+tree,9,< 30 My,alignment nearest,181,1.0,35.18248
+tree,9,< 30 My,phylo,181,1.0,31.326172
+tree,9,< 30 My,raw,181,0.9668508287292817,34.890446
+tree,9,< 30 My,raw+taxonomy,181,0.969060773480663,31.783611
+tree,9,< 30 My,raw+treecap90,181,0.969060773480663,35.52009
+tree,9,30-60 My,alignment nearest,48,1.0,38.869595
+tree,9,30-60 My,phylo,48,0.9791666666666666,37.650303
+tree,9,30-60 My,raw,48,0.7708333333333334,48.542248
+tree,9,30-60 My,raw+taxonomy,48,0.9874999999999999,38.388702
+tree,9,30-60 My,raw+treecap90,48,0.9916666666666667,37.78091
+tree,9,>= 60 My,alignment nearest,10,0.0,72.294495
+tree,9,>= 60 My,phylo,10,0.0,78.50098
+tree,9,>= 60 My,raw,10,0.0,83.60738
+tree,9,>= 60 My,raw+taxonomy,10,0.0,81.254196
+tree,9,>= 60 My,raw+treecap90,10,0.0,80.50485
+tree,10,< 30 My,alignment nearest,149,1.0,37.78971
+tree,10,< 30 My,phylo,149,0.9932885906040269,38.111557
+tree,10,< 30 My,raw,149,0.959731543624161,40.61799
+tree,10,< 30 My,raw+taxonomy,149,0.9879194630872482,38.276585
+tree,10,< 30 My,raw+treecap90,149,0.989261744966443,37.524822
+tree,10,30-60 My,alignment nearest,23,1.0,58.992203
+tree,10,30-60 My,phylo,23,1.0,58.457233
+tree,10,30-60 My,raw,23,1.0,61.897095
+tree,10,30-60 My,raw+taxonomy,23,0.9739130434782609,63.135418
+tree,10,30-60 My,raw+treecap90,23,0.991304347826087,62.14612
+tree,10,>= 60 My,alignment nearest,23,0.7391304347826086,84.90704
+tree,10,>= 60 My,phylo,23,0.7391304347826086,84.35876
+tree,10,>= 60 My,raw,23,0.7391304347826086,84.90704
+tree,10,>= 60 My,raw+taxonomy,23,0.7391304347826086,84.90553
+tree,10,>= 60 My,raw+treecap90,23,0.7391304347826086,84.87643
+tree,11,< 30 My,alignment nearest,178,0.9943820224719101,40.01386
+tree,11,< 30 My,phylo,178,0.9943820224719101,35.974262
+tree,11,< 30 My,raw,178,0.9269662921348315,43.7252
+tree,11,< 30 My,raw+taxonomy,178,0.9764044943820225,39.199295
+tree,11,< 30 My,raw+treecap90,178,0.9674157303370786,36.83094
+tree,11,30-60 My,alignment nearest,45,1.0,46.463894
+tree,11,30-60 My,phylo,45,1.0,46.636845
+tree,11,30-60 My,raw,45,0.5777777777777777,62.304573
+tree,11,30-60 My,raw+taxonomy,45,0.6577777777777778,59.207394
+tree,11,30-60 My,raw+treecap90,45,0.5777777777777777,60.435787
+tree,11,>= 60 My,alignment nearest,36,1.0,77.246994
+tree,11,>= 60 My,phylo,36,1.0,77.246994
+tree,11,>= 60 My,raw,36,0.7222222222222222,79.33206
+tree,11,>= 60 My,raw+taxonomy,36,0.6555555555555556,77.31116
+tree,11,>= 60 My,raw+treecap90,36,0.7333333333333333,77.246994
+tree,12,< 30 My,alignment nearest,129,1.0,27.414255
+tree,12,< 30 My,phylo,129,0.9534883720930233,34.195168
+tree,12,< 30 My,raw,129,0.9922480620155039,26.722256
+tree,12,< 30 My,raw+taxonomy,129,1.0,26.358814
+tree,12,< 30 My,raw+treecap90,129,1.0,25.358229
+tree,12,30-60 My,alignment nearest,66,0.9242424242424242,49.2355
+tree,12,30-60 My,phylo,66,0.9696969696969697,47.92093
+tree,12,30-60 My,raw,66,0.7424242424242424,57.615494
+tree,12,30-60 My,raw+taxonomy,66,0.7848484848484849,54.69171
+tree,12,30-60 My,raw+treecap90,66,0.6818181818181818,57.52545
+tree,12,>= 60 My,alignment nearest,6,0.0,103.25889
+tree,12,>= 60 My,phylo,6,0.0,113.95953
+tree,12,>= 60 My,raw,6,0.0,177.47723
+tree,12,>= 60 My,raw+taxonomy,6,0.0,112.25601
+tree,12,>= 60 My,raw+treecap90,6,0.0,173.42888
+tree,13,< 30 My,alignment nearest,158,1.0,34.17021
+tree,13,< 30 My,phylo,158,0.9873417721518988,34.598602
+tree,13,< 30 My,raw,158,0.9810126582278481,31.121237
+tree,13,< 30 My,raw+taxonomy,158,0.9962025316455697,31.968323
+tree,13,< 30 My,raw+treecap90,158,0.9924050632911393,29.041405
+tree,13,30-60 My,alignment nearest,95,1.0,59.14564
+tree,13,30-60 My,phylo,95,0.8631578947368421,65.33441
+tree,13,30-60 My,raw,95,0.8631578947368421,61.763187
+tree,13,30-60 My,raw+taxonomy,95,0.8863157894736841,60.46176
+tree,13,30-60 My,raw+treecap90,95,0.9494736842105264,62.072468
+tree,13,>= 60 My,alignment nearest,4,0.0,133.13412
+tree,13,>= 60 My,phylo,4,0.0,133.13412
+tree,13,>= 60 My,raw,4,0.0,139.82918
+tree,13,>= 60 My,raw+taxonomy,4,0.0,139.82918
+tree,13,>= 60 My,raw+treecap90,4,0.0,137.15115
+tree,14,< 30 My,alignment nearest,146,0.9657534246575342,33.87294
+tree,14,< 30 My,phylo,146,0.9452054794520548,35.7662
+tree,14,< 30 My,raw,146,0.952054794520548,34.94184
+tree,14,< 30 My,raw+taxonomy,146,0.9657534246575342,34.013767
+tree,14,< 30 My,raw+treecap90,146,0.9657534246575342,32.08596
+tree,14,30-60 My,alignment nearest,71,0.7323943661971831,65.05594
+tree,14,30-60 My,phylo,71,0.647887323943662,66.11023
+tree,14,30-60 My,raw,71,0.5070422535211268,76.19955
+tree,14,30-60 My,raw+taxonomy,71,0.5098591549295775,75.04309
+tree,14,30-60 My,raw+treecap90,71,0.504225352112676,71.5883
+tree,14,>= 60 My,alignment nearest,20,0.65,79.04099
+tree,14,>= 60 My,phylo,20,0.65,75.621544
+tree,14,>= 60 My,raw,20,0.65,79.04099
+tree,14,>= 60 My,raw+taxonomy,20,0.65,81.71617
+tree,14,>= 60 My,raw+treecap90,20,0.65,81.94374
+tree,15,< 30 My,alignment nearest,195,0.9846153846153847,36.966465
+tree,15,< 30 My,phylo,195,1.0,36.830563
+tree,15,< 30 My,raw,195,0.9435897435897436,39.193123
+tree,15,< 30 My,raw+taxonomy,195,0.9815384615384616,37.932602
+tree,15,< 30 My,raw+treecap90,195,0.9805128205128204,34.245827
+tree,15,30-60 My,alignment nearest,59,0.9152542372881356,67.5584
+tree,15,30-60 My,phylo,59,0.9152542372881356,65.24381
+tree,15,30-60 My,raw,59,0.847457627118644,60.917843
+tree,15,30-60 My,raw+taxonomy,59,0.9186440677966101,56.6154
+tree,15,30-60 My,raw+treecap90,59,0.9457627118644067,54.508778
+tree,15,>= 60 My,alignment nearest,3,0.0,88.05859
+tree,15,>= 60 My,phylo,3,0.0,82.85739
+tree,15,>= 60 My,raw,3,0.0,117.07612
+tree,15,>= 60 My,raw+taxonomy,3,0.0,88.613686
+tree,15,>= 60 My,raw+treecap90,3,0.0,105.437096
+tree,16,< 30 My,alignment nearest,165,1.0,43.858364
+tree,16,< 30 My,phylo,165,0.9818181818181818,45.418926
+tree,16,< 30 My,raw,165,0.9636363636363636,47.822315
+tree,16,< 30 My,raw+taxonomy,165,0.9866666666666667,45.860615
+tree,16,< 30 My,raw+treecap90,165,0.9939393939393939,44.577698
+tree,16,30-60 My,alignment nearest,62,0.9516129032258065,47.26325
+tree,16,30-60 My,phylo,62,1.0,45.30616
+tree,16,30-60 My,raw,62,0.6774193548387096,59.003807
+tree,16,30-60 My,raw+taxonomy,62,0.7838709677419355,53.87585
+tree,16,30-60 My,raw+treecap90,62,0.9096774193548387,49.167618
+tree,16,>= 60 My,alignment nearest,17,0.47058823529411764,92.862175
+tree,16,>= 60 My,phylo,17,0.47058823529411764,92.862175
+tree,16,>= 60 My,raw,17,0.47058823529411764,126.87764
+tree,16,>= 60 My,raw+taxonomy,17,0.47058823529411764,120.87142
+tree,16,>= 60 My,raw+treecap90,17,0.47058823529411764,117.119255
+tree,17,< 30 My,alignment nearest,137,0.9927007299270073,49.18172
+tree,17,< 30 My,phylo,137,0.9927007299270073,46.712982
+tree,17,< 30 My,raw,137,0.9927007299270073,47.664883
+tree,17,< 30 My,raw+taxonomy,137,0.9927007299270073,47.350243
+tree,17,< 30 My,raw+treecap90,137,0.9927007299270073,42.895126
+tree,17,30-60 My,alignment nearest,102,0.9509803921568627,49.560326
+tree,17,30-60 My,phylo,102,0.9509803921568627,52.982346
+tree,17,30-60 My,raw,102,0.7843137254901961,56.529633
+tree,17,30-60 My,raw+taxonomy,102,0.9450980392156864,51.155144
+tree,17,30-60 My,raw+treecap90,102,0.9509803921568627,49.001293
+tree,17,>= 60 My,alignment nearest,20,0.2,99.42142
+tree,17,>= 60 My,phylo,20,0.0,92.16368
+tree,17,>= 60 My,raw,20,0.1,124.15149
+tree,17,>= 60 My,raw+taxonomy,20,0.25,112.196556
+tree,17,>= 60 My,raw+treecap90,20,0.24,115.5114
+tree,18,< 30 My,alignment nearest,152,0.9671052631578947,36.55781
+tree,18,< 30 My,phylo,152,0.9539473684210527,34.40391
+tree,18,< 30 My,raw,152,0.9671052631578947,35.363945
+tree,18,< 30 My,raw+taxonomy,152,0.9671052631578947,35.236732
+tree,18,< 30 My,raw+treecap90,152,0.9578947368421052,32.363983
+tree,18,30-60 My,alignment nearest,60,0.9,65.43244
+tree,18,30-60 My,phylo,60,0.95,64.652885
+tree,18,30-60 My,raw,60,0.9,56.835228
+tree,18,30-60 My,raw+taxonomy,60,0.8933333333333332,56.66788
+tree,18,30-60 My,raw+treecap90,60,0.89,58.509567
+tree,18,>= 60 My,alignment nearest,9,0.0,113.22581
+tree,18,>= 60 My,phylo,9,0.0,113.22581
+tree,18,>= 60 My,raw,9,0.0,177.47723
+tree,18,>= 60 My,raw+taxonomy,9,0.0,167.64926
+tree,18,>= 60 My,raw+treecap90,9,0.0,170.3382
+tree,19,< 30 My,alignment nearest,194,1.0,39.48214
+tree,19,< 30 My,phylo,194,0.9896907216494846,38.81362
+tree,19,< 30 My,raw,194,1.0,36.144268
+tree,19,< 30 My,raw+taxonomy,194,1.0,37.22926
+tree,19,< 30 My,raw+treecap90,194,0.9917525773195877,35.47647
+tree,19,30-60 My,alignment nearest,66,0.8333333333333334,60.91784
+tree,19,30-60 My,phylo,66,0.8939393939393939,56.603607
+tree,19,30-60 My,raw,66,0.803030303030303,62.363674
+tree,19,30-60 My,raw+taxonomy,66,0.8878787878787879,58.092518
+tree,19,30-60 My,raw+treecap90,66,0.8939393939393939,53.389305
+tree,19,>= 60 My,alignment nearest,11,0.45454545454545453,78.6372
+tree,19,>= 60 My,phylo,11,0.45454545454545453,73.1262
+tree,19,>= 60 My,raw,11,0.45454545454545453,80.02001
+tree,19,>= 60 My,raw+taxonomy,11,0.45454545454545453,77.38681
+tree,19,>= 60 My,raw+treecap90,11,0.45454545454545453,77.86915
+tree,20,< 30 My,alignment nearest,147,1.0,32.4512
+tree,20,< 30 My,phylo,147,0.9863945578231292,33.017864
+tree,20,< 30 My,raw,147,0.9795918367346939,33.720947
+tree,20,< 30 My,raw+taxonomy,147,0.9823129251700681,33.62609
+tree,20,< 30 My,raw+treecap90,147,0.9823129251700681,33.586216
+tree,20,30-60 My,alignment nearest,86,0.7441860465116279,66.90513
+tree,20,30-60 My,phylo,86,0.8023255813953488,61.539677
+tree,20,30-60 My,raw,86,0.5930232558139535,70.76431
+tree,20,30-60 My,raw+taxonomy,86,0.6116279069767442,69.765816
+tree,20,30-60 My,raw+treecap90,86,0.6232558139534883,67.22169
+tree,20,>= 60 My,alignment nearest,25,0.0,77.198135
+tree,20,>= 60 My,phylo,25,0.0,111.27842
+tree,20,>= 60 My,raw,25,0.0,80.86499
+tree,20,>= 60 My,raw+taxonomy,25,0.0,75.17924
+tree,20,>= 60 My,raw+treecap90,25,0.0,74.68809
+tree,21,< 30 My,alignment nearest,124,1.0,34.82634
+tree,21,< 30 My,phylo,124,1.0,39.96539
+tree,21,< 30 My,raw,124,0.9758064516129032,35.743034
+tree,21,< 30 My,raw+taxonomy,124,0.9758064516129032,33.235153
+tree,21,< 30 My,raw+treecap90,124,0.9951612903225807,34.385036
+tree,21,30-60 My,alignment nearest,61,0.9672131147540983,53.283512
+tree,21,30-60 My,phylo,61,1.0,49.218697
+tree,21,30-60 My,raw,61,0.6557377049180327,67.10874
+tree,21,30-60 My,raw+taxonomy,61,0.7836065573770491,61.334717
+tree,21,30-60 My,raw+treecap90,61,0.8819672131147541,56.46699
+tree,21,>= 60 My,alignment nearest,26,0.6923076923076923,90.11808
+tree,21,>= 60 My,phylo,26,0.6923076923076923,90.00155
+tree,21,>= 60 My,raw,26,0.38461538461538464,118.30174
+tree,21,>= 60 My,raw+taxonomy,26,0.5230769230769231,105.929115
+tree,21,>= 60 My,raw+treecap90,26,0.6923076923076923,106.281364
+tree,22,< 30 My,alignment nearest,161,0.968944099378882,36.660435
+tree,22,< 30 My,phylo,161,0.968944099378882,35.627655
+tree,22,< 30 My,raw,161,0.9627329192546584,33.825016
+tree,22,< 30 My,raw+taxonomy,161,0.968944099378882,32.344757
+tree,22,< 30 My,raw+treecap90,161,0.968944099378882,33.613228
+tree,22,30-60 My,alignment nearest,51,0.9215686274509803,62.824726
+tree,22,30-60 My,phylo,51,0.8823529411764706,64.75214
+tree,22,30-60 My,raw,51,0.8823529411764706,64.29345
+tree,22,30-60 My,raw+taxonomy,51,0.8784313725490197,62.050316
+tree,22,30-60 My,raw+treecap90,51,0.9215686274509803,61.05598
+tree,22,>= 60 My,alignment nearest,32,0.6875,73.933495
+tree,22,>= 60 My,phylo,32,0.6875,70.71304
+tree,22,>= 60 My,raw,32,0.84375,70.199356
+tree,22,>= 60 My,raw+taxonomy,32,0.83125,71.070274
+tree,22,>= 60 My,raw+treecap90,32,0.85625,68.230156
+tree,23,< 30 My,alignment nearest,201,1.0,34.62159
+tree,23,< 30 My,phylo,201,1.0,34.97344
+tree,23,< 30 My,raw,201,0.9950248756218906,34.529823
+tree,23,< 30 My,raw+taxonomy,201,0.9890547263681593,34.76525
+tree,23,< 30 My,raw+treecap90,201,0.9870646766169154,34.75164
+tree,23,30-60 My,alignment nearest,59,0.9491525423728814,53.481674
+tree,23,30-60 My,phylo,59,0.9491525423728814,47.872105
+tree,23,30-60 My,raw,59,0.9491525423728814,53.45779
+tree,23,30-60 My,raw+taxonomy,59,0.9491525423728814,55.21923
+tree,23,30-60 My,raw+treecap90,59,0.9491525423728814,51.549477
+tree,23,>= 60 My,alignment nearest,20,0.75,68.59332
+tree,23,>= 60 My,phylo,20,0.4,82.24005
+tree,23,>= 60 My,raw,20,0.55,75.08063
+tree,23,>= 60 My,raw+taxonomy,20,0.7100000000000001,71.93825
+tree,23,>= 60 My,raw+treecap90,20,0.6799999999999999,70.17356
+tree,24,< 30 My,alignment nearest,169,0.9940828402366864,47.482605
+tree,24,< 30 My,phylo,169,0.9940828402366864,37.797985
+tree,24,< 30 My,raw,169,0.9881656804733728,46.534336
+tree,24,< 30 My,raw+taxonomy,169,0.9869822485207101,42.821663
+tree,24,< 30 My,raw+treecap90,169,0.9893491124260354,36.15054
+tree,24,30-60 My,alignment nearest,36,0.9166666666666666,59.20453
+tree,24,30-60 My,phylo,36,1.0,58.341072
+tree,24,30-60 My,raw,36,0.9166666666666666,61.037693
+tree,24,30-60 My,raw+taxonomy,36,0.911111111111111,59.043877
+tree,24,30-60 My,raw+treecap90,36,0.9166666666666666,57.209892
+tree,24,>= 60 My,alignment nearest,11,0.7272727272727273,74.19148
+tree,24,>= 60 My,phylo,11,0.7272727272727273,71.115036
+tree,24,>= 60 My,raw,11,0.7272727272727273,74.19148
+tree,24,>= 60 My,raw+taxonomy,11,0.7272727272727273,73.98638
+tree,24,>= 60 My,raw+treecap90,11,0.7272727272727273,74.19148
+tree,25,< 30 My,alignment nearest,113,1.0,32.685036
+tree,25,< 30 My,phylo,113,0.9911504424778761,32.205658
+tree,25,< 30 My,raw,113,0.9823008849557522,33.184986
+tree,25,< 30 My,raw+taxonomy,113,0.9946902654867257,32.287357
+tree,25,< 30 My,raw+treecap90,113,1.0,29.173567
+tree,25,30-60 My,alignment nearest,34,1.0,49.911633
+tree,25,30-60 My,phylo,34,1.0,51.634014
+tree,25,30-60 My,raw,34,1.0,50.996944
+tree,25,30-60 My,raw+taxonomy,34,1.0,51.151207
+tree,25,30-60 My,raw+treecap90,34,1.0,51.421154
+tree,25,>= 60 My,alignment nearest,42,0.5476190476190477,84.665955
+tree,25,>= 60 My,phylo,42,0.4523809523809524,84.00577
+tree,25,>= 60 My,raw,42,0.2857142857142857,103.626724
+tree,25,>= 60 My,raw+taxonomy,42,0.4428571428571429,93.14841
+tree,25,>= 60 My,raw+treecap90,42,0.4238095238095238,94.07654
+tree,26,< 30 My,alignment nearest,167,1.0,39.579605
+tree,26,< 30 My,phylo,167,0.9520958083832335,39.659138
+tree,26,< 30 My,raw,167,0.9700598802395209,37.73496
+tree,26,< 30 My,raw+taxonomy,167,0.991616766467066,34.986122
+tree,26,< 30 My,raw+treecap90,167,0.97125748502994,33.828796
+tree,26,30-60 My,alignment nearest,44,0.5909090909090909,74.28542
+tree,26,30-60 My,phylo,44,0.7045454545454546,60.53756
+tree,26,30-60 My,raw,44,0.4772727272727273,73.01733
+tree,26,30-60 My,raw+taxonomy,44,0.5818181818181818,67.47868
+tree,26,30-60 My,raw+treecap90,44,0.5909090909090909,63.2019
+tree,26,>= 60 My,alignment nearest,27,0.6296296296296297,71.13196
+tree,26,>= 60 My,phylo,27,0.6666666666666666,71.34356
+tree,26,>= 60 My,raw,27,0.7037037037037037,71.65569
+tree,26,>= 60 My,raw+taxonomy,27,0.8074074074074075,68.335365
+tree,26,>= 60 My,raw+treecap90,27,0.8,67.69442
+tree,27,< 30 My,alignment nearest,193,1.0,49.84716
+tree,27,< 30 My,phylo,193,0.9896373056994818,48.8261
+tree,27,< 30 My,raw,193,0.9896373056994818,47.132717
+tree,27,< 30 My,raw+taxonomy,193,1.0,46.5027
+tree,27,< 30 My,raw+treecap90,193,0.9896373056994818,46.085876
+tree,27,30-60 My,alignment nearest,51,1.0,45.938
+tree,27,30-60 My,phylo,51,1.0,52.904785
+tree,27,30-60 My,raw,51,0.6666666666666666,56.653503
+tree,27,30-60 My,raw+taxonomy,51,0.8666666666666667,52.28083
+tree,27,30-60 My,raw+treecap90,51,0.9882352941176472,44.704384
+tree,27,>= 60 My,alignment nearest,31,0.7096774193548387,70.43297
+tree,27,>= 60 My,phylo,31,0.7096774193548387,68.784164
+tree,27,>= 60 My,raw,31,0.7096774193548387,72.10446
+tree,27,>= 60 My,raw+taxonomy,31,0.7096774193548387,70.87869
+tree,27,>= 60 My,raw+treecap90,31,0.7096774193548387,70.5444
+tree,28,< 30 My,alignment nearest,160,1.0,33.516838
+tree,28,< 30 My,phylo,160,0.9875,32.505684
+tree,28,< 30 My,raw,160,0.89375,37.52239
+tree,28,< 30 My,raw+taxonomy,160,0.9600000000000002,32.450157
+tree,28,< 30 My,raw+treecap90,160,0.9649999999999999,30.81719
+tree,28,30-60 My,alignment nearest,61,0.9836065573770492,57.861748
+tree,28,30-60 My,phylo,61,0.9836065573770492,53.23807
+tree,28,30-60 My,raw,61,0.9836065573770492,52.82266
+tree,28,30-60 My,raw+taxonomy,61,0.9540983606557377,53.54764
+tree,28,30-60 My,raw+treecap90,61,0.9672131147540983,53.660145
+tree,28,>= 60 My,alignment nearest,10,0.1,110.03196
+tree,28,>= 60 My,phylo,10,0.1,110.317604
+tree,28,>= 60 My,raw,10,0.1,167.85823
+tree,28,>= 60 My,raw+taxonomy,10,0.1,164.07281
+tree,28,>= 60 My,raw+treecap90,10,0.1,162.71811
+tree,29,< 30 My,alignment nearest,179,1.0,40.481487
+tree,29,< 30 My,phylo,179,1.0,44.253292
+tree,29,< 30 My,raw,179,0.9888268156424581,41.330963
+tree,29,< 30 My,raw+taxonomy,179,1.0,39.946278
+tree,29,< 30 My,raw+treecap90,179,1.0,38.987297
+tree,29,30-60 My,alignment nearest,65,0.7076923076923077,56.75335
+tree,29,30-60 My,phylo,65,0.7538461538461538,55.150238
+tree,29,30-60 My,raw,65,0.4461538461538462,71.113464
+tree,29,30-60 My,raw+taxonomy,65,0.6646153846153845,62.120857
+tree,29,30-60 My,raw+treecap90,65,0.6984615384615386,59.581196
+tree,29,>= 60 My,alignment nearest,13,0.9230769230769231,76.09015
+tree,29,>= 60 My,phylo,13,0.9230769230769231,75.8571
+tree,29,>= 60 My,raw,13,0.9230769230769231,80.943245
+tree,29,>= 60 My,raw+taxonomy,13,0.9230769230769231,78.03139
+tree,29,>= 60 My,raw+treecap90,13,0.9230769230769231,79.972626
+tree,30,< 30 My,alignment nearest,172,0.9941860465116279,36.84255
+tree,30,< 30 My,phylo,172,0.9941860465116279,36.971992
+tree,30,< 30 My,raw,172,0.9593023255813954,38.656975
+tree,30,< 30 My,raw+taxonomy,172,0.9662790697674418,36.49564
+tree,30,< 30 My,raw+treecap90,172,0.9534883720930233,34.68845
+tree,30,30-60 My,alignment nearest,20,0.7,72.1234
+tree,30,30-60 My,phylo,20,0.7,71.480156
+tree,30,30-60 My,raw,20,0.7,73.23222
+tree,30,30-60 My,raw+taxonomy,20,0.73,71.18162
+tree,30,30-60 My,raw+treecap90,20,0.74,69.501724
+tree,30,>= 60 My,alignment nearest,34,0.6176470588235294,79.90306
+tree,30,>= 60 My,phylo,34,0.5882352941176471,80.39383
+tree,30,>= 60 My,raw,34,0.7058823529411765,81.38531
+tree,30,>= 60 My,raw+taxonomy,34,0.7529411764705882,79.57378
+tree,30,>= 60 My,raw+treecap90,34,0.7529411764705882,78.769806
+seq,1,Q1 (closest),alignment nearest,59,1.0,39.904034
+seq,1,Q1 (closest),phylo,59,1.0,38.855484
+seq,1,Q1 (closest),raw,59,1.0,37.801975
+seq,1,Q1 (closest),raw+taxonomy,59,1.0,39.098663
+seq,1,Q1 (closest),raw+treecap90,59,1.0,39.065197
+seq,1,Q2,alignment nearest,51,1.0,45.97709
+seq,1,Q2,phylo,51,1.0,46.550877
+seq,1,Q2,raw,51,1.0,46.141876
+seq,1,Q2,raw+taxonomy,51,1.0,44.93018
+seq,1,Q2,raw+treecap90,51,1.0,44.447647
+seq,1,Q3,alignment nearest,65,1.0,55.49724
+seq,1,Q3,phylo,65,1.0,48.95984
+seq,1,Q3,raw,65,0.9384615384615385,43.92688
+seq,1,Q3,raw+taxonomy,65,1.0,44.4343
+seq,1,Q3,raw+treecap90,65,1.0,35.076965
+seq,1,Q4 (most isolated),alignment nearest,103,0.6310679611650486,70.554
+seq,1,Q4 (most isolated),phylo,103,0.6310679611650486,78.47567
+seq,1,Q4 (most isolated),raw,103,0.36893203883495146,80.93785
+seq,1,Q4 (most isolated),raw+taxonomy,103,0.4330097087378641,76.2796
+seq,1,Q4 (most isolated),raw+treecap90,103,0.4815533980582524,74.82595
+seq,2,Q1 (closest),alignment nearest,92,1.0,37.9598
+seq,2,Q1 (closest),phylo,92,1.0,37.9598
+seq,2,Q1 (closest),raw,92,1.0,36.677624
+seq,2,Q1 (closest),raw+taxonomy,92,1.0,33.98505
+seq,2,Q1 (closest),raw+treecap90,92,1.0,38.72911
+seq,2,Q2,alignment nearest,78,1.0,27.696869
+seq,2,Q2,phylo,78,1.0,26.19436
+seq,2,Q2,raw,78,1.0,25.37717
+seq,2,Q2,raw+taxonomy,78,1.0,25.29449
+seq,2,Q2,raw+treecap90,78,1.0,27.307638
+seq,2,Q3,alignment nearest,44,1.0,52.207363
+seq,2,Q3,phylo,44,1.0,45.455
+seq,2,Q3,raw,44,1.0,41.970074
+seq,2,Q3,raw+taxonomy,44,1.0,41.256496
+seq,2,Q3,raw+treecap90,44,1.0,38.246735
+seq,2,Q4 (most isolated),alignment nearest,57,0.9298245614035088,54.359238
+seq,2,Q4 (most isolated),phylo,57,0.9298245614035088,51.114506
+seq,2,Q4 (most isolated),raw,57,0.5263157894736842,71.37426
+seq,2,Q4 (most isolated),raw+taxonomy,57,0.7543859649122807,64.64642
+seq,2,Q4 (most isolated),raw+treecap90,57,0.8456140350877193,59.562225
+seq,3,Q1 (closest),alignment nearest,25,1.0,30.08454
+seq,3,Q1 (closest),phylo,25,1.0,28.800295
+seq,3,Q1 (closest),raw,25,1.0,30.08454
+seq,3,Q1 (closest),raw+taxonomy,25,1.0,29.827688
+seq,3,Q1 (closest),raw+treecap90,25,1.0,30.08454
+seq,3,Q2,alignment nearest,64,1.0,40.716072
+seq,3,Q2,phylo,64,1.0,39.612396
+seq,3,Q2,raw,64,1.0,39.235252
+seq,3,Q2,raw+taxonomy,64,1.0,39.237442
+seq,3,Q2,raw+treecap90,64,1.0,40.253777
+seq,3,Q3,alignment nearest,73,0.8904109589041096,39.361443
+seq,3,Q3,phylo,73,0.8904109589041096,36.82211
+seq,3,Q3,raw,73,0.8356164383561644,43.677956
+seq,3,Q3,raw+taxonomy,73,0.8904109589041096,39.963905
+seq,3,Q3,raw+treecap90,73,0.8904109589041096,36.732246
+seq,3,Q4 (most isolated),alignment nearest,68,0.8970588235294118,60.92833
+seq,3,Q4 (most isolated),phylo,68,0.9411764705882353,62.647915
+seq,3,Q4 (most isolated),raw,68,0.7647058823529411,67.962
+seq,3,Q4 (most isolated),raw+taxonomy,68,0.9029411764705882,60.13495
+seq,3,Q4 (most isolated),raw+treecap90,68,0.8794117647058823,60.9573
+seq,4,Q1 (closest),alignment nearest,60,1.0,26.971945
+seq,4,Q1 (closest),phylo,60,1.0,31.800207
+seq,4,Q1 (closest),raw,60,1.0,26.984692
+seq,4,Q1 (closest),raw+taxonomy,60,1.0,26.984692
+seq,4,Q1 (closest),raw+treecap90,60,1.0,26.984692
+seq,4,Q2,alignment nearest,53,1.0,42.101147
+seq,4,Q2,phylo,53,1.0,42.101147
+seq,4,Q2,raw,53,1.0,42.74201
+seq,4,Q2,raw+taxonomy,53,1.0,42.455914
+seq,4,Q2,raw+treecap90,53,1.0,43.120922
+seq,4,Q3,alignment nearest,39,1.0,31.531641
+seq,4,Q3,phylo,39,1.0,32.318558
+seq,4,Q3,raw,39,0.9743589743589743,34.13599
+seq,4,Q3,raw+taxonomy,39,1.0,33.02507
+seq,4,Q3,raw+treecap90,39,0.9948717948717948,32.523827
+seq,4,Q4 (most isolated),alignment nearest,91,0.26373626373626374,79.66651
+seq,4,Q4 (most isolated),phylo,91,0.42857142857142855,89.645004
+seq,4,Q4 (most isolated),raw,91,0.2857142857142857,94.391205
+seq,4,Q4 (most isolated),raw+taxonomy,91,0.3912087912087912,84.3383
+seq,4,Q4 (most isolated),raw+treecap90,91,0.29890109890109895,84.2255
+seq,5,Q1 (closest),alignment nearest,76,1.0,48.01205
+seq,5,Q1 (closest),phylo,76,1.0,48.022114
+seq,5,Q1 (closest),raw,76,1.0,46.47
+seq,5,Q1 (closest),raw+taxonomy,76,1.0,42.589725
+seq,5,Q1 (closest),raw+treecap90,76,1.0,49.211147
+seq,5,Q2,alignment nearest,70,1.0,41.42687
+seq,5,Q2,phylo,70,1.0,39.071106
+seq,5,Q2,raw,70,1.0,38.257412
+seq,5,Q2,raw+taxonomy,70,1.0,38.18208
+seq,5,Q2,raw+treecap90,70,1.0,40.751614
+seq,5,Q3,alignment nearest,30,0.7666666666666667,46.069748
+seq,5,Q3,phylo,30,0.8666666666666667,41.021725
+seq,5,Q3,raw,30,0.7666666666666667,51.85033
+seq,5,Q3,raw+taxonomy,30,0.7533333333333334,48.987637
+seq,5,Q3,raw+treecap90,30,0.7666666666666667,48.03278
+seq,5,Q4 (most isolated),alignment nearest,85,0.6823529411764706,76.82129
+seq,5,Q4 (most isolated),phylo,85,0.8117647058823529,69.11473
+seq,5,Q4 (most isolated),raw,85,0.5647058823529412,78.30078
+seq,5,Q4 (most isolated),raw+taxonomy,85,0.6494117647058824,73.36139
+seq,5,Q4 (most isolated),raw+treecap90,85,0.6305882352941178,72.07849
+seq,6,Q1 (closest),alignment nearest,72,1.0,45.801712
+seq,6,Q1 (closest),phylo,72,1.0,45.355793
+seq,6,Q1 (closest),raw,72,1.0,45.801712
+seq,6,Q1 (closest),raw+taxonomy,72,1.0,45.824497
+seq,6,Q1 (closest),raw+treecap90,72,1.0,45.712524
+seq,6,Q2,alignment nearest,70,1.0,44.579144
+seq,6,Q2,phylo,70,1.0,45.05666
+seq,6,Q2,raw,70,1.0,45.238342
+seq,6,Q2,raw+taxonomy,70,1.0,45.02152
+seq,6,Q2,raw+treecap90,70,1.0,44.60793
+seq,6,Q3,alignment nearest,46,0.8478260869565217,53.987114
+seq,6,Q3,phylo,46,0.8478260869565217,49.732174
+seq,6,Q3,raw,46,0.782608695652174,60.787975
+seq,6,Q3,raw+taxonomy,46,0.8478260869565217,55.57165
+seq,6,Q3,raw+treecap90,46,0.8478260869565217,50.744984
+seq,6,Q4 (most isolated),alignment nearest,50,0.72,57.31552
+seq,6,Q4 (most isolated),phylo,50,0.72,56.466488
+seq,6,Q4 (most isolated),raw,50,0.44,73.59735
+seq,6,Q4 (most isolated),raw+taxonomy,50,0.696,60.250034
+seq,6,Q4 (most isolated),raw+treecap90,50,0.792,57.473858
+seq,7,Q1 (closest),alignment nearest,56,1.0,34.98158
+seq,7,Q1 (closest),phylo,56,1.0,34.408257
+seq,7,Q1 (closest),raw,56,1.0,35.1657
+seq,7,Q1 (closest),raw+taxonomy,56,1.0,35.315178
+seq,7,Q1 (closest),raw+treecap90,56,1.0,35.34982
+seq,7,Q2,alignment nearest,68,1.0,41.16751
+seq,7,Q2,phylo,68,1.0,41.629738
+seq,7,Q2,raw,68,1.0,41.52372
+seq,7,Q2,raw+taxonomy,68,1.0,41.38124
+seq,7,Q2,raw+treecap90,68,1.0,30.498632
+seq,7,Q3,alignment nearest,43,1.0,36.34127
+seq,7,Q3,phylo,43,1.0,38.38728
+seq,7,Q3,raw,43,1.0,36.49607
+seq,7,Q3,raw+taxonomy,43,1.0,37.016872
+seq,7,Q3,raw+treecap90,43,0.9953488372093022,35.815758
+seq,7,Q4 (most isolated),alignment nearest,90,0.5222222222222223,70.27934
+seq,7,Q4 (most isolated),phylo,90,0.6111111111111112,68.73699
+seq,7,Q4 (most isolated),raw,90,0.36666666666666664,78.960625
+seq,7,Q4 (most isolated),raw+taxonomy,90,0.42444444444444446,72.415825
+seq,7,Q4 (most isolated),raw+treecap90,90,0.43777777777777777,73.92653
+seq,8,Q1 (closest),alignment nearest,74,1.0,26.542242
+seq,8,Q1 (closest),phylo,74,1.0,24.958517
+seq,8,Q1 (closest),raw,74,1.0,24.958517
+seq,8,Q1 (closest),raw+taxonomy,74,1.0,21.929804
+seq,8,Q1 (closest),raw+treecap90,74,1.0,27.349606
+seq,8,Q2,alignment nearest,81,1.0,42.34069
+seq,8,Q2,phylo,81,1.0,40.62624
+seq,8,Q2,raw,81,1.0,39.448334
+seq,8,Q2,raw+taxonomy,81,1.0,39.46572
+seq,8,Q2,raw+treecap90,81,1.0,39.806477
+seq,8,Q3,alignment nearest,95,0.968421052631579,37.809307
+seq,8,Q3,phylo,95,0.9789473684210527,34.336433
+seq,8,Q3,raw,95,0.9473684210526315,40.652092
+seq,8,Q3,raw+taxonomy,95,0.9431578947368421,37.825733
+seq,8,Q3,raw+treecap90,95,0.8863157894736841,35.808628
+seq,8,Q4 (most isolated),alignment nearest,55,0.5636363636363636,60.028072
+seq,8,Q4 (most isolated),phylo,55,0.5272727272727272,61.958977
+seq,8,Q4 (most isolated),raw,55,0.5636363636363636,65.26146
+seq,8,Q4 (most isolated),raw+taxonomy,55,0.5381818181818182,61.71767
+seq,8,Q4 (most isolated),raw+treecap90,55,0.56,64.54859
+seq,9,Q1 (closest),alignment nearest,64,1.0,33.577522
+seq,9,Q1 (closest),phylo,64,1.0,30.855612
+seq,9,Q1 (closest),raw,64,1.0,30.812824
+seq,9,Q1 (closest),raw+taxonomy,64,1.0,28.048126
+seq,9,Q1 (closest),raw+treecap90,64,1.0,34.130463
+seq,9,Q2,alignment nearest,55,1.0,36.160717
+seq,9,Q2,phylo,55,1.0,35.08835
+seq,9,Q2,raw,55,1.0,33.614758
+seq,9,Q2,raw+taxonomy,55,1.0,32.21825
+seq,9,Q2,raw+treecap90,55,1.0,36.173805
+seq,9,Q3,alignment nearest,71,0.9577464788732394,33.66499
+seq,9,Q3,phylo,71,0.9577464788732394,26.844671
+seq,9,Q3,raw,71,0.9577464788732394,33.75629
+seq,9,Q3,raw+taxonomy,71,0.9211267605633804,32.286198
+seq,9,Q3,raw+treecap90,71,0.9295774647887324,33.03649
+seq,9,Q4 (most isolated),alignment nearest,49,0.8571428571428571,49.565277
+seq,9,Q4 (most isolated),phylo,49,0.8367346938775511,50.03412
+seq,9,Q4 (most isolated),raw,49,0.5102040816326531,66.607
+seq,9,Q4 (most isolated),raw+taxonomy,49,0.7836734693877551,52.012836
+seq,9,Q4 (most isolated),raw+treecap90,49,0.7755102040816326,51.595276
+seq,10,Q1 (closest),alignment nearest,60,1.0,40.348423
+seq,10,Q1 (closest),phylo,60,1.0,40.348423
+seq,10,Q1 (closest),raw,60,1.0,40.348423
+seq,10,Q1 (closest),raw+taxonomy,60,1.0,40.348423
+seq,10,Q1 (closest),raw+treecap90,60,1.0,40.348423
+seq,10,Q2,alignment nearest,50,1.0,52.34517
+seq,10,Q2,phylo,50,1.0,52.844913
+seq,10,Q2,raw,50,1.0,52.844913
+seq,10,Q2,raw+taxonomy,50,1.0,52.228256
+seq,10,Q2,raw+treecap90,50,1.0,49.63419
+seq,10,Q3,alignment nearest,57,0.9824561403508771,33.44134
+seq,10,Q3,phylo,57,0.9824561403508771,32.68189
+seq,10,Q3,raw,57,0.9122807017543859,38.414772
+seq,10,Q3,raw+taxonomy,57,0.9824561403508771,34.135548
+seq,10,Q3,raw+treecap90,57,0.9824561403508771,34.472042
+seq,10,Q4 (most isolated),alignment nearest,28,0.8214285714285714,71.28679
+seq,10,Q4 (most isolated),phylo,28,0.7857142857142857,72.7633
+seq,10,Q4 (most isolated),raw,28,0.75,77.706535
+seq,10,Q4 (most isolated),raw+taxonomy,28,0.7357142857142858,76.07532
+seq,10,Q4 (most isolated),raw+treecap90,28,0.7571428571428572,75.18556
+seq,11,Q1 (closest),alignment nearest,50,1.0,47.72611
+seq,11,Q1 (closest),phylo,50,1.0,47.72611
+seq,11,Q1 (closest),raw,50,1.0,47.72611
+seq,11,Q1 (closest),raw+taxonomy,50,1.0,47.767353
+seq,11,Q1 (closest),raw+treecap90,50,1.0,47.808594
+seq,11,Q2,alignment nearest,58,1.0,41.82071
+seq,11,Q2,phylo,58,1.0,39.10427
+seq,11,Q2,raw,58,1.0,41.541317
+seq,11,Q2,raw+taxonomy,58,1.0,41.568485
+seq,11,Q2,raw+treecap90,58,1.0,39.768272
+seq,11,Q3,alignment nearest,90,1.0,39.60927
+seq,11,Q3,phylo,90,1.0,33.37045
+seq,11,Q3,raw,90,0.8666666666666667,46.77281
+seq,11,Q3,raw+taxonomy,90,0.9644444444444445,37.781143
+seq,11,Q3,raw+treecap90,90,0.9466666666666665,34.582478
+seq,11,Q4 (most isolated),alignment nearest,61,0.9836065573770492,59.303154
+seq,11,Q4 (most isolated),phylo,61,0.9836065573770492,59.430748
+seq,11,Q4 (most isolated),raw,61,0.5081967213114754,72.74578
+seq,11,Q4 (most isolated),raw+taxonomy,61,0.5278688524590165,69.268295
+seq,11,Q4 (most isolated),raw+treecap90,61,0.5147540983606557,69.622894
+seq,12,Q1 (closest),alignment nearest,59,1.0,24.982538
+seq,12,Q1 (closest),phylo,59,1.0,23.93399
+seq,12,Q1 (closest),raw,59,1.0,23.996323
+seq,12,Q1 (closest),raw+taxonomy,59,1.0,24.846092
+seq,12,Q1 (closest),raw+treecap90,59,1.0,23.926567
+seq,12,Q2,alignment nearest,45,1.0,36.560936
+seq,12,Q2,phylo,45,1.0,36.560936
+seq,12,Q2,raw,45,1.0,34.000736
+seq,12,Q2,raw+taxonomy,45,1.0,33.872574
+seq,12,Q2,raw+treecap90,45,1.0,31.863813
+seq,12,Q3,alignment nearest,50,1.0,33.50791
+seq,12,Q3,phylo,50,0.88,52.239944
+seq,12,Q3,raw,50,1.0,34.676983
+seq,12,Q3,raw+taxonomy,50,1.0,33.520645
+seq,12,Q3,raw+treecap90,50,1.0,33.99992
+seq,12,Q4 (most isolated),alignment nearest,47,0.7659574468085106,55.55167
+seq,12,Q4 (most isolated),phylo,47,0.8297872340425532,55.071705
+seq,12,Q4 (most isolated),raw,47,0.48936170212765956,77.34025
+seq,12,Q4 (most isolated),raw+taxonomy,47,0.5702127659574469,64.19698
+seq,12,Q4 (most isolated),raw+treecap90,47,0.425531914893617,75.80699
+seq,13,Q1 (closest),alignment nearest,91,1.0,36.768005
+seq,13,Q1 (closest),phylo,91,1.0,36.088177
+seq,13,Q1 (closest),raw,91,1.0,36.20148
+seq,13,Q1 (closest),raw+taxonomy,91,1.0,36.20148
+seq,13,Q1 (closest),raw+treecap90,91,1.0,36.20148
+seq,13,Q2,alignment nearest,63,1.0,44.51068
+seq,13,Q2,phylo,63,1.0,44.522816
+seq,13,Q2,raw,63,1.0,44.597675
+seq,13,Q2,raw+taxonomy,63,1.0,43.389355
+seq,13,Q2,raw+treecap90,63,1.0,45.79435
+seq,13,Q3,alignment nearest,36,1.0,51.31044
+seq,13,Q3,phylo,36,1.0,47.005356
+seq,13,Q3,raw,36,1.0,35.03392
+seq,13,Q3,raw+taxonomy,36,1.0,45.282635
+seq,13,Q3,raw+treecap90,36,0.9888888888888887,31.321098
+seq,13,Q4 (most isolated),alignment nearest,67,0.9402985074626866,53.030304
+seq,13,Q4 (most isolated),phylo,67,0.7164179104477612,66.04073
+seq,13,Q4 (most isolated),raw,67,0.7014925373134329,59.384563
+seq,13,Q4 (most isolated),raw+taxonomy,67,0.7701492537313432,55.166267
+seq,13,Q4 (most isolated),raw+treecap90,67,0.8567164179104477,55.62826
+seq,14,Q1 (closest),alignment nearest,53,1.0,34.982834
+seq,14,Q1 (closest),phylo,53,1.0,34.490715
+seq,14,Q1 (closest),raw,53,1.0,33.82449
+seq,14,Q1 (closest),raw+taxonomy,53,1.0,34.76271
+seq,14,Q1 (closest),raw+treecap90,53,1.0,33.33237
+seq,14,Q2,alignment nearest,46,1.0,30.217598
+seq,14,Q2,phylo,46,1.0,33.52694
+seq,14,Q2,raw,46,1.0,30.217598
+seq,14,Q2,raw+taxonomy,46,1.0,28.602005
+seq,14,Q2,raw+treecap90,46,1.0,29.140535
+seq,14,Q3,alignment nearest,56,0.875,43.35791
+seq,14,Q3,phylo,56,0.8214285714285714,43.57586
+seq,14,Q3,raw,56,0.8392857142857143,44.039127
+seq,14,Q3,raw+taxonomy,56,0.875,42.663975
+seq,14,Q3,raw+treecap90,56,0.875,37.870415
+seq,14,Q4 (most isolated),alignment nearest,82,0.7073170731707317,66.745094
+seq,14,Q4 (most isolated),phylo,82,0.6341463414634146,68.507645
+seq,14,Q4 (most isolated),raw,82,0.5121951219512195,78.58045
+seq,14,Q4 (most isolated),raw+taxonomy,82,0.5146341463414634,77.81824
+seq,14,Q4 (most isolated),raw+treecap90,82,0.5097560975609756,75.345985
+seq,15,Q1 (closest),alignment nearest,79,1.0,31.193115
+seq,15,Q1 (closest),phylo,79,1.0,31.193115
+seq,15,Q1 (closest),raw,79,1.0,30.406315
+seq,15,Q1 (closest),raw+taxonomy,79,1.0,30.878397
+seq,15,Q1 (closest),raw+treecap90,79,1.0,30.721033
+seq,15,Q2,alignment nearest,65,1.0,40.30509
+seq,15,Q2,phylo,65,1.0,40.064007
+seq,15,Q2,raw,65,1.0,39.079807
+seq,15,Q2,raw+taxonomy,65,1.0,39.146065
+seq,15,Q2,raw+treecap90,65,1.0,38.986137
+seq,15,Q3,alignment nearest,63,1.0,49.25002
+seq,15,Q3,phylo,63,1.0,50.563084
+seq,15,Q3,raw,63,0.9682539682539683,52.11098
+seq,15,Q3,raw+taxonomy,63,1.0,51.180515
+seq,15,Q3,raw+treecap90,63,1.0,40.216312
+seq,15,Q4 (most isolated),alignment nearest,50,0.78,65.43487
+seq,15,Q4 (most isolated),phylo,50,0.84,60.52051
+seq,15,Q4 (most isolated),raw,50,0.58,67.25524
+seq,15,Q4 (most isolated),raw+taxonomy,50,0.772,55.894947
+seq,15,Q4 (most isolated),raw+treecap90,50,0.8,54.31154
+seq,16,Q1 (closest),alignment nearest,55,1.0,40.170372
+seq,16,Q1 (closest),phylo,55,1.0,40.170372
+seq,16,Q1 (closest),raw,55,1.0,40.170372
+seq,16,Q1 (closest),raw+taxonomy,55,1.0,40.170372
+seq,16,Q1 (closest),raw+treecap90,55,1.0,40.46631
+seq,16,Q2,alignment nearest,67,1.0,56.264343
+seq,16,Q2,phylo,67,1.0,55.121468
+seq,16,Q2,raw,67,1.0,56.430767
+seq,16,Q2,raw+taxonomy,67,1.0,56.288536
+seq,16,Q2,raw+treecap90,67,1.0,55.764843
+seq,16,Q3,alignment nearest,60,1.0,41.061405
+seq,16,Q3,phylo,60,0.95,45.219116
+seq,16,Q3,raw,60,0.95,45.132668
+seq,16,Q3,raw+taxonomy,60,0.9866666666666667,41.67015
+seq,16,Q3,raw+treecap90,60,0.9866666666666667,40.43276
+seq,16,Q4 (most isolated),alignment nearest,62,0.8064516129032258,53.271652
+seq,16,Q4 (most isolated),phylo,62,0.8548387096774194,52.67912
+seq,16,Q4 (most isolated),raw,62,0.4838709677419355,80.76848
+seq,16,Q4 (most isolated),raw+taxonomy,62,0.6161290322580645,72.277534
+seq,16,Q4 (most isolated),raw+treecap90,62,0.761290322580645,64.627144
+seq,17,Q1 (closest),alignment nearest,55,1.0,42.127098
+seq,17,Q1 (closest),phylo,55,1.0,41.54335
+seq,17,Q1 (closest),raw,55,1.0,38.805897
+seq,17,Q1 (closest),raw+taxonomy,55,1.0,38.689144
+seq,17,Q1 (closest),raw+treecap90,55,1.0,40.4665
+seq,17,Q2,alignment nearest,50,1.0,63.94826
+seq,17,Q2,phylo,50,1.0,63.608612
+seq,17,Q2,raw,50,1.0,63.94826
+seq,17,Q2,raw+taxonomy,50,1.0,64.080986
+seq,17,Q2,raw+treecap90,50,1.0,60.580875
+seq,17,Q3,alignment nearest,60,1.0,48.385494
+seq,17,Q3,phylo,60,1.0,45.78611
+seq,17,Q3,raw,60,1.0,47.793324
+seq,17,Q3,raw+taxonomy,60,1.0,46.55112
+seq,17,Q3,raw+treecap90,60,1.0,36.711613
+seq,17,Q4 (most isolated),alignment nearest,94,0.7659574468085106,57.06325
+seq,17,Q4 (most isolated),phylo,94,0.723404255319149,57.815643
+seq,17,Q4 (most isolated),raw,94,0.5638297872340425,69.997925
+seq,17,Q4 (most isolated),raw+taxonomy,94,0.7702127659574469,61.95447
+seq,17,Q4 (most isolated),raw+treecap90,94,0.7744680851063831,60.931866
+seq,18,Q1 (closest),alignment nearest,52,1.0,24.791801
+seq,18,Q1 (closest),phylo,52,1.0,24.791801
+seq,18,Q1 (closest),raw,52,1.0,24.791801
+seq,18,Q1 (closest),raw+taxonomy,52,1.0,24.791801
+seq,18,Q1 (closest),raw+treecap90,52,1.0,24.791801
+seq,18,Q2,alignment nearest,53,1.0,50.21392
+seq,18,Q2,phylo,53,1.0,50.685375
+seq,18,Q2,raw,53,1.0,50.685375
+seq,18,Q2,raw+taxonomy,53,1.0,50.593975
+seq,18,Q2,raw+treecap90,53,1.0,50.22836
+seq,18,Q3,alignment nearest,75,1.0,44.44656
+seq,18,Q3,phylo,75,0.9733333333333334,40.37065
+seq,18,Q3,raw,75,1.0,41.253056
+seq,18,Q3,raw+taxonomy,75,1.0,40.589096
+seq,18,Q3,raw+treecap90,75,0.9813333333333333,35.938187
+seq,18,Q4 (most isolated),alignment nearest,41,0.5121951219512195,78.48201
+seq,18,Q4 (most isolated),phylo,41,0.5853658536585366,76.20251
+seq,18,Q4 (most isolated),raw,41,0.5121951219512195,80.81099
+seq,18,Q4 (most isolated),raw+taxonomy,41,0.5024390243902439,79.26984
+seq,18,Q4 (most isolated),raw+treecap90,41,0.49756097560975615,80.88542
+seq,19,Q1 (closest),alignment nearest,78,1.0,46.891953
+seq,19,Q1 (closest),phylo,78,1.0,46.891953
+seq,19,Q1 (closest),raw,78,1.0,41.817905
+seq,19,Q1 (closest),raw+taxonomy,78,1.0,41.817905
+seq,19,Q1 (closest),raw+treecap90,78,1.0,41.97403
+seq,19,Q2,alignment nearest,78,1.0,32.39827
+seq,19,Q2,phylo,78,1.0,32.11458
+seq,19,Q2,raw,78,1.0,31.744316
+seq,19,Q2,raw+taxonomy,78,1.0,31.92313
+seq,19,Q2,raw+treecap90,78,1.0,30.023975
+seq,19,Q3,alignment nearest,66,0.8939393939393939,53.90413
+seq,19,Q3,phylo,66,0.8636363636363636,51.978767
+seq,19,Q3,raw,66,0.8939393939393939,50.6479
+seq,19,Q3,raw+taxonomy,66,0.8939393939393939,53.81551
+seq,19,Q3,raw+treecap90,66,0.8696969696969696,46.92614
+seq,19,Q4 (most isolated),alignment nearest,49,0.7959183673469388,57.200256
+seq,19,Q4 (most isolated),phylo,49,0.8775510204081632,50.550213
+seq,19,Q4 (most isolated),raw,49,0.7551020408163265,59.746872
+seq,19,Q4 (most isolated),raw+taxonomy,49,0.8693877551020408,53.147217
+seq,19,Q4 (most isolated),raw+treecap90,49,0.8775510204081632,52.03511
+seq,20,Q1 (closest),alignment nearest,55,1.0,46.61648
+seq,20,Q1 (closest),phylo,55,1.0,46.61648
+seq,20,Q1 (closest),raw,55,1.0,46.61648
+seq,20,Q1 (closest),raw+taxonomy,55,1.0,46.61648
+seq,20,Q1 (closest),raw+treecap90,55,1.0,46.61648
+seq,20,Q2,alignment nearest,58,1.0,41.063675
+seq,20,Q2,phylo,58,1.0,41.20582
+seq,20,Q2,raw,58,1.0,41.23949
+seq,20,Q2,raw+taxonomy,58,1.0,41.132126
+seq,20,Q2,raw+treecap90,58,1.0,41.38361
+seq,20,Q3,alignment nearest,70,1.0,32.8303
+seq,20,Q3,phylo,70,1.0,31.299654
+seq,20,Q3,raw,70,1.0,31.293722
+seq,20,Q3,raw+taxonomy,70,1.0,31.806229
+seq,20,Q3,raw+treecap90,70,1.0,31.87642
+seq,20,Q4 (most isolated),alignment nearest,75,0.37333333333333335,69.47199
+seq,20,Q4 (most isolated),phylo,75,0.41333333333333333,77.10904
+seq,20,Q4 (most isolated),raw,75,0.16,78.906364
+seq,20,Q4 (most isolated),raw+taxonomy,75,0.18666666666666668,75.28494
+seq,20,Q4 (most isolated),raw+treecap90,75,0.2,71.8658
+seq,21,Q1 (closest),alignment nearest,30,1.0,27.639164
+seq,21,Q1 (closest),phylo,30,1.0,27.762096
+seq,21,Q1 (closest),raw,30,1.0,27.639164
+seq,21,Q1 (closest),raw+taxonomy,30,1.0,27.639164
+seq,21,Q1 (closest),raw+treecap90,30,1.0,27.639164
+seq,21,Q2,alignment nearest,41,1.0,44.48339
+seq,21,Q2,phylo,41,1.0,43.793358
+seq,21,Q2,raw,41,1.0,43.65497
+seq,21,Q2,raw+taxonomy,41,1.0,43.357952
+seq,21,Q2,raw+treecap90,41,1.0,43.45493
+seq,21,Q3,alignment nearest,56,1.0,34.647026
+seq,21,Q3,phylo,56,1.0,45.11867
+seq,21,Q3,raw,56,0.9642857142857143,39.907112
+seq,21,Q3,raw+taxonomy,56,0.9464285714285713,38.508972
+seq,21,Q3,raw+treecap90,56,0.9964285714285713,36.91102
+seq,21,Q4 (most isolated),alignment nearest,84,0.8809523809523809,63.316704
+seq,21,Q4 (most isolated),phylo,84,0.9047619047619048,61.226826
+seq,21,Q4 (most isolated),raw,84,0.5476190476190477,80.3308
+seq,21,Q4 (most isolated),raw+taxonomy,84,0.6952380952380952,69.68312
+seq,21,Q4 (most isolated),raw+treecap90,84,0.8142857142857144,68.97266
+seq,22,Q1 (closest),alignment nearest,75,1.0,43.873966
+seq,22,Q1 (closest),phylo,75,1.0,42.30116
+seq,22,Q1 (closest),raw,75,1.0,42.30116
+seq,22,Q1 (closest),raw+taxonomy,75,1.0,38.68371
+seq,22,Q1 (closest),raw+treecap90,75,1.0,43.873966
+seq,22,Q2,alignment nearest,90,1.0,44.840073
+seq,22,Q2,phylo,90,1.0,43.960598
+seq,22,Q2,raw,90,1.0,41.485283
+seq,22,Q2,raw+taxonomy,90,1.0,41.454594
+seq,22,Q2,raw+treecap90,90,1.0,40.73403
+seq,22,Q3,alignment nearest,38,1.0,41.063564
+seq,22,Q3,phylo,38,1.0,43.36075
+seq,22,Q3,raw,38,1.0,36.565018
+seq,22,Q3,raw+taxonomy,38,1.0,37.697723
+seq,22,Q3,raw+treecap90,38,1.0,36.565018
+seq,22,Q4 (most isolated),alignment nearest,41,0.5365853658536586,63.065704
+seq,22,Q4 (most isolated),phylo,41,0.4878048780487805,61.572678
+seq,22,Q4 (most isolated),raw,41,0.5853658536585366,65.25464
+seq,22,Q4 (most isolated),raw+taxonomy,41,0.5951219512195122,62.966244
+seq,22,Q4 (most isolated),raw+treecap90,41,0.6682926829268292,57.630955
+seq,23,Q1 (closest),alignment nearest,68,1.0,36.73046
+seq,23,Q1 (closest),phylo,68,1.0,36.73046
+seq,23,Q1 (closest),raw,68,1.0,36.73046
+seq,23,Q1 (closest),raw+taxonomy,68,1.0,36.73046
+seq,23,Q1 (closest),raw+treecap90,68,1.0,36.73046
+seq,23,Q2,alignment nearest,73,1.0,38.94067
+seq,23,Q2,phylo,73,1.0,38.94067
+seq,23,Q2,raw,73,1.0,38.29244
+seq,23,Q2,raw+taxonomy,73,1.0,38.29244
+seq,23,Q2,raw+treecap90,73,1.0,38.29244
+seq,23,Q3,alignment nearest,87,1.0,34.07367
+seq,23,Q3,phylo,87,1.0,33.940105
+seq,23,Q3,raw,87,1.0,34.028877
+seq,23,Q3,raw+taxonomy,87,1.0,34.910206
+seq,23,Q3,raw+treecap90,87,1.0,32.58141
+seq,23,Q4 (most isolated),alignment nearest,52,0.8461538461538461,61.182213
+seq,23,Q4 (most isolated),phylo,52,0.7115384615384616,61.649742
+seq,23,Q4 (most isolated),raw,52,0.75,64.280464
+seq,23,Q4 (most isolated),raw+taxonomy,52,0.7884615384615384,64.50593
+seq,23,Q4 (most isolated),raw+treecap90,52,0.7692307692307693,63.507088
+seq,24,Q1 (closest),alignment nearest,57,1.0,42.53562
+seq,24,Q1 (closest),phylo,57,1.0,42.53562
+seq,24,Q1 (closest),raw,57,1.0,42.53562
+seq,24,Q1 (closest),raw+taxonomy,57,1.0,42.53562
+seq,24,Q1 (closest),raw+treecap90,57,1.0,42.53562
+seq,24,Q2,alignment nearest,19,1.0,23.502897
+seq,24,Q2,phylo,19,1.0,23.502897
+seq,24,Q2,raw,19,1.0,23.502897
+seq,24,Q2,raw+taxonomy,19,1.0,23.502897
+seq,24,Q2,raw+treecap90,19,1.0,23.502897
+seq,24,Q3,alignment nearest,103,0.970873786407767,62.821987
+seq,24,Q3,phylo,103,0.970873786407767,46.58194
+seq,24,Q3,raw,103,0.970873786407767,60.88211
+seq,24,Q3,raw+taxonomy,103,0.970873786407767,54.676765
+seq,24,Q3,raw+treecap90,103,0.970873786407767,43.842407
+seq,24,Q4 (most isolated),alignment nearest,37,0.8918918918918919,44.06159
+seq,24,Q4 (most isolated),phylo,37,0.972972972972973,43.28048
+seq,24,Q4 (most isolated),raw,37,0.8648648648648649,46.914143
+seq,24,Q4 (most isolated),raw+taxonomy,37,0.8540540540540541,45.229694
+seq,24,Q4 (most isolated),raw+treecap90,37,0.8702702702702704,43.195934
+seq,25,Q1 (closest),alignment nearest,33,1.0,18.874695
+seq,25,Q1 (closest),phylo,33,1.0,18.874695
+seq,25,Q1 (closest),raw,33,1.0,18.874695
+seq,25,Q1 (closest),raw+taxonomy,33,1.0,18.874695
+seq,25,Q1 (closest),raw+treecap90,33,1.0,18.874695
+seq,25,Q2,alignment nearest,42,1.0,29.61635
+seq,25,Q2,phylo,42,1.0,29.528542
+seq,25,Q2,raw,42,1.0,30.105259
+seq,25,Q2,raw+taxonomy,42,1.0,28.968948
+seq,25,Q2,raw+treecap90,42,1.0,28.907536
+seq,25,Q3,alignment nearest,51,0.9607843137254902,50.57969
+seq,25,Q3,phylo,51,0.9411764705882353,50.390156
+seq,25,Q3,raw,51,0.9607843137254902,48.246147
+seq,25,Q3,raw+taxonomy,51,0.9607843137254902,48.419773
+seq,25,Q3,raw+treecap90,51,0.9607843137254902,43.141453
+seq,25,Q4 (most isolated),alignment nearest,63,0.7301587301587301,71.429504
+seq,25,Q4 (most isolated),phylo,63,0.6666666666666666,71.27106
+seq,25,Q4 (most isolated),raw,63,0.5238095238095238,87.1156
+seq,25,Q4 (most isolated),raw+taxonomy,63,0.6507936507936506,79.220245
+seq,25,Q4 (most isolated),raw+treecap90,63,0.6476190476190476,78.71351
+seq,26,Q1 (closest),alignment nearest,74,1.0,45.24469
+seq,26,Q1 (closest),phylo,74,1.0,44.821156
+seq,26,Q1 (closest),raw,74,1.0,44.432205
+seq,26,Q1 (closest),raw+taxonomy,74,1.0,45.576477
+seq,26,Q1 (closest),raw+treecap90,74,1.0,45.273575
+seq,26,Q2,alignment nearest,42,1.0,18.189274
+seq,26,Q2,phylo,42,1.0,18.189274
+seq,26,Q2,raw,42,1.0,18.189274
+seq,26,Q2,raw+taxonomy,42,1.0,16.977814
+seq,26,Q2,raw+treecap90,42,1.0,16.88236
+seq,26,Q3,alignment nearest,50,1.0,48.928608
+seq,26,Q3,phylo,50,0.84,50.562008
+seq,26,Q3,raw,50,0.98,48.0076
+seq,26,Q3,raw+taxonomy,50,1.0,38.932983
+seq,26,Q3,raw+treecap90,50,0.956,33.73127
+seq,26,Q4 (most isolated),alignment nearest,72,0.6111111111111112,72.78373
+seq,26,Q4 (most isolated),phylo,72,0.6944444444444444,63.947075
+seq,26,Q4 (most isolated),raw,72,0.5138888888888888,69.401276
+seq,26,Q4 (most isolated),raw+taxonomy,72,0.6527777777777778,64.22811
+seq,26,Q4 (most isolated),raw+treecap90,72,0.6388888888888888,62.669094
+seq,27,Q1 (closest),alignment nearest,79,1.0,39.374672
+seq,27,Q1 (closest),phylo,79,1.0,38.218563
+seq,27,Q1 (closest),raw,79,1.0,38.60393
+seq,27,Q1 (closest),raw+taxonomy,79,1.0,39.374672
+seq,27,Q1 (closest),raw+treecap90,79,1.0,39.374672
+seq,27,Q2,alignment nearest,88,1.0,52.673233
+seq,27,Q2,phylo,88,1.0,52.419884
+seq,27,Q2,raw,88,1.0,52.059757
+seq,27,Q2,raw+taxonomy,88,1.0,52.059757
+seq,27,Q2,raw+treecap90,88,1.0,52.059757
+seq,27,Q3,alignment nearest,57,0.9473684210526315,62.465298
+seq,27,Q3,phylo,57,0.9122807017543859,54.703587
+seq,27,Q3,raw,57,0.9122807017543859,56.058285
+seq,27,Q3,raw+taxonomy,57,0.9473684210526315,53.86754
+seq,27,Q3,raw+treecap90,57,0.9122807017543859,51.959427
+seq,27,Q4 (most isolated),alignment nearest,51,0.8823529411764706,55.69404
+seq,27,Q4 (most isolated),phylo,51,0.8823529411764706,68.69747
+seq,27,Q4 (most isolated),raw,51,0.5490196078431373,66.56647
+seq,27,Q4 (most isolated),raw+taxonomy,51,0.7490196078431373,60.319134
+seq,27,Q4 (most isolated),raw+treecap90,51,0.8705882352941178,53.094696
+seq,28,Q1 (closest),alignment nearest,51,1.0,21.479753
+seq,28,Q1 (closest),phylo,51,1.0,20.968336
+seq,28,Q1 (closest),raw,51,1.0,18.555676
+seq,28,Q1 (closest),raw+taxonomy,51,1.0,20.807272
+seq,28,Q1 (closest),raw+treecap90,51,1.0,20.602707
+seq,28,Q2,alignment nearest,66,1.0,41.83445
+seq,28,Q2,phylo,66,1.0,41.61599
+seq,28,Q2,raw,66,1.0,40.757416
+seq,28,Q2,raw+taxonomy,66,1.0,39.249557
+seq,28,Q2,raw+treecap90,66,1.0,40.195183
+seq,28,Q3,alignment nearest,75,1.0,46.698452
+seq,28,Q3,phylo,75,0.9733333333333334,44.40848
+seq,28,Q3,raw,75,0.8266666666666667,53.694633
+seq,28,Q3,raw+taxonomy,75,0.9279999999999999,45.242306
+seq,28,Q3,raw+treecap90,75,0.9253333333333335,41.426357
+seq,28,Q4 (most isolated),alignment nearest,39,0.7435897435897436,67.52962
+seq,28,Q4 (most isolated),phylo,39,0.7435897435897436,61.664913
+seq,28,Q4 (most isolated),raw,39,0.6410256410256411,83.10052
+seq,28,Q4 (most isolated),raw+taxonomy,39,0.6717948717948717,78.31654
+seq,28,Q4 (most isolated),raw+treecap90,39,0.717948717948718,77.45137
+seq,29,Q1 (closest),alignment nearest,59,1.0,44.337795
+seq,29,Q1 (closest),phylo,59,1.0,44.337795
+seq,29,Q1 (closest),raw,59,1.0,44.337795
+seq,29,Q1 (closest),raw+taxonomy,59,1.0,44.337795
+seq,29,Q1 (closest),raw+treecap90,59,1.0,44.127098
+seq,29,Q2,alignment nearest,76,1.0,45.4536
+seq,29,Q2,phylo,76,1.0,45.972748
+seq,29,Q2,raw,76,1.0,46.037754
+seq,29,Q2,raw+taxonomy,76,1.0,46.03874
+seq,29,Q2,raw+treecap90,76,1.0,46.047024
+seq,29,Q3,alignment nearest,61,0.9508196721311475,34.16505
+seq,29,Q3,phylo,61,1.0,41.97174
+seq,29,Q3,raw,61,0.9180327868852459,35.17439
+seq,29,Q3,raw+taxonomy,61,0.9508196721311475,30.65553
+seq,29,Q3,raw+treecap90,61,0.9508196721311475,27.878407
+seq,29,Q4 (most isolated),alignment nearest,61,0.7213114754098361,61.800888
+seq,29,Q4 (most isolated),phylo,61,0.7213114754098361,62.657574
+seq,29,Q4 (most isolated),raw,61,0.4426229508196721,78.8925
+seq,29,Q4 (most isolated),raw+taxonomy,61,0.6754098360655736,69.144035
+seq,29,Q4 (most isolated),raw+treecap90,61,0.7114754098360655,67.00808
+seq,30,Q1 (closest),alignment nearest,46,1.0,51.812958
+seq,30,Q1 (closest),phylo,46,1.0,53.67936
+seq,30,Q1 (closest),raw,46,1.0,49.2486
+seq,30,Q1 (closest),raw+taxonomy,46,1.0,43.86344
+seq,30,Q1 (closest),raw+treecap90,46,1.0,51.673367
+seq,30,Q2,alignment nearest,77,1.0,35.587254
+seq,30,Q2,phylo,77,1.0,35.587254
+seq,30,Q2,raw,77,1.0,32.866013
+seq,30,Q2,raw+taxonomy,77,1.0,32.70948
+seq,30,Q2,raw+treecap90,77,1.0,33.78733
+seq,30,Q3,alignment nearest,70,1.0,39.84609
+seq,30,Q3,phylo,70,1.0,38.479004
+seq,30,Q3,raw,70,1.0,44.281994
+seq,30,Q3,raw+taxonomy,70,1.0,43.54879
+seq,30,Q3,raw+treecap90,70,0.9714285714285714,33.96836
+seq,30,Q4 (most isolated),alignment nearest,33,0.3939393939393939,78.28031
+seq,30,Q4 (most isolated),phylo,33,0.36363636363636365,79.36902
+seq,30,Q4 (most isolated),raw,33,0.30303030303030304,90.45112
+seq,30,Q4 (most isolated),raw+taxonomy,33,0.40606060606060607,85.503876
+seq,30,Q4 (most isolated),raw+treecap90,33,0.40606060606060607,81.158676

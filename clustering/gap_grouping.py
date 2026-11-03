@@ -23,12 +23,26 @@ RULES, FIXED BEFORE RUNNING
   Comparison (clustering/score_clusters.py): ARI and B-cubed F1 vs kmer (HDBSCAN) and
   ft_taxonomy_withraw; naming outcomes reported too.
 
+OPTIONS (added later; the defaults reproduce the original run exactly)
+  --detector=vsearch   group the sequences VSEARCH (B2, the best detector) calls novel instead of
+                       B4's; output names get a "_vs" suffix. Default --detector=b4 (no suffix).
+  --emb=ft_treecap90,ft_taxonomy   ALSO group on base + model distances, to test whether the tree-
+                       trained model helps the barcode gap (taxonomy model = control). Rule, fixed
+                       before running: D = D_base / median_base + D_model / median_model (w = 1, as
+                       in placement_kmer_tree.py), each median = median distance between two
+                       REFERENCE sequences in that space; base = alignment or raw k-mers. Cut-offs
+                       = 0-50% quantiles of the reference D (as for gap_kmer); calibration, grouping
+                       and naming exactly as rules 3-5. Spaces: gap_align_<emb>, gap_kmer_<emb>.
+  --seeds=0,1,2,3,4    model seeds for --emb (default all 5); seed N > 0 adds "_sN" to the name.
+
 Teleo only, like the other clustering runs. Needs: pip install biopython
 Usage (repo root):
     python clustering/gap_grouping.py
     python clustering/score_clusters.py kmer ft_taxonomy_withraw gap_align gap_kmer phylo_tree
+    python clustering/gap_grouping.py --detector=vsearch --emb=ft_treecap90,ft_taxonomy
 Output: outputs/results/clusters_gap_align[_extra].csv, clusters_gap_kmer[_extra].csv,
-        outputs/results/gap_grouping_settings.csv (chosen linkage and cut-off per split),
+        clusters_gap_{align,kmer}_<emb>[_sN][_vs][_extra].csv with --emb,
+        outputs/results/gap_grouping_settings[_vs].csv (chosen linkage and cut-off per split),
         data/pairwise_align_identity_teleo.npz (cache of all pairwise identities, rebuilt if missing)
 """
 import sys
@@ -43,6 +57,8 @@ from sklearn.metrics import adjusted_rand_score
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA, OUT = ROOT / "data", ROOT / "outputs" / "results"
+EMB = ROOT / "outputs" / "embeddings"
+DETECTORS = {"b4": ("results_kmer", ""), "vsearch": ("results_vsearch", "_vs")}
 CACHE = DATA / "pairwise_align_identity_teleo.npz"
 T_ALIGN = np.round(np.arange(0, 0.1501, 0.0025), 4)
 Q_KMER = np.arange(0, 0.51, 0.01)
@@ -122,7 +138,47 @@ def name_groups(lab, Dnr, ref_sp):
     return guess
 
 
+def emb_file(emb, seed, k):
+    return EMB / f"embeddings_{emb}{'' if seed == 0 else f'_s{seed}'}_split{k}.npz"
+
+
+def ref_median(D):
+    return np.median(D[np.triu_indices(len(D), 1)])
+
+
+def model_spaces(base, emb, seed, k, ref, nov):
+    """{name: (Dref, Dnov, Dnr, grid)} for base + model distance (see OPTIONS --emb)."""
+    z = np.load(emb_file(emb, seed, k), allow_pickle=True)
+    V = pd.DataFrame(z["emb"], index=z["seq_id"].astype(str))
+    Vr, Vn = V.loc[ref].values, V.loc[nov].values
+    Mref = kmer_dist(Vr, Vr)
+    mm = ref_median(Mref)
+    out = {}
+    for bname, (Bref, Bnov, Bnr) in base.items():
+        mb = ref_median(Bref)
+        Dref = Bref / mb + Mref / mm
+        Dnov = Bnov / mb + kmer_dist(Vn, Vn) / mm
+        Dnov = (Dnov + Dnov.T) / 2                 # remove tiny rounding differences
+        np.fill_diagonal(Dnov, 0)
+        np.fill_diagonal(Dref, 0)
+        Dnr = Bnr / mb + kmer_dist(Vn, Vr) / mm
+        grid = np.quantile(Dref[np.triu_indices(len(ref), 1)], Q_KMER)
+        out[f"{bname}_{emb}{'' if seed == 0 else f'_s{seed}'}"] = (Dref, Dnov, Dnr, grid)
+    return out
+
+
 def main():
+    opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
+    det = opts.get("detector", "b4")
+    if det not in DETECTORS:
+        sys.exit(f"--detector must be one of {sorted(DETECTORS)}")
+    called_stem, det_tag = DETECTORS[det]
+    embs = [e for e in opts.get("emb", "").split(",") if e]
+    seeds = [int(x) for x in opts.get("seeds", "0,1,2,3,4").split(",")]
+    missing = [emb_file(e, s, 1) for e in embs for s in seeds if not emb_file(e, s, 1).exists()]
+    if missing:
+        sys.exit("missing embeddings, e.g. " + str(missing[0].relative_to(ROOT)))
+
     clean, X = load()
     info = clean.drop_duplicates("species_name").set_index("species_name")
     uniq = sorted(clean.dna.unique())
@@ -130,13 +186,13 @@ def main():
     DA = identity_matrix(uniq)
     OUT.mkdir(parents=True, exist_ok=True)
     settings = []
-    for called_file, split_file, tag in [("results_kmer.csv", "splits.csv", ""),
-                                         ("results_kmer_extra.csv", "splits_extra.csv", "_extra")]:
+    for called_file, split_file, tag in [(f"{called_stem}.csv", "splits.csv", ""),
+                                         (f"{called_stem}_extra.csv", "splits_extra.csv", "_extra")]:
         called = pd.read_csv(ROOT / "outputs" / called_file, dtype={"seq_id": str})
         called = called[called.predicted_species == "novel"]
         splits = pd.read_csv(DATA / split_file)
         splits["seq_id"] = splits.seq_id.astype(str)
-        rows = {"gap_align": [], "gap_kmer": []}
+        rows = {}
         for k in sorted(splits.split_id.unique()):
             s = splits[splits.split_id == k]
             ref = s[s.role == "reference"].seq_id.values
@@ -148,26 +204,32 @@ def main():
             ni = np.array([pos[x] for x in clean.loc[nov, "dna"]])
             Xr, Xn = X.loc[ref].values, X.loc[nov].values
             Dk_ref = kmer_dist(Xr, Xr)
-            spaces = {"gap_align": (DA[np.ix_(ri, ri)], DA[np.ix_(ni, ni)], DA[np.ix_(ni, ri)], T_ALIGN),
-                      "gap_kmer": (Dk_ref, kmer_dist(Xn, Xn), kmer_dist(Xn, Xr),
+            base = {"gap_align": (DA[np.ix_(ri, ri)], DA[np.ix_(ni, ni)], DA[np.ix_(ni, ri)]),
+                    "gap_kmer": (Dk_ref, kmer_dist(Xn, Xn), kmer_dist(Xn, Xr))}
+            spaces = {"gap_align": (*base["gap_align"], T_ALIGN),
+                      "gap_kmer": (*base["gap_kmer"],
                                    np.quantile(Dk_ref[np.triu_indices(len(ref), 1)], Q_KMER))}
+            for e in embs:
+                for sd in seeds:
+                    spaces.update(model_spaces(base, e, sd, k, ref, nov))
             for name, (Dref, Dnov, Dnr, grid) in spaces.items():
                 method, t, ari = calibrate(Dref, ref_sp, grid)
                 lab = group(Dnov, method, t)
                 guess = name_groups(lab, Dnr, ref_sp)
-                rows[name].append(pd.DataFrame({"seq_id": nov, "split_id": k, "cluster_id": lab,
-                                                "guess_genus": info.loc[guess, "Genus"].values,
-                                                "guess_family": info.loc[guess, "Family"].values}))
+                rows.setdefault(name, []).append(
+                    pd.DataFrame({"seq_id": nov, "split_id": k, "cluster_id": lab,
+                                  "guess_genus": info.loc[guess, "Genus"].values,
+                                  "guess_family": info.loc[guess, "Family"].values}))
                 settings.append(dict(space=name, split=k, linkage=method, cutoff=t, reference_ari=ari,
                                      n_novel_called=len(nov), n_groups=len(np.unique(lab))))
-            a = [x for x in settings if x["split"] == k]
-            print(f"split {k:2d} | {len(nov)} novel seqs | align: {a[-2]['linkage']} t={a[-2]['cutoff']:.4f} -> "
-                  f"{a[-2]['n_groups']} groups | kmer: {a[-1]['linkage']} -> {a[-1]['n_groups']} groups", flush=True)
+            a = {x["space"]: x for x in settings if x["split"] == k}
+            print(f"split {k:2d} | {len(nov)} novel seqs | " + " | ".join(
+                f"{n}: {a[n]['linkage']} -> {a[n]['n_groups']} groups" for n in list(spaces)[:4]), flush=True)
         for name, r in rows.items():
-            pd.concat(r).to_csv(OUT / f"clusters_{name}{tag}.csv", index=False)
-    pd.DataFrame(settings).to_csv(OUT / "gap_grouping_settings.csv", index=False)
-    print("wrote outputs/results/clusters_gap_align[_extra].csv, clusters_gap_kmer[_extra].csv, "
-          "gap_grouping_settings.csv")
+            pd.concat(r).to_csv(OUT / f"clusters_{name}{det_tag}{tag}.csv", index=False)
+    pd.DataFrame(settings).to_csv(OUT / f"gap_grouping_settings{det_tag}.csv", index=False)
+    print(f"wrote {len(rows)} grouping files (clusters_<space>{det_tag}[_extra].csv) and "
+          f"gap_grouping_settings{det_tag}.csv in outputs/results/")
 
 
 if __name__ == "__main__":

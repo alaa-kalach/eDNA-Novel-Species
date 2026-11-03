@@ -17,8 +17,16 @@ Usage (repo root):
     python clustering/score_clusters.py kmer ft_taxonomy ft_treecap90_withraw ...
     python clustering/score_clusters.py            # every clusters_*.csv found (B4 novel calls)
 Compares every method with the first two names given (default: kmer and ft_taxonomy).
-Output: outputs/results/cluster_scores_per_split.csv, outputs/results/cluster_scores_tests.csv
+Options:
+    --out=_vs      write cluster_scores_vs_per_split.csv / _tests.csv (no overwriting other runs)
+    --avg-seeds    also load each method's model seeds 1-9 (<name>_sN, before any _vs suffix) and
+                   average each split over the seeds BEFORE the tests (as placement_kmer_tree.py)
+Example (VSEARCH-called sequences, gap_grouping.py --detector=vsearch --emb=...):
+    python clustering/score_clusters.py --out=_vs --avg-seeds gap_align_vs gap_align_ft_taxonomy_vs \
+        gap_align_ft_treecap90_vs gap_kmer_vs gap_kmer_ft_taxonomy_vs gap_kmer_ft_treecap90_vs kmer_vs
+Output: outputs/results/cluster_scores[<out>]_per_split.csv, cluster_scores[<out>]_tests.csv
 """
+import re
 import sys
 from pathlib import Path
 
@@ -47,7 +55,15 @@ def load_method(name):
     return pd.concat(found) if found else None
 
 
+def seed_variants(name):
+    """name, then the same method for model seeds 1-9 (gap_grouping.py puts _sN before _vs)."""
+    return [(0, name)] + [(n, re.sub(r"(_vs)?$", rf"_s{n}\1", name, count=1)) for n in range(1, 10)]
+
+
 def main():
+    opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
+    out_tag = opts.get("out", "")                       # e.g. --out=_vs -> cluster_scores_vs_*.csv
+    avg_seeds = "--avg-seeds" in sys.argv[1:]           # average each split over model seeds first
     names = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not names:
         names = sorted({p.stem[len("clusters_"):].removesuffix("_extra") for p in OUT.glob("clusters_*.csv")
@@ -61,10 +77,12 @@ def main():
     role = splits.set_index(["split_id", "seq_id"])[["role", "difficulty"]]
 
     rows = []
-    for name in names:
-        df = load_method(name)
+    for name, seed, fname in [(n, s, f) for n in names
+                              for s, f in (seed_variants(n) if avg_seeds else [(0, n)])]:
+        df = load_method(fname)
         if df is None:
-            print(f"skipped {name}: no clusters_{name}*.csv")
+            if seed == 0:
+                print(f"skipped {name}: no clusters_{name}*.csv")
             continue
         for sid, g in df.groupby("split_id"):
             g = g.reset_index(drop=True)
@@ -78,13 +96,18 @@ def main():
             fam = g.guess_family.values == clean.loc[g.seq_id, "Family"].values
             gen = g.guess_genus.values == clean.loc[g.seq_id, "Genus"].values
             m = lambda x: x.mean() if len(x) else np.nan  # noqa: E731
-            rows.append(dict(method=name, split=sid, n_called=len(g), n_true_novel=int(nov.sum()),
+            rows.append(dict(method=name, seed=seed, split=sid, n_called=len(g), n_true_novel=int(nov.sum()),
                              ARI=adjusted_rand_score(truth, lab), AMI=adjusted_mutual_info_score(truth, lab),
                              bcubed_f1=bcubed_f1(lab, truth), family=m(fam[nov]), family_easy=m(fam[easy]),
                              genus_hard=m(gen[hard])))
     per = pd.DataFrame(rows)
+    n_seeds = per.groupby("method").seed.nunique()
+    per = per.groupby(["method", "split"], as_index=False, sort=False).mean(numeric_only=True).drop(columns="seed")
+    per["n_seeds"] = per.method.map(n_seeds)
     OUT.mkdir(parents=True, exist_ok=True)
-    per.round(4).to_csv(OUT / "cluster_scores_per_split.csv", index=False)
+    per.round(4).to_csv(OUT / f"cluster_scores{out_tag}_per_split.csv", index=False)
+    if avg_seeds:
+        print("model seeds per method: " + ", ".join(f"{k} {v}" for k, v in n_seeds.items()))
 
     tab = per.groupby("method")[OUTCOMES + ["n_called"]].mean().loc[[n for n in names if n in set(per.method)]]
     n_splits = per.groupby("method").split.nunique()
@@ -114,8 +137,8 @@ def main():
                                   n=len(d), wilcoxon_p=p))
                 cells.append(f"{o} {d.mean():+.3f} (p={p:.3f})")
             print(f"  {a} vs {b}: " + " | ".join(cells))
-    pd.DataFrame(tests).to_csv(OUT / "cluster_scores_tests.csv", index=False)
-    print("\nwrote outputs/results/cluster_scores_per_split.csv and cluster_scores_tests.csv")
+    pd.DataFrame(tests).to_csv(OUT / f"cluster_scores{out_tag}_tests.csv", index=False)
+    print(f"\nwrote outputs/results/cluster_scores{out_tag}_per_split.csv and cluster_scores{out_tag}_tests.csv")
 
 
 if __name__ == "__main__":
