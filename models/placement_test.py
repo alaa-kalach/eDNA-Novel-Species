@@ -25,7 +25,6 @@ Usage (from the repo root):
     python models/placement_test.py                    # seed 0 only
     python models/placement_test.py --seeds=0,1,2,3,4  # average over seeds
     python models/placement_test.py --b=ft_taxonomy    # compare against B6 instead of B5
-    python models/placement_test.py --a=ft_taxtree0.25 --b=ft_taxonomy --seeds=0,1,2,3,4
     python models/placement_test.py --a=ft_tree2g_w10m0.4_full --b=ft_taxonomy_full --marker=full --seeds=0,1,2,3,4
 """
 import sys

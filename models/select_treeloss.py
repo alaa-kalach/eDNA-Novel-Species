@@ -1,7 +1,7 @@
 """
 Give the tree a fair second chance: try different ways of training on it, chosen on
 GLOBAL data only (no French Guiana data), with the same held-out check as
-select_taxtree.py / select_twogoal.py.
+select_twogoal.py.
 
 Tree variants (all use the same encoder, data and training steps):
     tree             plain tree distances

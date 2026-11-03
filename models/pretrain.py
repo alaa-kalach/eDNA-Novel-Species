@@ -8,9 +8,6 @@ Targets
     labels    -> 0 same species / 1 different species (baseline B5)
     taxonomy  -> 0 same species / .25 genus / .5 family / .75 order / 1 (baseline B6,
                  needs data/global_taxonomy.csv from data/add_global_taxonomy.py)
-    taxtree<a> -> (1 - a) * taxonomy + a * tree, e.g. taxtree0.25 (main method candidate:
-                 clean taxonomic steps, the tree orders species inside each step;
-                 a is chosen on global data only by models/select_taxtree.py)
 
 10% of global species are held out to check that the encoder generalises to
 species it never saw (Spearman between embedding and tree distance).
@@ -113,9 +110,6 @@ def global_target(target, tz):
         return 1.0 - np.eye(len(tz["species"]))
     if target.startswith("taxonomy"):
         return taxonomy_matrix(tz["species"])
-    if target.startswith("taxtree"):
-        a = taxtree_alpha(target)
-        return (1 - a) * taxonomy_matrix(tz["species"]) + a * D
     if target.startswith("treecap"):                  # deep pairs all count as "far"
         c = my_to_d(float(target[len("treecap"):]), tz)
         return np.minimum(D, c) / c
@@ -165,11 +159,6 @@ def taxonomy_matrix(species):
     return D
 
 
-def taxtree_alpha(target):
-    """'taxtree0.25' -> 0.25"""
-    return float(target[len("taxtree"):])
-
-
 def save(enc, path):
     np.savez(path, **{p: getattr(enc, p) for p in enc.params}, mu=enc.mu, sd=enc.sd,
              linear=enc.linear, sep_weight=enc.sep_weight, margin=enc.margin,
@@ -214,7 +203,7 @@ def main():
 
     for target in targets:
         if target not in ("tree", "labels", "taxonomy", "treelog", "treerank", "treetrip", "treeclade") \
-                and not target.startswith(("taxtree", "tree2g_", "treecap", "treew")):
+                and not target.startswith(("tree2g_", "treecap", "treew")):
             raise ValueError(f"unknown target {target!r}")
         T = global_target(target, tz)
         print(f"\n=== pretraining target: {target} (seed {seed}) ===")
