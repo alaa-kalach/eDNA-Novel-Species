@@ -14,3 +14,5 @@ models/pretrained_*.npz
 
 .DS_Store
 data/pairwise_align_identity_teleo.npz
+outputs/embeddings/embeddings_ablpre_*
+outputs/embeddings/embeddings_ablnopre_*
