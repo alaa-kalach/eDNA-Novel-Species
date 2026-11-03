@@ -53,6 +53,9 @@ Needs : data/kmer_features_k3to6.npz   (python models/kmers.py)
 Output: outputs/placement_kmer_tree[_full]_per_split.csv  (split, method, w, outcomes; seed-averaged)
         outputs/placement_kmer_tree[_full]_per_seed.csv   (same, before averaging over seeds)
         outputs/placement_kmer_tree[_full]_tests.csv      (paired comparisons)
+        outputs/placement_kmer_tree[_full]_per_seq.csv    (one guessed species per test sequence:
+                 split_id, seed, method, seq_id, guess; seed = -1 for raw and B4; raw+<target>
+                 at w = 1 only; lets the evaluation re-score any subset of sequences)
 """
 import sys
 from pathlib import Path
@@ -161,6 +164,12 @@ def run(clean, splits, X, seeds):
             sys.exit("results_kmer*.csv has no nearest_species column - rerun baselines/b4_kmer.py")
         b4 = b4.set_index(["split_id", "seq_id"])["nearest_species"]
     rows = []
+    guesses = []                                   # one guessed species per test sequence
+
+    def keep(k, seed, method, test, pred):
+        guesses.append(pd.DataFrame({"split_id": k, "seed": seed, "method": method,
+                                     "seq_id": test.seq_id.values, "guess": pred}))
+
     for k in sorted(splits.split_id.unique()):
         s = splits[splits.split_id == k]
         ref, test = s[s.role == "reference"], s[s.role != "reference"].reset_index(drop=True)
@@ -168,11 +177,14 @@ def run(clean, splits, X, seeds):
         sp, D_raw, m_raw = centre_distances(X.loc[ref.seq_id].values, rsp, X.loc[test.seq_id].values)
         Rn = D_raw / m_raw
         base = dict(split=k, seed=-1)
-        rows.append({**base, "method": "raw", "w": 0.0, **outcomes(sp[Rn.argmin(1)], test, clean, info)})
+        pred_raw = sp[Rn.argmin(1)]
+        rows.append({**base, "method": "raw", "w": 0.0, **outcomes(pred_raw, test, clean, info)})
+        keep(k, -1, "raw", test, pred_raw)
         if b4 is not None:
             pred_b4 = b4.loc[[(k, q) for q in test.seq_id]].values
             rows.append({**base, "method": "B4 nearest sequence", "w": 0.0,
                          **outcomes(pred_b4, test, clean, info)})
+            keep(k, -1, "B4 nearest sequence", test, pred_b4)
         for name, target in TARGETS.items():
             for seed in seeds:
                 z = np.load(emb_path(target, seed, k), allow_pickle=True)
@@ -181,13 +193,18 @@ def run(clean, splits, X, seeds):
                 assert (sp_m == sp).all()
                 Mn = D_m / m_m
                 b = dict(split=k, seed=seed)
+                pred_alone = sp[Mn.argmin(1)]
                 rows.append({**b, "method": f"{name} alone", "w": np.inf,
-                             **outcomes(sp[Mn.argmin(1)], test, clean, info)})
+                             **outcomes(pred_alone, test, clean, info)})
+                keep(k, seed, f"{name} alone", test, pred_alone)
                 for w in (W_MAIN, *W_SENS):
+                    pred = sp[(Rn + w * Mn).argmin(1)]
                     rows.append({**b, "method": f"raw+{name}", "w": w,
-                                 **outcomes(sp[(Rn + w * Mn).argmin(1)], test, clean, info)})
+                                 **outcomes(pred, test, clean, info)})
+                    if w == W_MAIN:                # sensitivity weights: averages only
+                        keep(k, seed, f"raw+{name}", test, pred)
         print(f"split {k:2d} done", flush=True)
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows), pd.concat(guesses, ignore_index=True)
 
 
 def compare(per_split, a, b, w=W_MAIN, rng=None):
@@ -214,12 +231,13 @@ def main():
     seeds = [int(x) for x in opts.get("seeds", "0,1,2,3,4").split(",")]
     clean, splits, X = load()
     check_inputs(sorted(splits.split_id.unique()), seeds)
-    per_seed = run(clean, splits, X, seeds)
+    per_seed, per_seq = run(clean, splits, X, seeds)
     per_split = per_seed.groupby(["split", "method", "w"], as_index=False)[OUTCOMES].mean()
     OUT.mkdir(exist_ok=True)
     kw = dict(index=False, lineterminator="\n")
     per_seed.to_csv(OUT / f"placement_kmer_tree{MK}_per_seed.csv", **kw)
     per_split.to_csv(OUT / f"placement_kmer_tree{MK}_per_split.csv", **kw)
+    per_seq.to_csv(OUT / f"placement_kmer_tree{MK}_per_seq.csv", **kw)
 
     n = per_split.split.nunique()
     print(f"\nmarker: {MARKER} | {n} splits | seeds {seeds} | mean over splits (each split averaged over seeds)")
@@ -277,7 +295,7 @@ def main():
                       ps[(ps.method == b) & (ps.seed == s)].set_index("split")[c]).mean() for s in seeds]
                 print(f"{c:15s} " + "  ".join(f"s{s}: {x:+.3f}" for s, x in zip(seeds, d)))
     print(f"\nwrote placement_kmer_tree{MK}_per_split.csv, placement_kmer_tree{MK}_per_seed.csv, "
-          f"placement_kmer_tree{MK}_tests.csv in {OUT}")
+          f"placement_kmer_tree{MK}_per_seq.csv, placement_kmer_tree{MK}_tests.csv in {OUT}")
 
 
 if __name__ == "__main__":
