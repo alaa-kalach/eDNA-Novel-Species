@@ -3,10 +3,10 @@ identity cut-offs: b2_f1 identity cut-off 0.9670, conf05 identity cut-off 0.9250
 proxy labels (study reference >= 99%): known 116, new for us 14, no label 307
 
 DETECTION on proxy-labelled ZOTUs (false alarm = known ZOTUs called new; recall = new ZOTUs called new)
-  vsearch97 called new  183 of 437 | false alarm 0.043 (5/116) | recall 0.929 (13/14) | unlabelled called new 165
-  b2_f1     called new  163 of 437 | false alarm 0.034 (4/116) | recall 0.786 (11/14) | unlabelled called new 148
-  conf05    called new  144 of 437 | false alarm 0.026 (3/116) | recall 0.714 (10/14) | unlabelled called new 131
-  conf10    called new  154 of 437 | false alarm 0.026 (3/116) | recall 0.786 (11/14) | unlabelled called new 140
+  vsearch97 called new  183 of 437 | false alarm 0.043 (5/116, 95% CI 0.014-0.098) | recall 0.929 (13/14, 95% CI 0.66-1.00) | unlabelled called new 165
+  b2_f1     called new  163 of 437 | false alarm 0.034 (4/116, 95% CI 0.009-0.086) | recall 0.786 (11/14, 95% CI 0.49-0.95) | unlabelled called new 148
+  conf05    called new  144 of 437 | false alarm 0.026 (3/116, 95% CI 0.005-0.074) | recall 0.714 (10/14, 95% CI 0.42-0.92) | unlabelled called new 131
+  conf10    called new  154 of 437 | false alarm 0.026 (3/116, 95% CI 0.005-0.074) | recall 0.786 (11/14, 95% CI 0.49-0.95) | unlabelled called new 140
 
 GROUPING CHECK on proxy-new ZOTUs called new (conf10): 11 ZOTUs, 11 species, 11 groups
 
@@ -32,6 +32,25 @@ SENSITIVITY (post hoc, added after seeing the results): keep only ZOTUs with ide
   net check b2_f1     new fit genus 0.17 (339 occ.) vs known 0.07 (1143 occ.)
   net check conf05    new fit genus 0.13 (271 occ.) vs known 0.08 (1211 occ.)
   net check conf10    new fit genus 0.15 (306 occ.) vs known 0.08 (1176 occ.)
+
+NET-FISHING PERMUTATION TEST (one-sided, 10000 permutations; difference = new minus known fit share; exploratory, no correction)
+  filter  rule       level   | difference | p (shuffle ZOTUs) | p (shuffle within sites)
+  none    vsearch97  genus   | +0.062     | 0.0104            | 0.0002
+  none    vsearch97  family  | +0.028     | 0.2417            | 0.0683
+  none    b2_f1      genus   | +0.058     | 0.0172            | 0.0003
+  none    b2_f1      family  | +0.032     | 0.2154            | 0.0396
+  none    conf05     genus   | +0.008     | 0.3831            | 0.3610
+  none    conf05     family  | -0.010     | 0.5946            | 0.5440
+  none    conf10     genus   | +0.026     | 0.1719            | 0.0589
+  none    conf10     family  | +0.005     | 0.4458            | 0.2971
+  fish80  vsearch97  genus   | +0.106     | 0.0004            | 0.0001
+  fish80  vsearch97  family  | +0.094     | 0.0177            | 0.0004
+  fish80  b2_f1      genus   | +0.108     | 0.0005            | 0.0001
+  fish80  b2_f1      family  | +0.110     | 0.0089            | 0.0001
+  fish80  conf05     genus   | +0.052     | 0.0656            | 0.0098
+  fish80  conf05     family  | +0.072     | 0.0819            | 0.0066
+  fish80  conf10     genus   | +0.071     | 0.0177            | 0.0005
+  fish80  conf10     family  | +0.083     | 0.0453            | 0.0009
 
 FILTER CUT-OFF SWEEP (does the result depend on choosing 80%?)
   cut-off | ZOTUs kept | reads | labelled removed | conf10 new -> groups | checkable new species/groups | net genus new vs known (conf10; 97%)

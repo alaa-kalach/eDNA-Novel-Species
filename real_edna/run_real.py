@@ -39,6 +39,17 @@ POST-HOC SENSITIVITY ANALYSIS (added AFTER seeing the results, reported beside, 
   our library, the global MitoFish library, or the study's reference; detection counts, grouping (redone
   on the kept ZOTUs) and the net-fishing check are reported again on the kept ZOTUs.
 
+PERMUTATION TEST OF THE NET-FISHING CHECK (review fix 5; added after the check was first seen)
+  Statistic = (share of new-called ZOTU x site occurrences whose placed genus [family] matches a
+  net-caught species missing from our library at that site) - (same share for known-called occurrences).
+  Null: being called new is unrelated to fitting the nets. One-sided, 10,000 permutations, seed 0,
+  p = (1 + #null >= observed) / (1 + 10,000). Two shuffles:
+    zotu  (main): shuffle the new/known labels among ZOTUs, so a ZOTU keeps one label at all its sites
+          (a ZOTU seen at many sites is not counted as many independent pieces of evidence);
+    site: shuffle labels among the ZOTUs of each site (keeps the number of new calls per site).
+  Run for every rule, without and with the 80% fish filter; no correction across the 16 p-values, so read
+  them as exploratory. Clopper-Pearson 95% intervals are also given for false alarm and catch rate.
+
 Usage (repo root):  python real_edna/run_real.py          # uses every data/real_edna/processed/Run*/
 Needs vsearch on the PATH (add it at the END: export PATH="$PATH:$HOME/phylo-tools/bin").
 Output: data/real_edna/results/zotu_calls.csv, site_check.csv, summary.txt
@@ -64,6 +75,7 @@ from common import PSEUDO_REPEATS, pseudo_rng, pseudo_split, tune_threshold  # n
 
 ALPHAS = (0.05, 0.10)
 FISH_MIN = 0.80   # post-hoc sensitivity filter (see header)
+N_PERM = 10000    # permutation test of the net-fishing check (review fix 5)
 FISH_SWEEP = (0.70, 0.75, 0.80, 0.85, 0.90)   # same filter at other cut-offs: result must not hinge on 0.80
 
 
@@ -103,6 +115,44 @@ def best_hits(V, q_names, q_seqs, r_names, r_seqs, r_species, tmp):
         c = g.sp.value_counts()
         out[q] = (g.id.max(), sorted(c.index[c == c.max()])[0])
     return pd.DataFrame([(q, *out.get(q, (0.0, None))) for q in q_names], columns=["q", "identity", "species"])
+
+
+def cp_ci(k, n):
+    """Clopper-Pearson 95% interval for k successes out of n."""
+    from scipy.stats import beta
+    if n == 0:
+        return np.nan, np.nan
+    lo = beta.ppf(0.025, k, n - k + 1) if k > 0 else 0.0
+    hi = beta.ppf(0.975, k + 1, n - k) if k < n else 1.0
+    return lo, hi
+
+
+def perm_test(occ_fit, label, how, n=N_PERM, seed=0):
+    """occ_fit: DataFrame (site, zotu, fit) of occurrences; label: Series zotu -> bool (called new)."""
+    rng = np.random.default_rng(seed)
+    z = occ_fit.zotu.to_numpy()
+    fit = occ_fit.fit.to_numpy(float)
+    lab = label.reindex(z).to_numpy(bool)
+
+    def stat(l):
+        return fit[l].mean() - fit[~l].mean() if l.any() and (~l).any() else np.nan
+
+    obs = stat(lab)
+    null = np.empty(n)
+    if how == "zotu":
+        uz = label.index.to_numpy()
+        ul = label.to_numpy(bool)
+        pos = pd.Index(uz).get_indexer(z)
+        for i in range(n):
+            null[i] = stat(rng.permutation(ul)[pos])
+    else:
+        groups = [np.flatnonzero(occ_fit.site.to_numpy() == s_) for s_ in occ_fit.site.unique()]
+        for i in range(n):
+            l = lab.copy()
+            for g in groups:
+                l[g] = rng.permutation(lab[g])
+            null[i] = stat(l)
+    return obs, (1 + np.sum(null >= obs - 1e-12)) / (1 + n)
 
 
 def conformal_p(cal, w, s):
@@ -269,7 +319,9 @@ def main():
                **lib.drop_duplicates("Genus").set_index("Genus")["Family"].to_dict()}
     fam_any = lambda sp: fam_of.get(sp) or gen2fam.get(str(sp).split()[0])
     tab["placed_family"] = [fam_any(x) for x in tab.placed_species]
-    def site_rows(tb):
+    occ_fit = []      # (site, zotu, fit_genus, fit_family) for the permutation test
+
+    def site_rows(tb, collect=False):
       rows = []
       for s_, g_ in occ[occ.zid.isin(tb.zotu)].groupby("site"):
         zt = tb.set_index("zotu").loc[g_.zid.unique()]
@@ -277,6 +329,8 @@ def main():
         missing = [x for x in caught if norm(x) not in our_species]
         miss_fam = {fam_any(x) for x in missing} - {None}
         miss_gen = {x.split()[0] for x in missing}
+        if collect:
+            occ_fit.extend(zip([s_] * len(zt), zt.index, zt.placed_genus.isin(miss_gen), zt.placed_family.isin(miss_fam)))
         ours = {norm(x) for x in zt[~zt.conf10].nearest_species}
         sp_level = [x for x in asg.index if "(" not in x and len(x.split()) >= 2]
         theirs = {norm(x) for x in sp_level if s_ in asg and asg.loc[x, s_] > 0}
@@ -293,7 +347,8 @@ def main():
                              species_overlap=len(ours & theirs) if rule == "conf10" else np.nan))
       return pd.DataFrame(rows)
 
-    sc = site_rows(tab)
+    sc = site_rows(tab, collect=True)
+    of = pd.DataFrame(occ_fit, columns=["site", "zotu", "genus", "family"])
     sc_f = site_rows(tab[tab.fish_like])
 
     out = REAL / "results"
@@ -308,9 +363,12 @@ def main():
              "DETECTION on proxy-labelled ZOTUs (false alarm = known ZOTUs called new; recall = new ZOTUs called new)"]
     for rule in calls:
         k_, n_ = tab[tab.proxy == "known"], tab[tab.proxy == "new"]
+        fl, fh = cp_ci(int(k_[rule].sum()), len(k_))
+        rl, rh = cp_ci(int(n_[rule].sum()), len(n_))
         lines.append(f"  {rule:9s} called new {int(tab[rule].sum()):4d} of {len(tab)} | false alarm "
-                     f"{k_[rule].mean():.3f} ({int(k_[rule].sum())}/{len(k_)}) | recall {n_[rule].mean():.3f} "
-                     f"({int(n_[rule].sum())}/{len(n_)}) | unlabelled called new {int(tab[tab.proxy == 'none'][rule].sum())}")
+                     f"{k_[rule].mean():.3f} ({int(k_[rule].sum())}/{len(k_)}, 95% CI {fl:.3f}-{fh:.3f}) | recall "
+                     f"{n_[rule].mean():.3f} ({int(n_[rule].sum())}/{len(n_)}, 95% CI {rl:.2f}-{rh:.2f}) | "
+                     f"unlabelled called new {int(tab[tab.proxy == 'none'][rule].sum())}")
     lines += ["", "GROUPING CHECK on proxy-new ZOTUs called new (conf10): "
               f"{len(tab[tab.conf10 & (tab.proxy == 'new')])} ZOTUs, "
               f"{tab[tab.conf10 & (tab.proxy == 'new')].study_species.nunique()} species, "
@@ -353,6 +411,28 @@ def main():
         lines.append(f"  net check {rule:9s} new fit genus {g_.new_fit_genus.sum() / max(tot, 1):.2f} ({tot} occ.) "
                      f"vs known {g_.known_fit_genus.sum() / max(kt, 1):.2f} ({kt} occ.)")
     sc_f.to_csv(out / "site_check_filtered.csv", index=False)
+    # ---- permutation test of the net-fishing check (review fix 5)
+    lab_of = tab.set_index("zotu")
+    keep80 = set(tab[tab.fish_like].zotu)
+    pt = []
+    for filt in ("none", "fish80"):
+        o_ = of if filt == "none" else of[of.zotu.isin(keep80)]
+        for rule in calls:
+            lb = lab_of.loc[o_.zotu.unique(), rule]
+            for level in ("genus", "family"):
+                d_ = o_.rename(columns={level: "fit"})
+                for how in ("zotu", "site"):
+                    obs, pv = perm_test(d_, lb, how)
+                    pt.append(dict(filter=filt, rule=rule, level=level, shuffle=how, difference=obs, p=pv))
+    pt = pd.DataFrame(pt)
+    pt.to_csv(out / "net_check_permutation.csv", index=False)
+    lines += ["", f"NET-FISHING PERMUTATION TEST (one-sided, {N_PERM} permutations; difference = new minus known "
+              "fit share; exploratory, no correction)",
+              "  filter  rule       level   | difference | p (shuffle ZOTUs) | p (shuffle within sites)"]
+    for (f_n, r_n, l_n), g_ in pt.groupby(["filter", "rule", "level"], sort=False):
+        gz, gs = g_[g_.shuffle == "zotu"].iloc[0], g_[g_.shuffle == "site"].iloc[0]
+        lines.append(f"  {f_n:7s} {r_n:10s} {l_n:7s} | {gz.difference:+.3f}     | {gz.p:.4f}            | {gs.p:.4f}")
+
     # ---- the same filter at several cut-offs (80% is our own choice, not a published standard)
     sw = []
     for c in FISH_SWEEP:
