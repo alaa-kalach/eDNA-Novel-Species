@@ -1,0 +1,13 @@
+merge:
+   5043263  Pairs
+   4903450  Merged (97.2%)
+    139813  Not merged (2.8%)
+Pairs that failed merging due to various reasons:
+Statistics of merged reads:
+      0.05  Mean expected error in merged sequences
+      0.28  Mean observed errors in merged region of forward sequences
+      0.33  Mean observed errors in merged region of reverse sequences
+      0.62  Mean observed errors in merged region
+reads after quality filter and primers/tags: 3998010; dropped: {'no_primers': 686592, 'tagmismatch': 178382, 'length_or_N': 4694, 'unknowntag': 51}
+reads assigned to ZOTUs: 3922173 in 219 ZOTUs
+after controls and >= 2 PCR replicates: 163 ZOTUs in 20 samples, 3557228 reads

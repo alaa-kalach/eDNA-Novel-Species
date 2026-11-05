@@ -1,0 +1,6 @@
+cutoff,zotus_kept,read_share,labelled_removed,conf10_new,conf10_groups,checkable_new_species,checkable_new_groups,conf10_net_genus_new,conf10_net_genus_known,vsearch97_net_genus_new,vsearch97_net_genus_known
+0.7,431,0.999,0,148,125,11,11,0.106,0.076,0.129,0.062
+0.75,413,0.98,0,130,108,11,11,0.123,0.076,0.146,0.062
+0.8,393,0.971,0,110,92,11,11,0.147,0.076,0.169,0.062
+0.85,375,0.961,0,92,77,11,11,0.169,0.076,0.188,0.062
+0.9,358,0.958,0,75,61,11,11,0.18,0.076,0.198,0.062

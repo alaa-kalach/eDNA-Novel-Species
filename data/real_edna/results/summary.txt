@@ -1,0 +1,42 @@
+4 run(s), 39 sites, 437 distinct ZOTUs
+identity cut-offs: b2_f1 identity cut-off 0.9670, conf05 identity cut-off 0.9250, conf10 identity cut-off 0.9530
+proxy labels (study reference >= 99%): known 116, new for us 14, no label 307
+
+DETECTION on proxy-labelled ZOTUs (false alarm = known ZOTUs called new; recall = new ZOTUs called new)
+  vsearch97 called new  183 of 437 | false alarm 0.043 (5/116) | recall 0.929 (13/14) | unlabelled called new 165
+  b2_f1     called new  163 of 437 | false alarm 0.034 (4/116) | recall 0.786 (11/14) | unlabelled called new 148
+  conf05    called new  144 of 437 | false alarm 0.026 (3/116) | recall 0.714 (10/14) | unlabelled called new 131
+  conf10    called new  154 of 437 | false alarm 0.026 (3/116) | recall 0.786 (11/14) | unlabelled called new 140
+
+GROUPING CHECK on proxy-new ZOTUs called new (conf10): 11 ZOTUs, 11 species, 11 groups
+
+NET-FISHING CHECK (share of ZOTU x site occurrences whose placed family / genus matches a net-caught species missing from our library at that site; new calls should fit more than known calls)
+  vsearch97  537 new occurrences: fit family 0.23, genus 0.12  | control, 1091 known-called occurrences: family 0.20, genus 0.06
+  b2_f1      485 new occurrences: fit family 0.23, genus 0.12  | control, 1143 known-called occurrences: family 0.20, genus 0.07
+  conf05     417 new occurrences: fit family 0.20, genus 0.09  | control, 1211 known-called occurrences: family 0.21, genus 0.08
+  conf10     452 new occurrences: fit family 0.21, genus 0.10  | control, 1176 known-called occurrences: family 0.20, genus 0.08
+
+SPECIES LISTS (known calls, conf10) vs the study's own assignments: 490 shared of 999 ours / 680 theirs (summed over sites)
+GROUPING (conf10 new calls): 154 ZOTUs -> 130 groups (linkage single, cut-off 0.045); proxy-new species among them: 11
+placed with a global hit: 96 of 154 new calls
+
+SENSITIVITY (post hoc, added after seeing the results): keep only ZOTUs with identity >= 0.80 to at least one fish reference (our library, global MitoFish, study reference)
+  kept 393 of 437 ZOTUs, 0.971 of reads; removed 44 (removed ones called new by conf10: 44)
+  proxy-labelled ZOTUs removed by the filter: 0 (detection table above is unchanged if 0)
+  vsearch97 called new  139 of 393 (unlabelled 121)
+  b2_f1     called new  119 of 393 (unlabelled 104)
+  conf05    called new  100 of 393 (unlabelled 87)
+  conf10    called new  110 of 393 (unlabelled 96)
+  GROUPING redone after the filter (conf10): 110 ZOTUs -> 92 groups; proxy-new: 11 species in 11 groups
+  net check vsearch97 new fit genus 0.17 (391 occ.) vs known 0.06 (1091 occ.)
+  net check b2_f1     new fit genus 0.17 (339 occ.) vs known 0.07 (1143 occ.)
+  net check conf05    new fit genus 0.13 (271 occ.) vs known 0.08 (1211 occ.)
+  net check conf10    new fit genus 0.15 (306 occ.) vs known 0.08 (1176 occ.)
+
+FILTER CUT-OFF SWEEP (does the result depend on choosing 80%?)
+  cut-off | ZOTUs kept | reads | labelled removed | conf10 new -> groups | checkable new species/groups | net genus new vs known (conf10; 97%)
+  0.70    |  431       | 0.999 |   0              | 148 -> 125            | 11/11                         | 0.11 vs 0.08; 0.13 vs 0.06
+  0.75    |  413       | 0.980 |   0              | 130 -> 108            | 11/11                         | 0.12 vs 0.08; 0.15 vs 0.06
+  0.80    |  393       | 0.971 |   0              | 110 ->  92            | 11/11                         | 0.15 vs 0.08; 0.17 vs 0.06
+  0.85    |  375       | 0.961 |   0              |  92 ->  77            | 11/11                         | 0.17 vs 0.08; 0.19 vs 0.06
+  0.90    |  358       | 0.958 |   0              |  75 ->  61            | 11/11                         | 0.18 vs 0.08; 0.20 vs 0.06
