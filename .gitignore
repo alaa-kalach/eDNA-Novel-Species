@@ -16,3 +16,4 @@ models/pretrained_*.npz
 data/pairwise_align_identity_teleo.npz
 outputs/embeddings/embeddings_ablpre_*
 outputs/embeddings/embeddings_ablnopre_*
+data/real_edna/raw/
