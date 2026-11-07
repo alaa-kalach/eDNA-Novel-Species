@@ -1,0 +1,173 @@
+section,quantity,value,ci_lo,ci_hi,source
+Table 1,Sequences in the published library,1557,,,data/*.csv
+Table 1,"After removing open names (sp., aff., cf.)","1320 sequences, 295 species",,,data/*.csv
+Table 1,Species in the Fish Tree of Life,271 (92%),,,data/*.csv
+Table 1,Sequences of in-tree species,1231,,,data/*.csv
+Table 1,Removed: Teleo sequence shared by 2+ species,31 sequences (6 distinct),,,data/*.csv
+Table 1,Used in the splits,"1200 sequences, 263 species",,,data/*.csv
+Table 1,Species with >= 2 distinct Teleo sequences,110,,,data/*.csv
+Table 1,Test splits,30,,,data/*.csv
+Table 1,"Hidden (new) species per split, mean",53.0 (20% of species),,,data/*.csv
+Table 1,  of which 'hard' (same-genus species in the reference),59%,,,data/*.csv
+Table 1,"Reference sequences per split, mean",725,,,data/*.csv
+Table 1,"Known test sequences per split, mean",230,,,data/*.csv
+Table 1,"New test sequences per split, mean",245,,,data/*.csv
+Results 1-2,VSEARCH standard: known called new,0.14710266666666666,0.13580949166666667,0.15953746666666666,conformal_any_per_split
+Results 1-2,VSEARCH standard: new caught,0.9717126666666667,0.9651489666666667,0.9781469,conformal_any_per_split
+Results 1-2,VSEARCH standard: close sisters caught,0.7309173333333334,0.6672248583333334,0.79072785,conformal_any_per_split
+Results 1-2,VSEARCH f1: known called new,0.084129,0.06781284166666667,0.10260859166666667,conformal_any_per_split
+Results 1-2,VSEARCH f1: new caught,0.9146873333333332,0.8888947083333332,0.9378502499999999,conformal_any_per_split
+Results 1-2,VSEARCH f1: close sisters caught,0.3279836666666667,0.20862049166666669,0.4449115666666666,conformal_any_per_split
+Results 1-2,VSEARCH conf10: known called new,0.032119333333333326,0.025796216666666667,0.038443883333333324,conformal_any_per_split
+Results 1-2,VSEARCH conf10: new caught,0.7614233333333332,0.73480295,0.7899230833333333,conformal_any_per_split
+Results 1-2,VSEARCH conf10: close sisters caught,0.0045453333333333335,0.0,0.013636,conformal_any_per_split
+Results 1-2,VSEARCH conf05: known called new,0.015229333333333334,0.010525875000000002,0.02033243333333333,conformal_any_per_split
+Results 1-2,VSEARCH conf05: new caught,0.5978423333333333,0.5668575916666666,0.6293182916666666,conformal_any_per_split
+Results 1-2,VSEARCH conf05: close sisters caught,0.0,0.0,0.0,conformal_any_per_split
+Results 1-3,VSEARCH identity: AUROC,0.9744313333333333,0.9715891250000002,0.9773706916666667,conformal_any_per_split
+Results 1-3,SINTAX: AUROC,0.8934690000000001,0.8837514,0.9031796083333334,conformal_any_per_split
+Results 1-3,RDP naive Bayes: AUROC,0.9564406666666668,0.9515959666666669,0.9613588833333333,conformal_any_per_split
+Results 1-3,Raw k-mers (B4): AUROC,0.9520436666666666,0.94805495,0.9561080249999999,conformal_any_per_split
+Results 1-3,Tree placement (EPA-ng): AUROC,0.9358900000000001,0.9271697166666668,0.9440153333333332,conformal_any_per_split
+Results 1-3,Tree-trained k-mers: AUROC,0.9456253333333333,0.9399416416666666,0.9512413916666667,conformal_any_per_split
+Results 1,forced: new fish given a known name,1.0,1.0,1.0,end_to_end_per_split
+Results 1,forced: balanced accuracy,0.4894733333333333,0.48561561666666664,0.49282599999999993,end_to_end_per_split
+Results 1,forced: known fish named correctly,0.978947,0.9706642500000001,0.9856945583333331,end_to_end_per_split
+Results 1,VSEARCH F1: new fish given a known name,0.08531266666666666,0.06124389999999999,0.11014260833333334,end_to_end_per_split
+Results 1,VSEARCH F1: balanced accuracy,0.9103873333333333,0.8999804916666666,0.9206163833333332,end_to_end_per_split
+Results 1,VSEARCH F1: known fish named correctly,0.9060883333333334,0.8876719916666667,0.9226527999999999,end_to_end_per_split
+Results 9,"Detection AUROC | VSEARCH, F1 cut-off: long 12S",0.9793776666666666,,,Table 3
+Results 9,"Detection AUROC | VSEARCH, F1 cut-off: Teleo",0.9744313333333333,,,Table 3
+Results 9,"Detection F1 | VSEARCH, F1 cut-off: long 12S",0.9192100000000001,,,Table 3
+Results 9,"Detection F1 | VSEARCH, F1 cut-off: Teleo",0.9174226666666666,,,Table 3
+Results 9,"New fish caught | VSEARCH, F1 cut-off: long 12S",0.9325843333333333,,,Table 3
+Results 9,"New fish caught | VSEARCH, F1 cut-off: Teleo",0.9146873333333332,,,Table 3
+Results 9,"Close sisters caught | VSEARCH, F1 cut-off: long 12S",0.6164879999999999,,,Table 3
+Results 9,"Close sisters caught | VSEARCH, F1 cut-off: Teleo",0.3279836666666667,,,Table 3
+Results 9,"Known fish called new | VSEARCH, F1 cut-off: long 12S",0.10196766666666666,,,Table 3
+Results 9,"Known fish called new | VSEARCH, F1 cut-off: Teleo",0.084129,,,Table 3
+Results 9,"Correct family, new fish | nearest sequence (alignment): long 12S",0.9198876966985964,,,Table 3
+Results 9,"Correct family, new fish | nearest sequence (alignment): Teleo",0.6772105883239764,,,Table 3
+Results 9,"Correct family, no same-genus relative | nearest sequence (alignment): long 12S",0.8007152532869509,,,Table 3
+Results 9,"Correct family, no same-genus relative | nearest sequence (alignment): Teleo",0.48141170703449243,,,Table 3
+Results 9,"Correct genus, same-genus relative present | nearest sequence (alignment): long 12S",0.8376555719442577,,,Table 3
+Results 9,"Correct genus, same-genus relative present | nearest sequence (alignment): Teleo",0.6539333432700437,,,Table 3
+Results 9,"Placement error on the tree, My | nearest sequence (alignment): long 12S",46.78997751871745,,,Table 3
+Results 9,"Placement error on the tree, My | nearest sequence (alignment): Teleo",64.45131899515788,,,Table 3
+Results 9,"Correct family, new fish | tree placement (EPA-ng): long 12S",0.9199568769991139,,,Table 3
+Results 9,"Correct family, new fish | tree placement (EPA-ng): Teleo",0.7481515798948695,,,Table 3
+Results 9,"Correct family, no same-genus relative | tree placement (EPA-ng): long 12S",0.8016916453429133,,,Table 3
+Results 9,"Correct family, no same-genus relative | tree placement (EPA-ng): Teleo",0.5436386961060895,,,Table 3
+Results 9,"Correct genus, same-genus relative present | tree placement (EPA-ng): long 12S",0.8105318714181414,,,Table 3
+Results 9,"Correct genus, same-genus relative present | tree placement (EPA-ng): Teleo",0.7087410614630626,,,Table 3
+Results 9,"Placement error on the tree, My | tree placement (EPA-ng): long 12S",46.41012585957845,,,Table 3
+Results 9,"Placement error on the tree, My | tree placement (EPA-ng): Teleo",58.87552439371745,,,Table 3
+Results 9,"Correct family, new fish | VSEARCH + global library: long 12S",0.9213233333333332,,,Table 3
+Results 9,"Correct family, new fish | VSEARCH + global library: Teleo",0.8200213333333333,,,Table 3
+Results 9,"Grouping ARI, end to end | pipeline B (VSEARCH F1): long 12S",0.936371,,,Table 3
+Results 9,"Grouping ARI, end to end | pipeline B (VSEARCH F1): Teleo",0.9318323333333333,,,Table 3
+Results 4,correct family: Raw k-mers,0.6433498639072301,0.6146813424072994,0.6709835161421279,placement per-split files
+Results 4,correct family: Raw k-mers + labels model,0.628170920699523,0.6052996135803008,0.6524057511290999,placement per-split files
+Results 4,correct family: Raw k-mers + taxonomy model,0.6882440664585775,0.6625536178474439,0.7141367745672392,placement per-split files
+Results 4,correct family: Raw k-mers + tree model,0.6965711709899015,0.6731063443978068,0.7200862451463802,placement per-split files
+Results 4,correct family: Tree placement (EPA-ng),0.7481515798948695,0.721454084388099,0.7749886089490637,placement per-split files
+Results 4,correct family: VSEARCH nearest match,0.7579328405826339,0.7273952362819368,0.7862452326540805,placement per-split files
+Results 4,correct family: VSEARCH + global library,0.8200213333333333,0.8014618750000002,0.8387555583333332,placement per-split files
+Results 4/7,Raw k-mers + tree model minus Raw k-mers + labels model (family),0.06840025029037859,0.05693705791579409,0.07999439206461481,Wilcoxon p = 1.9e-09
+Results 4/7,Raw k-mers + tree model minus Raw k-mers (family),0.05322130708267161,0.039727538026957186,0.06801953729257777,Wilcoxon p = 2.6e-07
+Results 4/7,Tree placement (EPA-ng) minus VSEARCH nearest match (family),-0.009781260687764392,-0.025018415296969878,0.005546230564099308,Wilcoxon p = 0.21
+Results 4/7,VSEARCH + global library minus VSEARCH nearest match (family),0.062088492750699505,0.04230776472652087,0.08274803056239949,Wilcoxon p = 1.4e-06
+Results 4,tree placement minus VSEARCH 1 per species (family),-0.00819885225275709,-0.02431574158252153,0.00740516506820629,Wilcoxon p = 0.3
+Results 7,VSEARCH + global library: family_easy,0.6714956666666667,0.6314736666666667,0.7133052083333334,global_library_per_split
+Results 7,VSEARCH local only: family_easy,0.5610323333333334,0.49946132499999996,0.6176597583333334,global_library_per_split
+Results 7,VSEARCH + global library: genus_easy,0.23940333333333336,0.20181606666666668,0.2778164333333333,global_library_per_split
+Results 7,VSEARCH local only: genus_easy,0.0,0.0,0.0,global_library_per_split
+Results 7,VSEARCH + global library: share_global,0.5211143333333333,0.48596305,0.5610899666666666,global_library_per_split
+Results 5,"global check, family: phylo",0.6047156726768377,,,phylo_global_check_summary
+Results 5,"global check, family: alignment nearest",0.536754507628294,,,phylo_global_check_summary
+Results 5,"global check, family: raw",0.7489597780859917,,,phylo_global_check_summary
+Results 5,"global check, family: raw+taxonomy",0.760887656033287,,,phylo_global_check_summary
+Results 5,"global tie-break: tree minus VSEARCH (family, cross-genus ties)",-0.1446280991735537,-0.2190082644628099,-0.0661157024793388,tiebreak_global_summary
+Results 6,"Teleo (64 bp): Tree model vs raw k-mers, Q1 (closest)",-0.0050115082509492185,-0.01495597141503367,0.004948822661765106,when_tree_helps_per_split.csv
+Results 6,"Teleo (64 bp): Tree model vs raw k-mers, Q2",0.010652498098944741,-0.023147331986638042,0.045367421571842134,when_tree_helps_per_split.csv
+Results 6,"Teleo (64 bp): Tree model vs raw k-mers, Q3",0.08230352232804533,0.0565913580023277,0.10756560288516691,when_tree_helps_per_split.csv
+Results 6,"Teleo (64 bp): Tree model vs raw k-mers, Q4 (most isolated)",0.1271524276778956,0.09834024966690583,0.15694022785293474,when_tree_helps_per_split.csv
+Results 6,"Teleo (64 bp): Tree placement vs nearest sequence, Q1 (closest)",0.022043262973428665,0.006494949494949501,0.0421379206276098,when_tree_helps_per_split.csv
+Results 6,"Teleo (64 bp): Tree placement vs nearest sequence, Q2",0.07092466315223492,0.022589199268857444,0.1251996578457315,when_tree_helps_per_split.csv
+Results 6,"Teleo (64 bp): Tree placement vs nearest sequence, Q3",0.1095384438585995,0.059452816113333466,0.16487463982294287,when_tree_helps_per_split.csv
+Results 6,"Teleo (64 bp): Tree placement vs nearest sequence, Q4 (most isolated)",0.08724151626521995,0.04563506204839942,0.12781012935163305,when_tree_helps_per_split.csv
+Results 6,"Long 12S (about 600 bp): Tree model vs raw k-mers, Q1 (closest)",0.0,0.0,0.0,when_tree_helps_full_per_split.csv
+Results 6,"Long 12S (about 600 bp): Tree model vs raw k-mers, Q2",0.0,0.0,0.0,when_tree_helps_full_per_split.csv
+Results 6,"Long 12S (about 600 bp): Tree model vs raw k-mers, Q3",0.013983252887889737,0.0018076043317230518,0.02692623790896642,when_tree_helps_full_per_split.csv
+Results 6,"Long 12S (about 600 bp): Tree model vs raw k-mers, Q4 (most isolated)",0.12208056577231984,0.08084566416259809,0.16337992428147988,when_tree_helps_full_per_split.csv
+Results 6,"Long 12S (about 600 bp): Tree placement vs nearest sequence, Q1 (closest)",0.0,0.0,0.0,when_tree_helps_full_per_split.csv
+Results 6,"Long 12S (about 600 bp): Tree placement vs nearest sequence, Q2",0.0,0.0,0.0,when_tree_helps_full_per_split.csv
+Results 6,"Long 12S (about 600 bp): Tree placement vs nearest sequence, Q3",-0.012073223699498889,-0.028426960784313737,0.0031225802041997515,when_tree_helps_full_per_split.csv
+Results 6,"Long 12S (about 600 bp): Tree placement vs nearest sequence, Q4 (most isolated)",0.00910720335730955,-0.01836475902515403,0.03519535970953591,when_tree_helps_full_per_split.csv
+Results 6,"Teleo: isolation trend (Q4 - Q1 gain), tree model vs raw",0.13216393592884482,0.10074399226925175,0.16374739389619303,Wilcoxon p = 3.5e-08
+Results 6,"long 12S: isolation trend (Q4 - Q1 gain), tree model vs raw",0.12208056577231984,0.08098497748022268,0.16365717128004614,Wilcoxon p = 6.9e-07
+Results 8,Calibrated gap: ARI (VSEARCH-called),0.9379833333333331,0.9280164166666668,0.9474035000000001,cluster_scores_fixed_per_split
+Results 8,Calibrated gap: species-count error,5.8,4.6,7.000833333333321,clusters_*_vs.csv
+Results 8,Fixed 97%: ARI (VSEARCH-called),0.89788,0.8841093333333332,0.9105467500000001,cluster_scores_fixed_per_split
+Results 8,Fixed 97%: species-count error,11.3,10.133333333333333,12.5,clusters_*_vs.csv
+Results 8,gap minus Fixed 97%: ARI,0.04010333333333334,0.02853991666666668,0.05288499999999999,Wilcoxon p = 4.8e-06
+Results 8,gap minus Fixed 97%: count error,-5.5,-6.633333333333334,-4.4,Wilcoxon p = 2.4e-06
+Results 8,Fixed 98%: ARI (VSEARCH-called),0.8829433333333332,0.8671260833333334,0.898444,cluster_scores_fixed_per_split
+Results 8,Fixed 98%: species-count error,12.566666666666666,11.133333333333333,14.066666666666666,clusters_*_vs.csv
+Results 8,gap minus Fixed 98%: ARI,0.05503999999999999,0.040916,0.06947,Wilcoxon p = 3.9e-06
+Results 8,gap minus Fixed 98%: count error,-6.766666666666667,-8.166666666666666,-5.4,Wilcoxon p = 2.4e-06
+Results 8,Fixed 99%: ARI (VSEARCH-called),0.6931833333333333,0.6753093333333333,0.7110359166666667,cluster_scores_fixed_per_split
+Results 8,Fixed 99%: species-count error,37.9,35.1325,40.666666666666664,clusters_*_vs.csv
+Results 8,gap minus Fixed 99%: ARI,0.24480000000000002,0.22898966666666667,0.2603401666666667,Wilcoxon p = 1.7e-06
+Results 8,gap minus Fixed 99%: count error,-32.1,-34.534166666666664,-29.766666666666666,Wilcoxon p = 1.7e-06
+Results 8,Exact (100%): ARI (VSEARCH-called),0.6931833333333333,0.6760533333333333,0.7110504166666665,cluster_scores_fixed_per_split
+Results 8,Exact (100%): species-count error,37.9,35.03333333333333,40.666666666666664,clusters_*_vs.csv
+Results 8,gap minus Exact (100%): ARI,0.24480000000000002,0.22930000000000003,0.26075808333333333,Wilcoxon p = 1.7e-06
+Results 8,gap minus Exact (100%): count error,-32.1,-34.56666666666667,-29.766666666666666,Wilcoxon p = 1.7e-06
+Results 8,Calibrated gap: ARI (B4-called),0.9329999999999999,0.9215495000000001,0.9430675833333333,cluster_scores_per_split
+Results 8,PTP: ARI (B4-called),0.8691699999999999,0.8464829999999999,0.8918563333333334,cluster_scores_per_split
+Results 8,HDBSCAN: ARI (B4-called),0.76046,0.74221575,0.7784700833333333,cluster_scores_per_split
+Results 8,Tree grouping: ARI (B4-called),0.7303066666666667,0.7107264166666667,0.7487217500000001,cluster_scores_per_split
+Results 11,vsearch97: New fish caught (proxy labels),0.9285714285714286,0.6613155100681788,0.9981932193408746,zotu_calls (Clopper-Pearson)
+Results 11,b2_f1: New fish caught (proxy labels),0.7857142857142857,0.4920243229515281,0.9534207121101327,zotu_calls (Clopper-Pearson)
+Results 11,conf10: New fish caught (proxy labels),0.7857142857142857,0.4920243229515281,0.9534207121101327,zotu_calls (Clopper-Pearson)
+Results 11,conf05: New fish caught (proxy labels),0.7142857142857143,0.4189647428163391,0.9161106816928725,zotu_calls (Clopper-Pearson)
+Results 11,vsearch97: Known fish called new (proxy labels),0.04310344827586207,0.014141556646640746,0.09772483067518212,zotu_calls (Clopper-Pearson)
+Results 11,b2_f1: Known fish called new (proxy labels),0.034482758620689655,0.009473865093176154,0.08593831005795627,zotu_calls (Clopper-Pearson)
+Results 11,conf10: Known fish called new (proxy labels),0.02586206896551724,0.005365468346042132,0.07372130513576362,zotu_calls (Clopper-Pearson)
+Results 11,conf05: Known fish called new (proxy labels),0.02586206896551724,0.005365468346042132,0.07372130513576362,zotu_calls (Clopper-Pearson)
+Results 11,"net check genus fit, none, vsearch97: new",0.12476722532588454,,,site_check.csv
+Results 11,"net check genus fit, none, vsearch97: known",0.06232813932172319,,,site_check.csv; site-shuffle p = 0.0002
+Results 11,"net check genus fit, none, b2_f1: new",0.12371134020618557,,,site_check.csv
+Results 11,"net check genus fit, none, b2_f1: known",0.06561679790026247,,,site_check.csv; site-shuffle p = 0.0003
+Results 11,"net check genus fit, none, conf10: new",0.10176991150442478,,,site_check.csv
+Results 11,"net check genus fit, none, conf10: known",0.07568027210884354,,,site_check.csv; site-shuffle p = 0.059
+Results 11,"net check genus fit, none, conf05: new",0.08872901678657075,,,site_check.csv
+Results 11,"net check genus fit, none, conf05: known",0.08092485549132948,,,site_check.csv; site-shuffle p = 0.36
+Results 11,"net check genus fit, fish80, vsearch97: new",0.16879795396419436,,,site_check_filtered.csv
+Results 11,"net check genus fit, fish80, vsearch97: known",0.06232813932172319,,,site_check_filtered.csv; site-shuffle p = 0.0001
+Results 11,"net check genus fit, fish80, b2_f1: new",0.17404129793510326,,,site_check_filtered.csv
+Results 11,"net check genus fit, fish80, b2_f1: known",0.06561679790026247,,,site_check_filtered.csv; site-shuffle p = 0.0001
+Results 11,"net check genus fit, fish80, conf10: new",0.14705882352941177,,,site_check_filtered.csv
+Results 11,"net check genus fit, fish80, conf10: known",0.07568027210884354,,,site_check_filtered.csv; site-shuffle p = 0.0005
+Results 11,"net check genus fit, fish80, conf05: new",0.13284132841328414,,,site_check_filtered.csv
+Results 11,"net check genus fit, fish80, conf05: known",0.08092485549132948,,,site_check_filtered.csv; site-shuffle p = 0.0098
+Results 11,sequence variants,437,,,zotu_calls
+Supplement S1,"Teleo (64 bp): Nearest sequence (no tree), < 30 My",0.8243261639645689,0.7892675692928673,0.8565275638963649,when_tree_helps_per_split.csv
+Supplement S1,"Teleo (64 bp): Nearest sequence (no tree), 30-60 My",0.4383003816760504,0.3727683521510629,0.5048105105320186,when_tree_helps_per_split.csv
+Supplement S1,"Teleo (64 bp): Nearest sequence (no tree), >= 60 My",0.1870128901095547,0.10075650592226225,0.27810576308387974,when_tree_helps_per_split.csv
+Supplement S1,"Teleo (64 bp): Tree placement (EPA-ng), < 30 My",0.9029245212893767,0.8825681745491012,0.9221917484674411,when_tree_helps_per_split.csv
+Supplement S1,"Teleo (64 bp): Tree placement (EPA-ng), 30-60 My",0.5063111012846976,0.43249055546907084,0.5761394296247075,when_tree_helps_per_split.csv
+Supplement S1,"Teleo (64 bp): Tree placement (EPA-ng), >= 60 My",0.19923401904214175,0.10993963374946981,0.2958595094131078,when_tree_helps_per_split.csv
+Supplement S1,"Teleo (64 bp): Raw k-mers + tree model, < 30 My",0.8509973861963824,0.8328929305819001,0.8683730551681552,when_tree_helps_per_split.csv
+Supplement S1,"Teleo (64 bp): Raw k-mers + tree model, 30-60 My",0.4220030760573451,0.35792963852180687,0.49010169513031443,when_tree_helps_per_split.csv
+Supplement S1,"Teleo (64 bp): Raw k-mers + tree model, >= 60 My",0.2631736743215792,0.16072286927791415,0.3690579882702748,when_tree_helps_per_split.csv
+Supplement S1,"Long 12S (about 600 bp): Nearest sequence (no tree), < 30 My",0.994373808513379,0.9903526537495414,0.9977942053384777,when_tree_helps_full_per_split.csv
+Supplement S1,"Long 12S (about 600 bp): Nearest sequence (no tree), 30-60 My",0.8495526175190847,0.793743933480449,0.9009824448849393,when_tree_helps_full_per_split.csv
+Supplement S1,"Long 12S (about 600 bp): Nearest sequence (no tree), >= 60 My",0.4329715803196547,0.3137609995795836,0.5513870932497194,when_tree_helps_full_per_split.csv
+Supplement S1,"Long 12S (about 600 bp): Tree placement (EPA-ng), < 30 My",0.9882507001922076,0.9819651272999226,0.9935321128036323,when_tree_helps_full_per_split.csv
+Supplement S1,"Long 12S (about 600 bp): Tree placement (EPA-ng), 30-60 My",0.8727986416229392,0.8265477526169681,0.9150720215127153,when_tree_helps_full_per_split.csv
+Supplement S1,"Long 12S (about 600 bp): Tree placement (EPA-ng), >= 60 My",0.4223561174284305,0.30089928932065774,0.5351421520825423,when_tree_helps_full_per_split.csv
+Supplement S1,"Long 12S (about 600 bp): Raw k-mers + tree model, < 30 My",0.9844631976672018,0.9789792256375304,0.9894097651811556,when_tree_helps_full_per_split.csv
+Supplement S1,"Long 12S (about 600 bp): Raw k-mers + tree model, 30-60 My",0.8091447572857555,0.7502705760334648,0.8640097725593496,when_tree_helps_full_per_split.csv
+Supplement S1,"Long 12S (about 600 bp): Raw k-mers + tree model, >= 60 My",0.42490291341238756,0.3077219252726662,0.5409891118586727,when_tree_helps_full_per_split.csv

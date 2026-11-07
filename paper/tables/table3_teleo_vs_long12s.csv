@@ -1,0 +1,16 @@
+Outcome,Method,Long 12S,Teleo,Difference [95% CI],Holm p
+Detection AUROC,"VSEARCH, F1 cut-off",0.979,0.974,"0.005 [0.002, 0.008]",0.011
+Detection F1,"VSEARCH, F1 cut-off",0.919,0.917,"0.002 [-0.013, 0.018]",0.84
+New fish caught (%),"VSEARCH, F1 cut-off",93.3,91.5,"1.8 [-1.0, 4.8]",0.69
+Close sisters caught (%),"VSEARCH, F1 cut-off",61.6,32.8,"28.9 [16.5, 40.6]",0.0024
+Known fish called new (%),"VSEARCH, F1 cut-off",10.2,8.4,"1.8 [-0.2, 4.0]",0.69
+"Correct family, new fish (%)",nearest sequence (alignment),92.0,67.7,"24.3 [21.6, 27.2]",2.8e-08
+"Correct family, no same-genus relative (%)",nearest sequence (alignment),80.1,48.1,"31.9 [27.6, 36.8]",2.8e-08
+"Correct genus, same-genus relative present (%)",nearest sequence (alignment),83.8,65.4,"18.4 [15.5, 21.3]",2.8e-08
+"Placement error on the tree, My",nearest sequence (alignment),46.8,64.5,"-17.7 [-20.1, -15.4]",2.8e-08
+"Correct family, new fish (%)",tree placement (EPA-ng),92.0,74.8,"17.2 [14.8, 19.9]",2.8e-08
+"Correct family, no same-genus relative (%)",tree placement (EPA-ng),80.2,54.4,"25.8 [20.7, 31.3]",2.8e-08
+"Correct genus, same-genus relative present (%)",tree placement (EPA-ng),81.1,70.9,"10.2 [7.1, 13.5]",0.00022
+"Placement error on the tree, My",tree placement (EPA-ng),46.4,58.9,"-12.5 [-13.9, -10.8]",3e-08
+"Correct family, new fish (%)",VSEARCH + global library,92.1,82.0,"10.1 [8.8, 11.6]",2.8e-08
+"Grouping ARI, end to end",pipeline B (VSEARCH F1),0.936,0.932,"0.005 [-0.012, 0.020]",0.54

@@ -1,0 +1,14 @@
+Quantity,Value
+Sequences in the published library,1557
+"After removing open names (sp., aff., cf.)","1320 sequences, 295 species"
+Species in the Fish Tree of Life,271 (92%)
+Sequences of in-tree species,1231
+Removed: Teleo sequence shared by 2+ species,31 sequences (6 distinct)
+Used in the splits,"1200 sequences, 263 species"
+Species with >= 2 distinct Teleo sequences,110
+Test splits,30
+"Hidden (new) species per split, mean",53.0 (20% of species)
+  of which 'hard' (same-genus species in the reference),59%
+"Reference sequences per split, mean",725
+"Known test sequences per split, mean",230
+"New test sequences per split, mean",245
