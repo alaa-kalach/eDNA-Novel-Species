@@ -13,7 +13,4 @@ for s in 0 1 2 3 4; do
   python -W ignore models/finetune_eval.py $T --seed=$s $M
   python -W ignore models/finetune_eval.py $T --seed=$s $M --splits=splits_extra.csv --tag=_extra
 done
-python -W ignore models/placement_test.py --a=ft_$T$MK --b=ft_taxonomy$MK $MARK --seeds=0,1,2,3,4
-python -W ignore models/placement_test.py --a=ft_$T$MK --b=ft_tree2g_w10m0.4$MK $MARK --seeds=0,1,2,3,4
-python -W ignore rawplus_preview.py $MARK --add=$T
 python -W ignore models/tree_fit.py $MARK --add=ft_$T
