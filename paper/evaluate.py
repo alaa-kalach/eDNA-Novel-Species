@@ -271,7 +271,7 @@ def fig2():
     ends.sort(reverse=True)
     ly, prev = [], None
     for y, *_ in ends:
-        y = min(y, prev - 5.5) if prev is not None else y + 4
+        y = min(y, prev - 7.5) if prev is not None else y + 6
         ly.append(y)
         prev = y
     for (y, x, tname, tool), yl in zip(ends, ly):
@@ -280,7 +280,7 @@ def fig2():
         b.text(21.8, yl, tname, fontsize=6.5, va="center", color=col)
     for t in (5, 10):
         b.axvline(t, color=LIGHT, lw=0.8, ls="--", zorder=0)
-        b.text(t + 0.3, 99, f"{t}% target", fontsize=6.5, color=DARK, rotation=90, va="top")
+        b.text(t + 0.3, 1.5, f"{t}% target", fontsize=6.5, color=DARK, rotation=90, va="bottom")
     for r, lab in [("f1", "F1-tuned"), ("conf10", "conformal 0.10"), ("conf05", "conformal 0.05")]:
         b.scatter([], [], marker=marks[r], color=DARK, s=18, label=lab)
     b.legend(frameon=False, loc="lower right", title="Cut-off", title_fontsize=7)
@@ -428,7 +428,7 @@ def fig5():
     species = clean.drop_duplicates("seq_id").set_index("seq_id").species_name
     fx = pd.read_csv(RES / "cluster_scores_fixed_per_split.csv")
     cs = pd.read_csv(RES / "cluster_scores_per_split.csv")
-    fig, (a, b, c) = plt.subplots(1, 3, figsize=(7.2, 2.5), gridspec_kw=dict(wspace=0.75))
+    fig, (a, b, c) = plt.subplots(1, 3, figsize=(7.2, 2.5), gridspec_kw=dict(wspace=0.95))
     meths = [("gap_align_vs", "Calibrated gap"), ("fixed97_single_vs", "Fixed 97%"), ("fixed98_single_vs", "Fixed 98%"),
              ("fixed99_single_vs", "Fixed 99%"), ("fixed100_single_vs", "Exact (100%)")]
     gap_ari, gap_err = by_split(fx, "ARI", method="gap_align_vs"), count_error("gap_align_vs", species)
@@ -464,14 +464,14 @@ def fig5():
     panel(a, "a")
     panel(b, "b")
     others = [("gap_align", "Calibrated gap"), ("ptp", "PTP"), ("kmer", "HDBSCAN"),
-              ("phylo_tree", "Tree grouping")]
+              ("phylo_tree", "Tree\ngrouping")]
     for i, (m_, lab) in enumerate(others):
         y = len(others) - 1 - i
         m, lo, hi = ci_mean(by_split(cs, "ARI", method=m_))
         c.barh(y, m, 0.62, color=BLUE if i == 0 else GREY)
         c.errorbar(m, y, xerr=[[m - lo], [hi - m]], color=DARK, lw=0.7, capsize=1.5)
         c.text(hi + 0.01, y, f"{m:.2f}", va="center", fontsize=7, color=DARK)
-        key("Results 8", f"{lab}: ARI (B4-called)", m, lo, hi, source="cluster_scores_per_split")
+        key("Results 8", f"{lab.replace(chr(10), ' ')}: ARI (B4-called)", m, lo, hi, source="cluster_scores_per_split")
     c.set_yticks(range(len(others)), [o[1] for o in others][::-1])
     c.set_xlim(0, 1.08)
     c.set_xlabel("ARI vs true species")
@@ -499,10 +499,12 @@ def fig6():
             xx = i + (j - 0.5) * 0.36
             a.bar(xx, 100 * m, 0.34, color=colr, label=lab if i == 0 else None)
             a.errorbar(xx, 100 * m, [[100 * (m - lo)], [100 * (hi - m)]], color=DARK, lw=0.7, capsize=1.5)
-            a.text(xx, 100 * hi + 2, f"{k}/{len(sub)}", ha="center", fontsize=6, color=DARK)
+            a.text(xx, 100 * hi + 3, f"{k}/{len(sub)}", ha="center", va="bottom", fontsize=5.5, color=DARK,
+                   rotation=90 if j == 1 else 0)
             key("Results 11", f"{r}: {lab} (proxy labels)", m, lo, hi, source="zotu_calls (Clopper-Pearson)")
     a.set_xticks(x, ["97%", "F1", "α.10", "α.05"], fontsize=7)
-    a.set_ylim(0, 118)
+    a.set_ylim(0, 132)
+    a.set_yticks(range(0, 101, 20))
     a.set_ylabel("Share of proxy-labelled variants (%)")
     a.set_title(f"Proxy labels: {len(new)} new, {len(known)} known", loc="left")
     a.legend(frameon=False, loc="upper right", fontsize=6.5)
@@ -518,17 +520,18 @@ def fig6():
             base = gi * (len(REAL_RULES) + 1) + i
             b.bar(base - w / 2 - 0.01, 100 * nw, w, color=BLUE, label="Called new" if (gi, i) == (0, 0) else None)
             b.bar(base + w / 2 + 0.01, 100 * kn, w, color=GREY, label="Called known" if (gi, i) == (0, 0) else None)
-            p = perm[(perm["filter"] == filt) & (perm.rule == r) & (perm.level == "genus") & (perm.shuffle == "site")].p
-            ptxt = "p<0.001" if len(p) and p.iloc[0] < 0.001 else (f"p={p.iloc[0]:.2f}" if len(p) else "")
+            p = perm[(perm["filter"] == filt) & (perm.rule == r) & (perm.level == "genus") & (perm.shuffle == "zotu")].p
+            ptxt = "p<0.001" if len(p) and p.iloc[0] < 0.001 else (f"p={p.iloc[0]:.2g}" if len(p) else "")
             b.text(base, 100 * max(nw, kn) + 0.8, ptxt, ha="center", fontsize=5.5, color=DARK, rotation=90, va="bottom")
             key("Results 11", f"net check genus fit, {filt}, {r}: new", nw, source=f)
-            key("Results 11", f"net check genus fit, {filt}, {r}: known", kn, source=f"{f}; site-shuffle p = {p.iloc[0] if len(p) else np.nan:.2g}")
+            key("Results 11", f"net check genus fit, {filt}, {r}: known", kn, source=f"{f}; ZOTU-shuffle p = {p.iloc[0] if len(p) else np.nan:.2g}")
     ticks = [gi * (len(REAL_RULES) + 1) + i for gi in range(2) for i in range(len(REAL_RULES))]
     short = {"vsearch97": "97%", "b2_f1": "F1", "conf10": "α.10", "conf05": "α.05"}
     b.set_xticks(ticks, [short[r[0]] for _ in groups for r in REAL_RULES], fontsize=6.5)
     for gi, (_, _, glab) in enumerate(groups):
         b.text(gi * (len(REAL_RULES) + 1) + 1.5, -4.2, glab, ha="center", fontsize=7, color=DARK, clip_on=False)
-    b.text(0.0, -0.2, "97% = VSEARCH 97%, F1 = VSEARCH F1 cut-off, α = conformal",
+    b.text(0.0, -0.33, "97% = VSEARCH 97%, F1 = VSEARCH F1 cut-off, α = conformal. p: one-sided permutation test,\n"
+           "labels shuffled among sequence variants (10,000 permutations; exploratory, not corrected)",
            transform=b.transAxes, fontsize=6, color=DARK)
     b.set_ylim(0, 30)
     b.set_ylabel("Occurrences matching a net-caught\ngenus missing from the library (%)")

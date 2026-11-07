@@ -118,40 +118,40 @@ Results 8,gap minus Fixed 98%: ARI,0.05503999999999999,0.040916,0.06947,Wilcoxon
 Results 8,gap minus Fixed 98%: count error,-6.766666666666667,-8.166666666666666,-5.4,Wilcoxon p = 2.4e-06
 Results 8,Fixed 99%: ARI (VSEARCH-called),0.6931833333333333,0.6753093333333333,0.7110359166666667,cluster_scores_fixed_per_split
 Results 8,Fixed 99%: species-count error,37.9,35.1325,40.666666666666664,clusters_*_vs.csv
-Results 8,gap minus Fixed 99%: ARI,0.24480000000000002,0.22898966666666667,0.2603401666666667,Wilcoxon p = 1.7e-06
-Results 8,gap minus Fixed 99%: count error,-32.1,-34.534166666666664,-29.766666666666666,Wilcoxon p = 1.7e-06
+Results 8,gap minus Fixed 99%: ARI,0.24480000000000002,0.22898966666666667,0.2603401666666667,Wilcoxon p = 1.9e-09
+Results 8,gap minus Fixed 99%: count error,-32.1,-34.534166666666664,-29.766666666666666,Wilcoxon p = 1.9e-09
 Results 8,Exact (100%): ARI (VSEARCH-called),0.6931833333333333,0.6760533333333333,0.7110504166666665,cluster_scores_fixed_per_split
 Results 8,Exact (100%): species-count error,37.9,35.03333333333333,40.666666666666664,clusters_*_vs.csv
-Results 8,gap minus Exact (100%): ARI,0.24480000000000002,0.22930000000000003,0.26075808333333333,Wilcoxon p = 1.7e-06
-Results 8,gap minus Exact (100%): count error,-32.1,-34.56666666666667,-29.766666666666666,Wilcoxon p = 1.7e-06
+Results 8,gap minus Exact (100%): ARI,0.24480000000000002,0.22930000000000003,0.26075808333333333,Wilcoxon p = 1.9e-09
+Results 8,gap minus Exact (100%): count error,-32.1,-34.56666666666667,-29.766666666666666,Wilcoxon p = 1.9e-09
 Results 8,Calibrated gap: ARI (B4-called),0.9329999999999999,0.9215495000000001,0.9430675833333333,cluster_scores_per_split
 Results 8,PTP: ARI (B4-called),0.8691699999999999,0.8464829999999999,0.8918563333333334,cluster_scores_per_split
 Results 8,HDBSCAN: ARI (B4-called),0.76046,0.74221575,0.7784700833333333,cluster_scores_per_split
 Results 8,Tree grouping: ARI (B4-called),0.7303066666666667,0.7107264166666667,0.7487217500000001,cluster_scores_per_split
 Results 11,vsearch97: New fish caught (proxy labels),0.9285714285714286,0.6613155100681788,0.9981932193408746,zotu_calls (Clopper-Pearson)
-Results 11,b2_f1: New fish caught (proxy labels),0.7857142857142857,0.4920243229515281,0.9534207121101327,zotu_calls (Clopper-Pearson)
-Results 11,conf10: New fish caught (proxy labels),0.7857142857142857,0.4920243229515281,0.9534207121101327,zotu_calls (Clopper-Pearson)
+Results 11,b2_f1: New fish caught (proxy labels),0.7857142857142857,0.49202432295152815,0.9534207121101327,zotu_calls (Clopper-Pearson)
+Results 11,conf10: New fish caught (proxy labels),0.7857142857142857,0.49202432295152815,0.9534207121101327,zotu_calls (Clopper-Pearson)
 Results 11,conf05: New fish caught (proxy labels),0.7142857142857143,0.4189647428163391,0.9161106816928725,zotu_calls (Clopper-Pearson)
 Results 11,vsearch97: Known fish called new (proxy labels),0.04310344827586207,0.014141556646640746,0.09772483067518212,zotu_calls (Clopper-Pearson)
-Results 11,b2_f1: Known fish called new (proxy labels),0.034482758620689655,0.009473865093176154,0.08593831005795627,zotu_calls (Clopper-Pearson)
-Results 11,conf10: Known fish called new (proxy labels),0.02586206896551724,0.005365468346042132,0.07372130513576362,zotu_calls (Clopper-Pearson)
-Results 11,conf05: Known fish called new (proxy labels),0.02586206896551724,0.005365468346042132,0.07372130513576362,zotu_calls (Clopper-Pearson)
+Results 11,b2_f1: Known fish called new (proxy labels),0.034482758620689655,0.009473865093176154,0.08593831005795625,zotu_calls (Clopper-Pearson)
+Results 11,conf10: Known fish called new (proxy labels),0.02586206896551724,0.0053654683460421316,0.07372130513576362,zotu_calls (Clopper-Pearson)
+Results 11,conf05: Known fish called new (proxy labels),0.02586206896551724,0.0053654683460421316,0.07372130513576362,zotu_calls (Clopper-Pearson)
 Results 11,"net check genus fit, none, vsearch97: new",0.12476722532588454,,,site_check.csv
-Results 11,"net check genus fit, none, vsearch97: known",0.06232813932172319,,,site_check.csv; site-shuffle p = 0.0002
+Results 11,"net check genus fit, none, vsearch97: known",0.06232813932172319,,,site_check.csv; ZOTU-shuffle p = 0.01
 Results 11,"net check genus fit, none, b2_f1: new",0.12371134020618557,,,site_check.csv
-Results 11,"net check genus fit, none, b2_f1: known",0.06561679790026247,,,site_check.csv; site-shuffle p = 0.0003
+Results 11,"net check genus fit, none, b2_f1: known",0.06561679790026247,,,site_check.csv; ZOTU-shuffle p = 0.017
 Results 11,"net check genus fit, none, conf10: new",0.10176991150442478,,,site_check.csv
-Results 11,"net check genus fit, none, conf10: known",0.07568027210884354,,,site_check.csv; site-shuffle p = 0.059
+Results 11,"net check genus fit, none, conf10: known",0.07568027210884354,,,site_check.csv; ZOTU-shuffle p = 0.17
 Results 11,"net check genus fit, none, conf05: new",0.08872901678657075,,,site_check.csv
-Results 11,"net check genus fit, none, conf05: known",0.08092485549132948,,,site_check.csv; site-shuffle p = 0.36
+Results 11,"net check genus fit, none, conf05: known",0.08092485549132948,,,site_check.csv; ZOTU-shuffle p = 0.38
 Results 11,"net check genus fit, fish80, vsearch97: new",0.16879795396419436,,,site_check_filtered.csv
-Results 11,"net check genus fit, fish80, vsearch97: known",0.06232813932172319,,,site_check_filtered.csv; site-shuffle p = 0.0001
+Results 11,"net check genus fit, fish80, vsearch97: known",0.06232813932172319,,,site_check_filtered.csv; ZOTU-shuffle p = 0.0004
 Results 11,"net check genus fit, fish80, b2_f1: new",0.17404129793510326,,,site_check_filtered.csv
-Results 11,"net check genus fit, fish80, b2_f1: known",0.06561679790026247,,,site_check_filtered.csv; site-shuffle p = 0.0001
+Results 11,"net check genus fit, fish80, b2_f1: known",0.06561679790026247,,,site_check_filtered.csv; ZOTU-shuffle p = 0.0005
 Results 11,"net check genus fit, fish80, conf10: new",0.14705882352941177,,,site_check_filtered.csv
-Results 11,"net check genus fit, fish80, conf10: known",0.07568027210884354,,,site_check_filtered.csv; site-shuffle p = 0.0005
+Results 11,"net check genus fit, fish80, conf10: known",0.07568027210884354,,,site_check_filtered.csv; ZOTU-shuffle p = 0.018
 Results 11,"net check genus fit, fish80, conf05: new",0.13284132841328414,,,site_check_filtered.csv
-Results 11,"net check genus fit, fish80, conf05: known",0.08092485549132948,,,site_check_filtered.csv; site-shuffle p = 0.0098
+Results 11,"net check genus fit, fish80, conf05: known",0.08092485549132948,,,site_check_filtered.csv; ZOTU-shuffle p = 0.066
 Results 11,sequence variants,437,,,zotu_calls
 Supplement S1,"Teleo (64 bp): Nearest sequence (no tree), < 30 My",0.8243261639645689,0.7892675692928673,0.8565275638963649,when_tree_helps_per_split.csv
 Supplement S1,"Teleo (64 bp): Nearest sequence (no tree), 30-60 My",0.4383003816760504,0.3727683521510629,0.5048105105320186,when_tree_helps_per_split.csv

@@ -1,5 +1,5 @@
 Outcome,Method,Long 12S,Teleo,Difference [95% CI],Holm p
-Detection AUROC,"VSEARCH, F1 cut-off",0.979,0.974,"0.005 [0.002, 0.008]",0.011
+Detection AUROC,"VSEARCH, F1 cut-off",0.979,0.974,"0.005 [0.002, 0.008]",0.0079
 Detection F1,"VSEARCH, F1 cut-off",0.919,0.917,"0.002 [-0.013, 0.018]",0.84
 New fish caught (%),"VSEARCH, F1 cut-off",93.3,91.5,"1.8 [-1.0, 4.8]",0.69
 Close sisters caught (%),"VSEARCH, F1 cut-off",61.6,32.8,"28.9 [16.5, 40.6]",0.0024
